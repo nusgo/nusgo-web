@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+	</head>
+
+	<title>NUSGo![Beta]</title>
+
+	<body>
+		<div id = "promptBackground"></div>
+		<div class = "container-fluid">
+			<div class = "row" id = "navigation">
+				<div class = "col-md-10 col-sm-8">
+					<img id="siteTitle" src = "img/title.png"></img>
+					<div id = "searchBox">
+						<input id="pac-input" class="controls" type="text" placeholder="  Search places">
+					</div>
+				</div>
+				<div class = "col-md-1 col-sm-2" id = "navBtn">
+					<div class = "navBtn" id = "notifications">Notifications</div> 
+				</div>
+				<div class = "col-md-1 col-sm-2" id = "navBtn">
+					<div class = "navBtn" id = "about">About</div>
+				</div>
+			</div>
+			<div id = "notificationsBox">
+				<h1>Notifications</h1>
+			</div>
+			<div id = "prompt">
+				<h1 style = "text-align: center;">Indicate a meal preference</h1>
+				<form id = "form">
+					<input type = "radio" name = "meal" value = "breakfast">Breakfast<br>
+					<input type = "radio" name = "meal" value = "brunch">Brunch<br>
+					<input type = "radio" name = "meal" value = "lunch">Lunch<br>
+					<input type = "radio" name = "meal" value = "tea">Tea<br>
+					<input type = "radio" name = "meal" value = "dinner">Dinner<br>
+					<input type = "radio" name = "meal" value = "supper">Supper<br>
+					<input type = "text" name = "message"><br>
+					<div id = "submit"><b>RollingGO!</b></div>
+				</form>
+			</div>
+      <div id = "loginPrompt">
+        <h1 style = "text-align: center;">Please login through Facebook</h1>
+        <fb:login-button id = "loginButton" scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
+      </div>
+			<div class = "row">
+				<div class = "col-md-8">
+					<br>
+					<div id="googleMap"></div>
+					<br>
+				</div>
+				<br>
+				<br>
+				<div id="homeDescription" class = "col-md-4">
+          <div id = "status"></div>
+					<h2>Looking for a meal buddy?</h2>
+					<h2>Wanna make new friends?</h2>
+					<br>
+					<p>Show that you are up for a meal by indicating your position on the map! (Annonymous)</p>
+					<p>Or you can click on a marker to join him/her for a meal! (Non-annonymous)</p>
+					<br>
+					<h2>Let's <b>RollingGO!</b></h2>
+					<h3 id = "markerCount">Number of people available: 0</h3>
+				</div>
+				<p>NUSGo! is an application that helps you find meal buddies and make new friends. We bring your search for a meal buddy out of your usual social circle, to the whole school where adventurous and curious individuals look forward to forge new friendships.</p>
+				<p>Whom will your next click being you to? Let's NUSGo!</p>
+			</div>
+			<div id="endBar" class = "row">
+				<div class = "col-md-12">
+					<p>Created by KangSoon and Andhieka, 6th May 2015</p>
+				</div>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing"></script>
+	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src = "js/app.js"></script>
+
+</html>

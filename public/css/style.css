@@ -1,0 +1,125 @@
+
+body {
+	font-family: 'Montserrat', sans-serif;
+}
+
+#navBtn{
+	padding: 5px;
+}
+
+.navBtn{
+	color: white;
+	text-align: center;
+	padding: 10px;
+	font-size: 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.navBtn:hover{
+	background-color: #B05817;
+}
+
+#navigation{
+	background-color: #FD8a33;
+}
+
+#searchBox{
+	padding: 10px;
+	float: left;
+}
+
+#pac-input {
+	font-size: 18px;
+	border-radius: 8px;
+	height: 40px;
+    width: 350px;
+}
+
+#pac-input:focus {
+    border-color: #4d90fe;
+}
+
+#siteTitle{
+	display: block;
+	float: left;
+	height: 50px;
+	padding-top: 10px;
+}
+
+#googleMap{
+	width:90%;
+	height:700px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#homeDescription{
+	border-radius: 20px;
+	background-color: #c3dae3;
+	padding: 25px;
+}
+
+#homeDescription h2{
+}
+
+#loginButton{
+}
+
+#prompt{
+	background-color: white;
+	height: 0px;
+	width: 600px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+	z-index: 10;
+}
+
+#loginPrompt{
+	background-color: white;
+	height: 0px;
+	width: 600px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+	z-index: 10;
+}
+
+#promptBackground{
+	display: none;
+	background-color: black;
+	opacity: 0.5;
+	position: absolute;
+	height: 200%;
+	width: 100%;
+	z-index: 5;
+}
+
+#notificationsBox{
+	background-color: white;
+	height: 0px;
+	width: 600px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+	z-index: 10;
+}
+
+
+#submit{
+	cursor: pointer;
+}
+
+#deleteMarker{
+	cursor: pointer;
+}
+
+#endBar{
+}

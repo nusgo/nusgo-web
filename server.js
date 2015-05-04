@@ -1,14 +1,20 @@
+// Application Setup
 var express = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
 app.use(express.static(__dirname + '/public'));
-
 app.set('port', (process.env.PORT) || 5000);
+
+// Persistent Data
+var markers = [];
 
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/views/index.html')
+});
+
+app.get('/markers', function(req, res) {
+    res.json(markers);
 });
 
 http.listen(process.env.PORT || 5000, function() {
@@ -16,3 +22,15 @@ http.listen(process.env.PORT || 5000, function() {
 });
 
 
+// socket.io functions
+
+io.on('connection', function(socket) {
+    console.log('a user connected');
+    socket.on('disconnect', function() {
+        console.log('a user disconnected');
+    });
+    socket.on('addmarker', function(marker) {
+        markers.push(marker);
+        io.emit('addmarker', marker);
+    });
+});

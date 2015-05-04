@@ -30,7 +30,8 @@ io.on('connection', function(socket) {
         console.log('a user disconnected');
     });
     socket.on('addmarker', function(marker) {
+        console.log(marker);
         markers.push(marker);
-        io.emit('addmarker', marker);
+        socket.broadcast.emit('addmarker', marker);
     });
 });

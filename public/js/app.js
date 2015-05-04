@@ -3,6 +3,8 @@ var nus = new google.maps.LatLng(1.2956, 103.7767);
 var markers = [];
 var numMarkers = 0;
 var isLogin = false;
+var socket = io();
+socket.on('addmarker', onMarkerReceived);
 
 function initialize(){
 	
@@ -108,6 +110,11 @@ function placeMarker(location) {
 			});
 		} else {
 			updateMarkers(location);
+            console.log("Emitting marker " + location);
+            socket.emit('addmarker', {
+                position: location,
+
+            });
 		}
 	});
 
@@ -131,7 +138,7 @@ function updateMarkers(location){
 				position: location,
 				map: map,
 				optimized: false,
-				icon: 'sprites.gif'
+				icon: 'img/sprites.gif'
 			});
 			var infowindow = new google.maps.InfoWindow({
 				content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng() + '<br>Let\'s have <b>' + mealPreference + '</b>!'
@@ -289,3 +296,9 @@ function disableEnterKey(){
 	$('#loginPrompt').fadeOut({queue: false, duration: 'slow'});
 	updateMarkers(location);
   }
+
+// Socket functions
+function onMarkerReceived(marker) {
+    console.log("Received marker at (%f, %f)", marker.position.A, marker.position.F);
+}
+

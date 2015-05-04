@@ -1,8 +1,66 @@
 var map;
 var nus = new google.maps.LatLng(1.2956, 103.7767);
-var markers = [];
-var numMarkers = 0;
+var dummyMarkers = [
+	['Kang Soon', 1.2956, 103.7767, 'lunch'],
+	['Kang Soon', 1.2958, 103.7770, 'dinner'],
+	['Kang Soon', 1.2960, 103.7772, 'brunch']
+];
 var isLogin = false;
+var userID;
+
+
+/*function detectMarkerSelect(){
+	google.maps.addListener(maps,'click', function(){
+		var lat = event.LatLng.lat();
+		var lng = event.LatLng.lng();
+		if (this ==)
+	});
+
+	var selectedMarkerIndex;
+
+	for (var i = 0; i < dummyMarkers.length; i++){
+		dummyMarker = dummyMarkers[i];
+		if (lat == dummyMarker[1] && lng == dummyMarker[2]){
+			selectedMarkerIndex = i;
+		}
+	}
+
+	console.log("marker selected: " + selectedMarkerIndex);
+}*/
+function setMarkers(map){
+	console.log("dummyMarkers length: " + dummyMarkers.length);
+	for (var i = 0; i < dummyMarkers.length; i++){
+		var dummyMarker = dummyMarkers[i];
+		var myLatLng = new google.maps.LatLng(dummyMarker[1], dummyMarker[2]);
+		var marker = new google.maps.Marker({
+			position: myLatLng,
+			map: map,
+			title: dummyMarker[0]
+		});
+
+		console.log(dummyMarker[1] + "," + dummyMarker[2] + "," + dummyMarker[3]);
+	}
+
+	/*var infowindow = new google.maps.InfoWindow({
+		content: 'Latitude: ' + lat + '<br>Longitude: ' + lng + '<br>Let\'s have <b>' + mealPreference + '</b>!'
+		+ '<br>"' + message + '"'
+		+ '<br><div id = "deleteMarker"><b>Delete Marker</b></div>'
+
+		content: 'blah blah blah'
+	});
+	google.maps.event.addListener(marker,'click',function(){
+		infowindow.open(map,marker);
+		$('#deleteMarker').click(function(){
+			marker.setMap(null);
+		});
+	});
+	google.maps.event.addListener(marker,'rightclick',function(event){
+		marker.setMap(null);
+	});*/
+
+	var numMarkers = dummyMarkers.length;
+	$('#markerCount').html("Number of people available: " + numMarkers);
+}
 
 function initialize(){
 	
@@ -15,6 +73,8 @@ function initialize(){
 	disableEnterKey();
 
 	placeJioMarker();
+
+	setMarkers(map);
 
 	$('#notifications').click(function(){
 		$('#promptBackground').fadeIn(600);
@@ -72,11 +132,14 @@ function initialiseSearchBox(){
 //for placing jio markers//-------------------------------------------------
 function placeJioMarker(){
 	google.maps.event.addListener(map, 'click', function(event) {
-		placeMarker(event.latLng);
+		console.log("MAP CLICKED");
+		lat = event.latLng.lat();
+		lng = event.latLng.lng();
+		placeMarker(lat,lng);
 	});
 }
 
-function placeMarker(location) {
+function placeMarker(lat,lng) {
 
 	$('#prompt').fadeIn({queue: false, duration: 'slow'});
 	$('#prompt').animate({
@@ -107,7 +170,8 @@ function placeMarker(location) {
 				}, 600, function(){
 			});
 		} else {
-			updateMarkers(location);
+			updateMarkers(lat,lng);
+			setMarkers(map);
 		}
 	});
 
@@ -116,37 +180,24 @@ function placeMarker(location) {
 	//Which means, update map after every user action.
 }
 
-function updateMarkers(location){
-			numMarkers++;
-			$('#markerCount').html("Number of people available: " + numMarkers);
+function updateMarkers(lat,lng){
+			console.log("UPDATE MARKERS CALLED");
 		    var mealPreference = $('input[name=meal]:checked').val();
 		    var message = $('input[name=message]').val();
+		    var newMarker = ['Test', lat, lng, mealPreference];
+		    if (mealPreference != undefined){
+		    	console.log("PUSHED");
+		    	dummyMarkers.push(newMarker);
+		    	console.log(newMarker);
+			}
 		    $('#prompt').animate({
 					height: "0px"
 				}, 600, function(){
 			});
 			$('#prompt').fadeOut({queue: false, duration: 'slow'});
 			$('#promptBackground').fadeOut(600);
-			var marker = new google.maps.Marker({
-				position: location,
-				map: map,
-				optimized: false,
-				icon: 'sprites.gif'
-			});
-			var infowindow = new google.maps.InfoWindow({
-				content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng() + '<br>Let\'s have <b>' + mealPreference + '</b>!'
-				+ '<br>"' + message + '"'
-				+ '<br><div id = "deleteMarker"><b>Delete Marker</b></div>'
-			});
-			google.maps.event.addListener(marker,'click',function(){
-				infowindow.open(map,marker);
-				$('#deleteMarker').click(function(){
-					marker.setMap(null);
-				});
-			});
-			google.maps.event.addListener(marker,'rightclick',function(event){
-				marker.setMap(null);
-			});
+
+			//repeated data being pushed????
 }
 
 //for detecting uer current location//---------------------------------------
@@ -177,9 +228,6 @@ function handleNoGeolocation(errorFlag) {
     }
     map.setCenter(initialLocation);
 }
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
 //miscellenous/functional//-------------------------------------------
 
 function initialMapSetup(){
@@ -277,7 +325,8 @@ function disableEnterKey(){
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
+      userID = response.id;
+      console.log('Successful login for: ' + response.name + ', ' + userID);
       $('#loginButton').hide();
       document.getElementById('status').innerHTML =
         'Hello, ' + response.name + '!';
@@ -289,3 +338,9 @@ function disableEnterKey(){
 	$('#loginPrompt').fadeOut({queue: false, duration: 'slow'});
 	updateMarkers(location);
   }
+
+
+
+
+
+  google.maps.event.addDomListener(window, 'load', initialize);

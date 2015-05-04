@@ -6,6 +6,8 @@ var dummyMarkers = [
 	['Kang Soon', 1.2960, 103.7772, 'brunch']
 ];
 var isLogin = false;
+var socket = io();
+socket.on('addmarker', onMarkerReceived);
 var userID;
 
 
@@ -61,6 +63,7 @@ function setMarkers(map){
 	var numMarkers = dummyMarkers.length;
 	$('#markerCount').html("Number of people available: " + numMarkers);
 }
+
 
 function initialize(){
 	
@@ -170,6 +173,11 @@ function placeMarker(lat,lng) {
 				}, 600, function(){
 			});
 		} else {
+			console.log("Emitting marker " + location);
+            socket.emit('addmarker', {
+               	lat: lat,
+               	lng: lng
+            });
 			updateMarkers(lat,lng);
 			setMarkers(map);
 		}
@@ -196,8 +204,6 @@ function updateMarkers(lat,lng){
 			});
 			$('#prompt').fadeOut({queue: false, duration: 'slow'});
 			$('#promptBackground').fadeOut(600);
-
-			//repeated data being pushed????
 }
 
 //for detecting uer current location//---------------------------------------
@@ -322,7 +328,7 @@ function disableEnterKey(){
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
+  function testAPI(lat,lng) {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       userID = response.id;
@@ -336,11 +342,14 @@ function disableEnterKey(){
 		}, 600, function(){
 	});
 	$('#loginPrompt').fadeOut({queue: false, duration: 'slow'});
-	updateMarkers(location);
+	//updateMarkers(lat,lng);
+	setMarkers();
   }
 
-
-
+// Socket functions
+function onMarkerReceived(marker) {
+    console.log("Received marker at (%f, %f)", marker.lat, marker.lng);
+}
 
 
   google.maps.event.addDomListener(window, 'load', initialize);

@@ -36,7 +36,30 @@ function Controller() {
     this.storageManager.syncWithServer();
     this.clickPosition = null;
     this.afterLoginHandler = null;
+    this.openNotifications();
+    this.hideNotifications();
 }
+
+Controller.prototype.openNotifications = function() {
+    $("#notifications").click(function(){
+        $('#notificationsBox').fadeIn({queue: false, duration: 'slow'});
+        $('#notificationsBox').animate({
+                height: "800px"
+            }, 800, function(){
+        });
+        $('#promptBackground').fadeIn(600);
+    });
+};
+
+Controller.prototype.hideNotifications = function() {
+    $('#promptBackground').click(function(){
+        $('#notificationsBox').animate({
+                height: "0px"
+        }, 600, function() { });
+        $('#notificationsBox').fadeOut({queue: false, duration: 'slow'});
+        $('#promptBackground').fadeOut(600);
+    });
+};
 
 Controller.prototype.askUserForMealType = function() {
     this.displayMarkerPrompt();

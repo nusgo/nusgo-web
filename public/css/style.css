@@ -112,8 +112,16 @@ body {
 	z-index: 10;
 }
 
+#contactList{
+	height: 675px;
+}
+
+#chatField{
+	width: 400px;
+}
+
 #profilePic{
-	height: 100px;
+	left: 40px;
 	width: 100px;
 }
 

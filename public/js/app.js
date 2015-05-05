@@ -10,27 +10,11 @@ var socket = io();
 socket.on('addmarker', onMarkerReceived);
 var userID;
 
-
-/*function detectMarkerSelect(){
-	google.maps.addListener(maps,'click', function(){
-		var lat = event.LatLng.lat();
-		var lng = event.LatLng.lng();
-		if (this ==)
-	});
-
-	var selectedMarkerIndex;
-
-	for (var i = 0; i < dummyMarkers.length; i++){
-		dummyMarker = dummyMarkers[i];
-		if (lat == dummyMarker[1] && lng == dummyMarker[2]){
-			selectedMarkerIndex = i;
-		}
-	}
-
-	console.log("marker selected: " + selectedMarkerIndex);
-}*/
 function setMarkers(map){
 	console.log("dummyMarkers length: " + dummyMarkers.length);
+	var infowindow = new google.maps.InfoWindow({
+		content: "holding..."
+	});
 	for (var i = 0; i < dummyMarkers.length; i++){
 		var dummyMarker = dummyMarkers[i];
 		var myLatLng = new google.maps.LatLng(dummyMarker[1], dummyMarker[2]);
@@ -40,25 +24,20 @@ function setMarkers(map){
 			title: dummyMarker[0]
 		});
 
+		marker.mealPreference = dummyMarker[3];
+
+		google.maps.event.addListener(marker,'click',function(){
+			this.html = 'Meal Preference: ' + this.mealPreference
+		+ '<br><div id = "deleteMarker"><b>Delete Marker</b></div>'
+			infowindow.setContent(this.html);
+			infowindow.open(map,this);
+			$('#deleteMarker').click(function(){
+				marker.setMap(null);
+			});
+		});
+
 		console.log(dummyMarker[1] + "," + dummyMarker[2] + "," + dummyMarker[3]);
 	}
-
-	/*var infowindow = new google.maps.InfoWindow({
-		content: 'Latitude: ' + lat + '<br>Longitude: ' + lng + '<br>Let\'s have <b>' + mealPreference + '</b>!'
-		+ '<br>"' + message + '"'
-		+ '<br><div id = "deleteMarker"><b>Delete Marker</b></div>'
-
-		content: 'blah blah blah'
-	});
-	google.maps.event.addListener(marker,'click',function(){
-		infowindow.open(map,marker);
-		$('#deleteMarker').click(function(){
-			marker.setMap(null);
-		});
-	});
-	google.maps.event.addListener(marker,'rightclick',function(event){
-		marker.setMap(null);
-	});*/
 
 	var numMarkers = dummyMarkers.length;
 	$('#markerCount').html("Number of people available: " + numMarkers);

@@ -34,15 +34,16 @@ Map.prototype.renderMarkers = function(markers) {
     //for all markers in the map, show infoWindow when clicked
     for (var i = 0; i < this.currentMarkers.length; i++){
         marker = this.currentMarkers[i];
-        console.log(this.map);
         google.maps.event.addListener(marker.mapMarker,'click',function(){
-            console.log("CLICKED");
-            marker.showInfoWindow(this.map);
+            var infoWindow = new google.maps.InfoWindow({
+                content: "holding..."
+            });
+            marker.mapMarker.html = 'Meal Preference: ' + marker.mealType
+                + '<br><div id = "deleteMarker"><b>Delete Marker</b></div>';
+            infoWindow.setContent(marker.mapMarker.html);
+            infoWindow.open(this.map,marker.mapMarker);
         });
     }
-};
-
-Map.prototype.showSelectedMarkerInfoWindow = function() {
 };
 
 Map.prototype.sieveMarkers = function(markers) {

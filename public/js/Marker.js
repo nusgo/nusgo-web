@@ -24,7 +24,7 @@ Marker.prototype.deleteFromMap = function() {
     this.mapMarker.setMap(null);
 };
 
-Marker.prototype.showInfoWindow = function(map) {
+/*Marker.prototype.showInfoWindow = function(map) {
     if (this.mapMarker == null) return;
 
     var infoWindow = new google.maps.InfoWindow({
@@ -39,4 +39,4 @@ Marker.prototype.showInfoWindow = function(map) {
     $('#deleteMarker').click(function(){
         this.deleteFromMap();
     });
-};
+};*/

@@ -15,9 +15,6 @@ Marker.prototype.showInMap = function(map) {
         map: map,
         title: this.message
     });
-    this.mapMarker.addListener(this.mapMarker, 'click', function() {
-        this.showInfoWindow();
-    });
 };
 
 Marker.prototype.deleteFromMap = function() {

@@ -30,6 +30,19 @@ Map.prototype.renderMarkers = function(markers) {
         markers[i].showInMap(this.map);
         this.currentMarkers.push(markers[i]);
     }
+
+    //for all markers in the map, show infoWindow when clicked
+    for (var i = 0; i < this.currentMarkers.length; i++){
+        marker = this.currentMarkers[i];
+        console.log(this.map);
+        google.maps.event.addListener(marker.mapMarker,'click',function(){
+            console.log("CLICKED");
+            marker.showInfoWindow(this.map);
+        });
+    }
+};
+
+Map.prototype.showSelectedMarkerInfoWindow = function() {
 };
 
 Map.prototype.sieveMarkers = function(markers) {

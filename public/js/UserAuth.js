@@ -1,14 +1,20 @@
 function UserAuth() {
     this.isLogin = false;
-    this.user = null;
+    this.userName = null;
+    this.userID = 0;
 }
 
 UserAuth.prototype.fbStatusChangeCallback = function(response) {
     console.log(response);
     if (response.status === 'connected') {
-        // Logged into your app and Facebook.
+        // Logged into your app and Facebook. Ad retrieve userID and Name
         this.isLogin = true;
-        testAPI();
+        testAPI(function(userName, userID){
+            this.userName = userName;
+            this.userID = userID;
+            console.log("userName retrieved:",this.userID);
+            console.log("userID retrieved:", this.userName);
+        });
     } else if (response.status === 'not_authorized') {
         // The person is logged into Facebook, but not your app.
         this.isLogin = false;
@@ -42,14 +48,17 @@ UserAuth.prototype.initialiseFacebook = function() {
     this.checkLoginState();
 };
 
-function testAPI(lat,lng) {
+function testAPI(callback) {
+    var userID, userName;
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
         userID = response.id;
-        console.log('Successful login for: ' + response.name + ', ' + userID);
+        userName = response.name;
+        callback(userName, userID);
+        console.log('Successful login for: ' + userName + ', ' + userID);
         $('#loginButton').hide();
         document.getElementById('status').innerHTML =
-         'Hello, ' + response.name + '!';
+         'Hello, ' + userName + '!';
     });
     controller.hideLoginPrompt();
 }

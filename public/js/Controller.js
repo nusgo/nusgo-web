@@ -50,6 +50,8 @@ Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, mes
     function helper() {
         // create marker
         var marker = new Marker();
+        marker.userName = self.userAuth.userName;
+        marker.userID = self.userAuth.userID;
         marker.lat = lat;
         marker.lng = lng;
         marker.mealType = mealType;

@@ -1,4 +1,6 @@
 function Marker() {
+    this.userName = "";
+    this.userID = 0;
     this.lat = 0;
     this.lng = 0;
     this.message = "";

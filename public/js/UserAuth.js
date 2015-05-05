@@ -9,11 +9,12 @@ UserAuth.prototype.fbStatusChangeCallback = function(response) {
     if (response.status === 'connected') {
         // Logged into your app and Facebook. Ad retrieve userID and Name
         this.isLogin = true;
+        var self = this;
         testAPI(function(userName, userID){
-            this.userName = userName;
-            this.userID = userID;
-            console.log("userName retrieved:",this.userID);
-            console.log("userID retrieved:", this.userName);
+            self.userName = userName;
+            self.userID = userID;
+            console.log("userName retrieved:",self.userID);
+            console.log("userID retrieved:", self.userName);
         });
     } else if (response.status === 'not_authorized') {
         // The person is logged into Facebook, but not your app.

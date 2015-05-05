@@ -33,6 +33,7 @@ function Controller() {
     this.map.registerClickHandler(this);
     this.storageManager = new StorageManager();
     this.clickPosition = null;
+    this.afterLoginHandler = null;
 }
 
 Controller.prototype.askUserForMealType = function() {
@@ -46,24 +47,26 @@ Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, mes
     if (!(this instanceof Controller)) {
         self = this.controller;
     }
-    
-    if (self.userAuth.isLogin == false) {
-        self.displayLoginPrompt();
-    } else {
+    function helper() {
         // create marker
         var marker = new Marker();
         marker.lat = lat;
         marker.lng = lng;
         marker.mealType = mealType;
         marker.message = message;
-
         // store marker
         self.storageManager.addMarker(marker);
         self.storageManager.syncWithServer();
-        
         // retrieve and render marker
         var markers = self.storageManager.markers;
         self.map.renderMarkers(markers);
+    }
+
+    if (self.userAuth.isLogin == false) {
+        self.displayLoginPrompt();
+        self.afterLoginHandler = helper;
+    } else {
+        helper();
     }
 };
 
@@ -134,5 +137,7 @@ google.maps.event.addDomListener(window, 'load', initialise);
 
 function checkLoginState() {
     controller.userAuth.checkLoginState();
-    controller.handleMarkerPromptSubmit();
+    if (controller.afterLoginHandler != null) {
+        controller.afterLoginHandler();
+    }
 }

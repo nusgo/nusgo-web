@@ -79,6 +79,7 @@ Map.prototype.handleNoGeolocation = function(errorFlag) {
 Map.prototype.initialiseSearchBox = function() {
     var input = document.getElementById('pac-input');
     var searchBox = new google.maps.places.SearchBox((input));
+    var self = this;
 
     google.maps.event.addListener(searchBox, 'places_changed', function() {
         var places = searchBox.getPlaces();
@@ -100,7 +101,7 @@ Map.prototype.initialiseSearchBox = function() {
             bounds.extend(place.geometry.location);
         }
 
-        this.map.fitBounds(bounds);
+        self.map.fitBounds(bounds);
     });
 
     var map = this.map;

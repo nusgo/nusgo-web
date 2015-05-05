@@ -9,6 +9,8 @@ function Marker() {
 Marker.prototype.showInMap = function(map) {
     var latLng = new google.maps.LatLng(this.lat, this.lng);
     this.mapMarker = new google.maps.Marker({
+        icon: 'img/sprites.gif',
+        optimized: false,
         position: latLng,
         map: map,
         title: this.message

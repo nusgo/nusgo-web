@@ -32,6 +32,8 @@ function Controller() {
     this.map = new Map();
     this.map.registerClickHandler(this);
     this.storageManager = new StorageManager();
+    this.storageManager.registerObserver(this);
+    this.storageManager.syncWithServer();
     this.clickPosition = null;
     this.afterLoginHandler = null;
 }
@@ -131,6 +133,18 @@ Controller.prototype.hideLoginPrompt = function() {
         }, 600, function(){
     });
     $('#loginPrompt').fadeOut({queue: false, duration: 'slow'});
+};
+
+Controller.prototype.onReceiveNewMarker = function(marker) {
+    this.map.addMarker(marker);
+};
+
+Controller.prototype.onRemoveMarker = function(marker) {
+    this.map.removeMarker(marker);
+};
+
+Controller.prototype.onRefreshMarkers = function(markers) {
+    this.map.renderMarkers(markers);
 };
 
 google.maps.event.addDomListener(window, 'load', initialise);

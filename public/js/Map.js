@@ -14,7 +14,7 @@ function Map() {
 
 Map.prototype.renderMarkers = function(markers) {
     console.log("Deleting %d markers", this.currentMarkers.length);
-    // 1. Delete all marker in currentMarkers from the map
+    // Delete all marker in currentMarkers from the map
     for(var i = 0; i < this.currentMarkers.length; i++) {
         this.currentMarkers[i].deleteFromMap();
     }
@@ -22,15 +22,28 @@ Map.prototype.renderMarkers = function(markers) {
         this.currentMarkers.pop();
     };
     
-    console.log("Rendering %d markers", markers.length);
-    // 2. Render all markers in the map
+    // Filter out duplicate markers
+    markers = this.sieveMarkers(markers);
+
+    // Render all markers in the map
     for(var i = 0; i < markers.length; i++) {
         markers[i].showInMap(this.map);
         this.currentMarkers.push(markers[i]);
     }
-    console.log("New current markers = ");
-    console.log(markers);
+};
 
+Map.prototype.sieveMarkers = function(markers) {
+    for(var i = 0; i < markers.length-1; i++){
+        for(var j = i + 1; j < markers.length; j++){
+            marker1 = markers[i];
+            marker2 = markers[j];
+            if (marker1.lat == marker2.lat && marker1.lng == marker2.lng){
+                markers.splice(j,1);
+                j--;
+            }
+        }
+    }
+    return markers;
 };
 
 Map.prototype.detectCurrentLocation = function() {

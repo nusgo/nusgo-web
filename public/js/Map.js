@@ -41,6 +41,7 @@ Map.prototype.renderMarkers = function(markers) {
         marker.mapMarker.userName = marker.userName;
         marker.mapMarker.userID = marker.userID;
         marker.mapMarker.message = marker.message;
+        console.log("Marker user id = " + marker.userID);
 
         google.maps.event.addListener(marker.mapMarker,'click',function(){
             var infoWindow = new google.maps.InfoWindow({

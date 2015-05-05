@@ -46,6 +46,8 @@ Marker.prototype.toDictionary = function() {
         lng: this.lng,
         message: this.message,
         mealType: this.mealType,
+        userID: this.userID,
+        userName: this.userName
     }
 };
 
@@ -54,6 +56,8 @@ Marker.prototype.updateWithDictionary = function(dict) {
     if (dict.lng) this.lng = dict.lng;
     if (dict.message) this.message = dict.message;
     if (dict.mealType) this.mealType = dict.mealType;
+    if (dict.userID) this.userID = dict.userID;
+    if (dict.userName) this.userName = dict.userName;
 };
 
 Marker.prototype.equals = function(other) {

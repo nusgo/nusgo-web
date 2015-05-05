@@ -39,3 +39,31 @@ Marker.prototype.deleteFromMap = function() {
         this.deleteFromMap();
     });
 };*/
+
+Marker.prototype.toDictionary = function() {
+    return {
+        lat: this.lat,
+        lng: this.lng,
+        message: this.message,
+        mealType: this.mealType,
+    }
+};
+
+Marker.prototype.updateWithDictionary = function(dict) {
+    if (dict.lat) this.lat = dict.lat;
+    if (dict.lng) this.lng = dict.lng;
+    if (dict.message) this.message = dict.message;
+    if (dict.mealType) this.mealType = dict.mealType;
+};
+
+Marker.prototype.equals = function(other) {
+    if (!(other instanceof Marker)) return false;
+    if (other === this) return true;
+    if (other === null) return false;
+    if (other.lat !== this.lat) return false;
+    if (other.lng !== this.lng) return false;
+    if (other.message !== this.message) return false;
+    if (other.mealType !== this.mealType) return false;
+    // TODO: Check for user equality
+    return true;
+};

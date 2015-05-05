@@ -13,7 +13,6 @@ function Map() {
 }
 
 Map.prototype.renderMarkers = function(markers) {
-    console.log("Deleting %d markers", this.currentMarkers.length);
     // Delete all marker in currentMarkers from the map
     for(var i = 0; i < this.currentMarkers.length; i++) {
         this.currentMarkers[i].deleteFromMap();
@@ -22,6 +21,7 @@ Map.prototype.renderMarkers = function(markers) {
         this.currentMarkers.pop();
     };
     
+    console.log(markers);
     // Filter out duplicate markers
     markers = this.sieveMarkers(markers);
 
@@ -56,6 +56,32 @@ Map.prototype.renderMarkers = function(markers) {
             infoWindow.open(map,this);
         });
     }
+};
+
+Map.prototype.addMarker = function(marker) {
+    var alreadyShown = false;
+    for(var i = 0; i < this.currentMarkers.length; i++) {
+        if (this.currentMarkers[i].equals(marker)) {
+            alreadyShown = true;
+            break;
+        }
+    }
+    if (!alreadyShown) {
+        marker.showInMap(this.map);
+        this.currentMarkers.push(marker);
+    }
+};
+
+Map.prototype.removeMarker = function(marker) {
+    var targetMarkers = this.currentMarkers.filter(function(o) {
+        return marker.equals(o);
+    });
+    for(var i = 0; i < targetMarkers.length; i++) {
+        targetMarkers[i].deleteFromMap();
+    }
+    this.currentMarkers = this.currentMarkers.filter(function(o) {
+        return !(marker.equals(o));
+    });
 };
 
 Map.prototype.sieveMarkers = function(markers) {

@@ -112,6 +112,10 @@ body {
 	z-index: 10;
 }
 
+#profilePic{
+	height: 100px;
+	width: 100px;
+}
 
 #submit{
 	cursor: pointer;

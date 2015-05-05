@@ -38,13 +38,19 @@ Map.prototype.renderMarkers = function(markers) {
 
         //recreate marker attributes in mapMarker
         marker.mapMarker.mealType = marker.mealType;
+        marker.mapMarker.userName = marker.userName;
+        marker.mapMarker.userID = marker.userID;
+        marker.mapMarker.message = marker.message;
 
         google.maps.event.addListener(marker.mapMarker,'click',function(){
             var infoWindow = new google.maps.InfoWindow({
                 content: "holding..."
             });
             console.log(this);
-            this.html = 'Meal Preference: ' + this.mealType
+            this.html =
+                '<img id = "profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large">'
+                + '<br>' + this.userName
+                + ' is looking for a ' + this.mealType + ' buddy!'
                 + '<br><div id = "deleteMarker"><b>Delete Marker</b></div>';
             infoWindow.setContent(this.html);
             infoWindow.open(map,this);

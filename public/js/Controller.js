@@ -42,8 +42,11 @@ Controller.prototype.askUserForMealType = function() {
 };
 
 Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message) {
-    var self = this.controller;
-
+    var self = this;
+    if (!(this instanceof Controller)) {
+        self = this.controller;
+    }
+    
     if (self.userAuth.isLogin == false) {
         self.displayLoginPrompt();
     } else {
@@ -128,3 +131,8 @@ Controller.prototype.hideLoginPrompt = function() {
 };
 
 google.maps.event.addDomListener(window, 'load', initialise);
+
+function checkLoginState() {
+    controller.userAuth.checkLoginState();
+    controller.handleMarkerPromptSubmit();
+}

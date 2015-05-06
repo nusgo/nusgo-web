@@ -123,6 +123,9 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
 Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
     var self = this;
     $("#submit").click(function() {
+        var hour = $('#hour :selected').text();
+        var min = $('#min :selected').text();
+        var ampm = $('#ampm :selected').text();
         var mealPreference = $('input[name=meal]:checked').val();
         var message = $('input[name=message]').val();
         var lat = self.clickPosition[0];

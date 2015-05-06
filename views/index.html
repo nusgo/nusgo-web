@@ -61,8 +61,32 @@
 								<input type = "radio" name = "meal" value = "supper">Supper<br>
 							</div>
 							<div class = "col-md-9 col-sm-9">
-								Include a personal message :)</br>
-								<textarea id = "personalMessageBox" name = "message" rows = 4 cols = 15></textarea>
+								<select id = "hour">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+								</select>
+								:
+								<select id = "min">
+									<option value="00">00</option>
+									<option value="15">15</option>
+									<option value="30">30</option>
+									<option value="45">45</option>
+								</select>
+								<select id = "ampm">
+									<option value="am">am</option>
+									<option value="pm">pm</option>
+								</select><br>
+								<textarea id = "personalMessageBox" name = "message" rows = 4 cols = 15 placeholder = "Include a personal message :)"></textarea>
 								<input type = "button" value = "GO!" name = "submit" id = "submit"><b></b></div>
 							</div>
 						</form>

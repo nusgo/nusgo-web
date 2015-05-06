@@ -69,38 +69,43 @@
 					</div>
 				</div>
 			</div>
-      <div id = "loginPrompt">
-        <h1 style = "text-align: center;">Please login through Facebook</h1>
-        <fb:login-button id = "loginButton" scope="public_profile,email" onlogin="checkLoginState();">
-        </fb:login-button>
-      </div>
-			<div class = "row">
-				<div class = "col-md-8">
-					<br>
+		    <div id = "loginPrompt">
+		       	<h1 style = "text-align: center;">Please login through Facebook</h1>
+		        <fb:login-button id = "loginButton" scope="public_profile,email" onlogin="checkLoginState();">
+		        </fb:login-button>
+		    </div>
+		</div>
+		<div class = "container-fluid">
+		    <div id = "main" class = "row">
+		    	<div class = "col-md-8">
+		    		<br>
 					<div id="googleMap"></div>
 					<br>
 				</div>
-				<br>
-				<br>
-				<div id="homeDescription" class = "col-md-4">
-          			<div id = "status"></div>
-					<h2>Looking for a meal buddy?</h2>
-					<h2>Wanna make new friends?</h2>
+				<div class = "col-md-4">
 					<br>
-					<p>Show that you are up for a meal by indicating your position on the map! (Annonymous)</p>
-					<p>Or you can click on a marker to join him/her for a meal! (Non-annonymous)</p>
-					<br>
-					<h2>Let's <b>RollingGO!</b></h2>
-					<h3 id = "markerCount">Number of people available: 0</h3>
+					<div id = "homeDescription">
+						<br>
+			      		<div id = "status"></div>
+			      		<h2>Looking for a meal buddy?</h2><br>
+			      		<p>Place a marker on the map to show that you up for a meal!<p>
+			      		<p>Or you can clck on a marker to join him/her for a meal!</p><br>
+			      		<p>Check the 'Notifications' button above for meal requests</p>
+			      		<h2>Hungry people count: 0</h2><br>
+			      		<p>NUSGo! is a web application for the adventurous to look for new meal buddies. Also, we believe that nobody deserves to eat alone.</p>
+			      		<br>
+			      	</div>
+			      	<div class = "container">
+			      		<div class = "row">
+			      			<div class = "col-md-12 col-sm-12">
+			      				<br>
+						      	<div class="fb-like" data-href="https://nusgo.com" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+						    </div>
+					    </div>
+				    </div>
 				</div>
-				<p>NUSGo! is an application that helps you find meal buddies and make new friends. We bring your search for a meal buddy out of your usual social circle, to the whole school where adventurous and curious individuals look forward to forge new friendships.</p>
-				<p>Whom will your next click being you to? Let's NUSGo!</p>
 			</div>
-			<div id="endBar" class = "row">
-				<div class = "col-md-12">
-					<p>Created by KangSoon and Andhieka, 6th May 2015</p>
-				</div>
-			</div>
+			<p>Created by KangSoon and Andhieka, 6th May 2015</p>
 		</div>
 	</body>
 

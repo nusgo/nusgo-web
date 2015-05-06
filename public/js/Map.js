@@ -143,8 +143,11 @@ Map.prototype.registerClickHandler = function(obj) {
         lng = event.latLng.lng();
         obj.mapIsClicked(lat, lng);
     });
-
 };
 
-
+Map.prototype.closeAllInfoWindows = function() {
+    for(var i = 0; i < this.currentMarkers.length; i++) {
+        this.currentMarkers[i].closeInfoWindow();
+    }
+};
 

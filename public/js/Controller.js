@@ -37,7 +37,7 @@ function Controller() {
     this.storageManager.registerObserver(this);
     this.storageManager.syncWithServer();
     this.clickPosition = null;
-    this.afterLoginHandler = null;
+    this.pendingMarkerInfo = null;
     this.openNotifications();
     this.hideNotifications();
     this.initialiseChat();
@@ -119,29 +119,36 @@ Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, mes
     if (!(this instanceof Controller)) {
         self = this.controller;
     }
-    function helper() {
-        // create marker
-        var marker = new Marker();
-        marker.userName = self.userAuth.userName;
-        marker.userID = self.userAuth.userID;
-        marker.lat = lat;
-        marker.lng = lng;
-        marker.mealType = mealType;
-        marker.message = message;
-        // store marker
-        self.storageManager.addMarker(marker);
-        self.storageManager.syncWithServer();
-        // retrieve and render marker
-        var markers = self.storageManager.markers;
-        self.map.renderMarkers(markers);
-    }
 
     if (self.userAuth.isLogin == false) {
         self.displayLoginPrompt();
-        self.afterLoginHandler = helper;
+        self.pendingMarkerInfo = {
+            lat: lat,
+            lng: lng,
+            mealType: mealType,
+            message: message
+        };
     } else {
-        helper();
+        self.createAndStoreMarker(lat, lng, mealType, message);
     }
+};
+
+Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message) {
+    console.log("USER ID");
+    console.log(this.userAuth.userID);
+    var marker = new Marker();
+    marker.userName = this.userAuth.userName;
+    marker.userID = this.userAuth.userID;
+    marker.lat = lat;
+    marker.lng = lng;
+    marker.mealType = mealType;
+    marker.message = message;
+    // store marker
+    this.storageManager.addMarker(marker);
+    this.storageManager.syncWithServer();
+    // retrieve and render marker
+    var markers = this.storageManager.markers;
+    this.map.renderMarkers(markers);
 };
 
 Controller.prototype.mapIsClicked = function(lat, lng) {
@@ -224,11 +231,16 @@ Controller.prototype.userDidRemoveMarker = function(marker) {
     this.map.removeMarker(marker);
 };
 
+Controller.prototype.loginHasFinished = function() {
+    if (this.pendingMarkerInfo) {
+        console.log(this.userAuth.userID);
+        var info = this.pendingMarkerInfo;
+        this.createAndStoreMarker(info.lat, info.lng, info.mealType, info.message);
+    }
+};
+
 google.maps.event.addDomListener(window, 'load', initialise);
 
 function checkLoginState() {
     controller.userAuth.checkLoginState();
-    if (controller.afterLoginHandler != null) {
-        controller.afterLoginHandler();
-    }
 }

@@ -7,6 +7,7 @@ function Marker() {
     this.mealType = "";
     this.mapMarker = null;
     this.map = null;
+    this.infoWindow = null;
 }
 
 Marker.prototype.showInMap = function(map) {
@@ -31,14 +32,21 @@ Marker.prototype.deleteFromMap = function() {
 };
 
 Marker.prototype.showInfoWindow = function() {
+    controller.map.closeAllInfoWindows();
+
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
         + '<br>' + this.userName
-        + ' is looking for a ' + this.mealType + ' buddy!'
-        + '<br> <div id = "deleteMarker"><b>Delete Marker</b></div>';
+        + ' is looking for a ' + this.mealType + ' buddy!';
+
+    var currentUserID = controller.userAuth.userID;
+    if (currentUserID === this.userID) {
+        contentString += '<br> <div id = "deleteMarker"><b>Delete Marker</b></div>';
+    }
     var infoWindow = new google.maps.InfoWindow({
         content: contentString
     });
+    this.infoWindow = infoWindow;
     infoWindow.open(this.map, this.mapMarker);
     var self = this;
     google.maps.event.addListener(infoWindow, 'domready', function() {
@@ -48,6 +56,12 @@ Marker.prototype.showInfoWindow = function() {
             }
         });
     });
+};
+
+Marker.prototype.closeInfoWindow = function() {
+    if (this.infoWindow === null) return;
+    this.infoWindow.close();
+    this.infoWindow = null;
 };
 
 Marker.prototype.toDictionary = function() {

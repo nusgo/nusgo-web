@@ -9,9 +9,10 @@ UserAuth.prototype.fbStatusChangeCallback = function(response) {
         // Logged into your app and Facebook. Ad retrieve userID and Name
         this.isLogin = true;
         var self = this;
-        testAPI(function(userName, userID){
+        fetchUserInfo(function(userName, userID){
             self.userName = userName;
             self.userID = userID;
+            controller.loginHasFinished();
         });
     } else if (response.status === 'not_authorized') {
         // The person is logged into Facebook, but not your app.
@@ -46,7 +47,7 @@ UserAuth.prototype.initialiseFacebook = function() {
     this.checkLoginState();
 };
 
-function testAPI(callback) {
+function fetchUserInfo(callback) {
     var userID, userName;
     FB.api('/me', function(response) {
         userID = response.id;

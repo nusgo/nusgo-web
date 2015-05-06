@@ -167,11 +167,11 @@ body {
 }
 
 .fb-like {
-	transform: scale(1.5);
-	-ms-transform: scale(1.5); 
-	-webkit-transform: scale(1.5); 
-	-o-transform: scale(1.5); 
-	-moz-transform: scale(1.5); 
+	transform: scale(1.2);
+	-ms-transform: scale(1.2); 
+	-webkit-transform: scale(1.2); 
+	-o-transform: scale(1.2); 
+	-moz-transform: scale(1.2); 
 	transform-origin: top left;
 	-ms-transform-origin: top left;
 	-webkit-transform-origin: top left;

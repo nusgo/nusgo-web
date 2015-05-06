@@ -49,6 +49,20 @@ Controller.prototype.askUserForMealType = function() {
 
 Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message) {
     var self = this;
+    var hour = $('#hour :selected').text();
+    var min = $('#min :selected').text();
+    var ampm = $('#ampm :selected').text();
+    var dateString = "";
+    if (ampm === "am"){
+        dateString = hour + ':' + min;
+    }else{
+        var hourInt = parseInt(hour);
+        hourInt = (hourInt + 12) % 24;
+        hour = hourInt.toString();
+        dateString = hour + ':' + min;
+    }
+    console.log('Date String');
+    console.log(dateString);
     if (!(this instanceof Controller)) {
         self = this.controller;
     }
@@ -123,9 +137,6 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
 Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
     var self = this;
     $("#submit").click(function() {
-        var hour = $('#hour :selected').text();
-        var min = $('#min :selected').text();
-        var ampm = $('#ampm :selected').text();
         var mealPreference = $('input[name=meal]:checked').val();
         var message = $('input[name=message]').val();
         var lat = self.clickPosition[0];

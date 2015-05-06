@@ -40,6 +40,11 @@ body {
 	float: left;
 }
 
+#searchBox input{
+	border: 0px;
+	padding: 15px;
+}
+
 #pac-input {
 	font-size: 18px;
 	border-radius: 8px;
@@ -59,7 +64,7 @@ body {
 }
 
 #googleMap{
-	width:95%;
+	width:100%;
 	height:700px;
 	margin-right: auto;
 	margin-left: auto;

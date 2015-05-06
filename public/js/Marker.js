@@ -6,6 +6,7 @@ function Marker() {
     this.message = "";
     this.mealType = "";
     this.mapMarker = null;
+    this.map = null;
 }
 
 Marker.prototype.showInMap = function(map) {
@@ -18,28 +19,36 @@ Marker.prototype.showInMap = function(map) {
         map: map,
         title: this.message
     });
+    this.map = map;
+    var self = this;
+    google.maps.event.addListener(this.mapMarker, 'click', function() {
+        self.showInfoWindow();
+    });
 };
 
 Marker.prototype.deleteFromMap = function() {
     this.mapMarker.setMap(null);
 };
 
-/*Marker.prototype.showInfoWindow = function(map) {
-    if (this.mapMarker == null) return;
-
+Marker.prototype.showInfoWindow = function() {
+    var contentString =
+        '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
+        + '<br>' + this.userName
+        + ' is looking for a ' + this.mealType + ' buddy!'
+        + '<br> <div id = "deleteMarker"><b>Delete Marker</b></div>';
     var infoWindow = new google.maps.InfoWindow({
-        content: "holding..."
+        content: contentString
     });
-
-    this.mapMarker.html = 'Meal Preference: ' + this.mealPreference
-        + '<br><div id = "deleteMarker"><b>Delete Marker</b></div>';
-
-    infoWindow.setContent(this.mapMarker.html);
-    infoWindow.open(map,this);
-    $('#deleteMarker').click(function(){
-        this.deleteFromMap();
+    infoWindow.open(this.map, this.mapMarker);
+    var self = this;
+    google.maps.event.addListener(infoWindow, 'domready', function() {
+        $('#deleteMarker').click(function() {
+            if (controller.userDidRemoveMarker) {
+                controller.userDidRemoveMarker(self);
+            }
+        });
     });
-};*/
+};
 
 Marker.prototype.toDictionary = function() {
     return {

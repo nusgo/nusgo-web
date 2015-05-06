@@ -34,4 +34,11 @@ io.on('connection', function(socket) {
         markers.push(marker);
         socket.broadcast.emit('addmarker', marker);
     });
+    socket.on('removemarker', function(marker) {
+        markers = markers.filter(function(o) {
+            return !(o.lat == marker.lat &&
+                     o.lng == marker.lng);
+        });
+        socket.broadcast.emit('removemarker', marker);
+    })
 });

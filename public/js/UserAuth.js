@@ -5,7 +5,6 @@ function UserAuth() {
 }
 
 UserAuth.prototype.fbStatusChangeCallback = function(response) {
-    console.log(response);
     if (response.status === 'connected') {
         // Logged into your app and Facebook. Ad retrieve userID and Name
         this.isLogin = true;
@@ -13,8 +12,6 @@ UserAuth.prototype.fbStatusChangeCallback = function(response) {
         testAPI(function(userName, userID){
             self.userName = userName;
             self.userID = userID;
-            console.log("userName retrieved:",self.userName);
-            console.log("userID retrieved:", self.userID);
         });
     } else if (response.status === 'not_authorized') {
         // The person is logged into Facebook, but not your app.
@@ -51,12 +48,10 @@ UserAuth.prototype.initialiseFacebook = function() {
 
 function testAPI(callback) {
     var userID, userName;
-    console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
         userID = response.id;
         userName = response.name;
         callback(userName, userID);
-        console.log('Successful login for: ' + userName + ', ' + userID);
         $('#loginButton').hide();
         document.getElementById('status').innerHTML =
          'Hello, ' + userName + '!';

@@ -219,6 +219,11 @@ Controller.prototype.onRefreshMarkers = function(markers) {
     this.map.renderMarkers(markers);
 };
 
+Controller.prototype.userDidRemoveMarker = function(marker) {
+    this.storageManager.removeMarker(marker);
+    this.map.removeMarker(marker);
+};
+
 google.maps.event.addDomListener(window, 'load', initialise);
 
 function checkLoginState() {

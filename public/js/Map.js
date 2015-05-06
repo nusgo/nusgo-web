@@ -21,7 +21,6 @@ Map.prototype.renderMarkers = function(markers) {
         this.currentMarkers.pop();
     };
     
-    console.log(markers);
     // Filter out duplicate markers
     markers = this.sieveMarkers(markers);
 
@@ -29,33 +28,6 @@ Map.prototype.renderMarkers = function(markers) {
     for(var i = 0; i < markers.length; i++) {
         markers[i].showInMap(this.map);
         this.currentMarkers.push(markers[i]);
-    }
-
-    //for all markers in the map, show infoWindow when clicked
-    for (var i = 0; i < this.currentMarkers.length; i++){
-        var map = this.map;
-        marker = this.currentMarkers[i];
-
-        //recreate marker attributes in mapMarker
-        marker.mapMarker.mealType = marker.mealType;
-        marker.mapMarker.userName = marker.userName;
-        marker.mapMarker.userID = marker.userID;
-        marker.mapMarker.message = marker.message;
-        console.log("Marker user id = " + marker.userID);
-
-        google.maps.event.addListener(marker.mapMarker,'click',function(){
-            var infoWindow = new google.maps.InfoWindow({
-                content: "holding..."
-            });
-            console.log(this);
-            this.html =
-                '<img id = "profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large">'
-                + '<br>' + this.userName
-                + ' is looking for a ' + this.mealType + ' buddy!'
-                + '<br><div id = "deleteMarker"><b>Delete Marker</b></div>';
-            infoWindow.setContent(this.html);
-            infoWindow.open(map,this);
-        });
     }
 };
 

@@ -63,12 +63,18 @@ Marker.prototype.showInfoWindow = function() {
             }
         });
         $('#jioButton').click(function() {
-            controller.chatService.openChat(self.userName,self.userID);
+            controller.chatService.joinRoom(self.getRoomCode());
+            controller.chatService.openChat(self.userName, self.getRoomCode());
         });
         $('#openChatButton').click(function() {
-            controller.chatService.openChat(self.userName,self.userID);
+            controller.chatService.joinRoom(self.getRoomCode());
+            controller.chatService.openChat(self.userName, self.getRoomCode());
         });
     });
+};
+
+Marker.prototype.getRoomCode = function() {
+    return this.lat.toString() + this.lng.toString();
 };
 
 Marker.prototype.closeInfoWindow = function() {

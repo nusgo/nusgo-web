@@ -42,6 +42,12 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('removemarker', marker);
     });
     socket.on('chatMessage', function(chatMessage){
-        socket.broadcast.emit('chatMessage',chatMessage);
+        var roomCode = chatMessage.roomCode;
+        console.log("Message at room " + roomCode);
+        socket.to(roomCode).emit('chatMessage', chatMessage);
     });
+    socket.on('joinroom', function(roomCode) {
+        console.log("Joining room " + roomCode);
+        socket.join(roomCode);
+    })
 });

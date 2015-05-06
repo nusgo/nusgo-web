@@ -59,6 +59,7 @@ StorageManager.prototype.syncWithServer = function() {
         });
         console.log(markers);
         this.markers = markers;
+        controller.chatService.joinChatRoomForOwnMarkers(markers);
         this.observers.map(function(observer) {
             if (observer.onRefreshMarkers) {
                 observer.onRefreshMarkers(markers);

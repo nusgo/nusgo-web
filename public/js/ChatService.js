@@ -14,9 +14,7 @@ function ChatService() {
 }
 
 ChatService.prototype.receiveMessage = function(chatMessage) {
-    this.openChat(chatMessage.fromName, chatMessage.fromId);
-    console.log("Message Received:");
-    console.log(chatMessage);
+    this.openChat(chatMessage.markerName, chatMessage.roomCode);
     $('#chatArea').append(
     '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
     " " + chatMessage.content + "</p>");
@@ -32,14 +30,12 @@ ChatService.prototype.sendMessage = function(chat) {
             '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
             " " + chat + "</p>");
     }
-    var chatMessage = new ChatMessage(this.markerID, chat);
+    var chatMessage = new ChatMessage(this.markerName, this.roomCode, chat);
     this.socket.emit("chatMessage",chatMessage.toDictionary());
-    console.log("Sent Message:");
-    console.log(chatMessage.toDictionary());
     scrollChatAreaToLatest();
 };
 
-ChatService.prototype.openChat = function(markerName, markerID) {
+ChatService.prototype.openChat = function(markerName, roomCode) {
     $('#notificationsBox').fadeIn({queue: false, duration: 'slow'});
     $('#notificationsBox').animate({
             height: "400px"
@@ -48,7 +44,7 @@ ChatService.prototype.openChat = function(markerName, markerID) {
     $('#promptBackground').fadeIn(600);
     $('#chatTitle').html('Jioing ' + markerName + "...");
     this.markerName = markerName;
-    this.markerID = markerID;
+    this.roomCode = roomCode;
 };
 
 ChatService.prototype.hideChat = function() {
@@ -59,25 +55,41 @@ ChatService.prototype.hideChat = function() {
     $('#promptBackground').fadeOut(600);
 };
 
-function ChatMessage(toId, content) {
+ChatService.prototype.joinChatRoomForOwnMarkers = function(markers) {
+    var ownMarkers = markers.filter(function(marker) {
+        return marker.userID == controller.userAuth.userID;
+    });
+    for(var i = 0; i < ownMarkers.length; i++) {
+        this.joinRoom(ownMarkers[i].getRoomCode());
+    }
+};
+
+ChatService.prototype.joinRoom = function(roomCode) {
+    this.socket.emit('joinroom', roomCode);
+};
+
+function ChatMessage(markerName, roomCode, content) {
+    this.markerName = markerName;
     this.fromId = controller.userAuth.userID;
     this.fromName = controller.userAuth.userName;
-    this.toId = toId;
     this.content = content;
+    this.roomCode = roomCode;
 }
 
 ChatMessage.prototype.toDictionary = function() {
     return {
+        markerName: this.markerName,
         fromId: this.fromId,
         fromName: this.fromName,
-        toId: this.toId,
+        roomCode: this.roomCode,
         content: this.content
     };
 };
 
 ChatMessage.prototype.updateWithDictionary = function(dict) {
+    if (dict.markerName) this.markerName = dict.markerName;
     if (dict.fromId) this.fromId = dict.fromId;
     if (dict.fromName) this.fromName = dict.fromName;
-    if (dict.toId) this.toId = dict.toId;
+    if (dict.roomCode) this.roomCode = dict.roomCode;
     if (dict.content) this.content = dict.content;
 };

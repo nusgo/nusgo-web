@@ -81,6 +81,8 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     // retrieve and render marker
     var markers = this.storageManager.markers;
     this.map.renderMarkers(markers);
+    // join chat room for marker
+    this.chatService.joinRoom(marker.getRoomCode());
 };
 
 Controller.prototype.mapIsClicked = function(lat, lng) {
@@ -173,6 +175,7 @@ Controller.prototype.loginHasFinished = function() {
         var info = this.pendingMarkerInfo;
         this.createAndStoreMarker(info.lat, info.lng, info.mealType, info.message);
     }
+    this.chatService.joinChatRoomForOwnMarkers(this.storageManager.markers);
 };
 
 google.maps.event.addDomListener(window, 'load', initialise);

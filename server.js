@@ -40,5 +40,8 @@ io.on('connection', function(socket) {
                      o.lng == marker.lng);
         });
         socket.broadcast.emit('removemarker', marker);
-    })
+    });
+    socket.on('chatMessage', function(chatMessage){
+        socket.broadcast.emit('chatMessage',chatMessage);
+    });
 });

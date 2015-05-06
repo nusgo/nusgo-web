@@ -1,6 +1,5 @@
 var controller = null;
 var dummyContacts = ["Tan Kang Soon", "Andhieka Putra", "Pee Choon Hian"];
-var currentID = dummyContacts[0].replace(/\s+/g,'');
 
 function initialise() {
     function disableEnterKey(){
@@ -30,6 +29,7 @@ function loadFacebookSDK() {
 }
 
 function Controller() {
+    this.currentChatID = null;
     this.userAuth = new UserAuth();
     this.map = new Map();
     this.map.registerClickHandler(this);
@@ -50,40 +50,41 @@ Controller.prototype.initialiseChat = function() {
         dummyContact = dummyContacts[i].replace(/\s+/g,'');
         $('#contactList').append('<div id = "' + dummyContact + '" class = "contact">' + dummyContact + '</div>');
         $('#chatArea').append('<div id = "chat_' + dummyContact + '" class = "showChat">Chatting with ' + dummyContact + ': </div>');
-    }
-};
+    }        
+
+    var self = this;
+
+    $('#chatField').keydown(function(event){
+        if (event.keyCode == 13){
+            var chat = $('#chatField').val();
+            self.sendMessage(chat);
+        }
+    });
+}
 
 Controller.prototype.selectContact = function() {
     var self = this;
     $('.contact').click(function(){
-        currentID = this.id;
-        showID = '#chat_'+currentID;
+        self.currentChatID = this.id;
+        var showID = '#chat_'+self.currentChatID;
         $('.showChat').hide();
         $(showID).show();
-        self.chatting(showID);
+        console.log("showID: " + showID);
     });
 };
 
-Controller.prototype.chatting = function(showID) {
+Controller.prototype.sendMessage = function(chat) {
     var self = this;
-    var chatID = showID;
-    console.log("selected: " + chatID);
-    $('#chatField').focus(function(){
-        var name = self.userAuth.userName;
-        var id = self.userAuth.userID;
-        $('#chatField').keydown(function(event){
-            if (event.keyCode == 13){
-                var chat = $('#chatField').val();
-                if (chat != ""){
-                    $('#chatField').val('');
-                    console.log("appending to: " + chatID);
-                    $(chatID).append(
-                        '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
-                        " " + chat + "</p>");
-                }
-            }
-        });
-    });
+    var name = self.userAuth.userName;
+    var id = self.userAuth.userID;
+    if (chat != ""){
+        $('#chatField').val('');
+        var showID = '#chat_'+self.currentChatID;
+        console.log("appending to: " + showID);
+        $(showID).append(
+            '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
+            " " + chat + "</p>");
+    }
 };
 
 Controller.prototype.openNotifications = function() {
@@ -155,7 +156,7 @@ Controller.prototype.initialiseFacebookInController = function() {
 Controller.prototype.displayMarkerPrompt = function() {
     $('#prompt').fadeIn({queue: false, duration: 'slow'});
     $('#prompt').animate({
-            height: "300px"
+            height: "310px"
         }, 600, function(){
     });
     $('#promptBackground').fadeIn(600);

@@ -26,8 +26,10 @@
 				</div>
 			</div>
 			<div id = "notificationsBox">
-				<h1>Notifications</h1>
 				<div class = "container-fluid">
+					<div class = "row">
+						<h1 class = "col-sm-12 col-md-12">Notifications</h1>
+					</div>
 					<div class = "row">
 						<div id = "contactList" class = "col-md-4 col-sm-4"></div>
 						<div id = "chatArea" class = "col-md-8 col-sm-8">
@@ -44,17 +46,28 @@
 				</div>
 			</div>
 			<div id = "prompt">
-				<h1 style = "text-align: center;">Indicate a meal preference</h1>
-				<form id = "form">
-					<input type = "radio" name = "meal" value = "breakfast">Breakfast<br>
-					<input type = "radio" name = "meal" value = "brunch">Brunch<br>
-					<input type = "radio" name = "meal" value = "lunch">Lunch<br>
-					<input type = "radio" name = "meal" value = "tea">Tea<br>
-					<input type = "radio" name = "meal" value = "dinner">Dinner<br>
-					<input type = "radio" name = "meal" value = "supper">Supper<br>
-					<input type = "text" name = "message"><br>
-					<div id = "submit"><b>RollingGO!</b></div>
-				</form>
+				<div class = "container-fluid">
+					<div class = "row">
+						<h1 style = "text-align: center;">Place a marker  <img src = "img/markerPromptLogo.gif"></img></h1>
+					</div>
+					<div class = "row">
+						<form id = "form">
+							<div class = "col-md-3 col-sm-3">
+								<input type = "radio" name = "meal" value = "breakfast">Breakfast<br>
+								<input type = "radio" name = "meal" value = "brunch">Brunch<br>
+								<input type = "radio" name = "meal" value = "lunch">Lunch<br>
+								<input type = "radio" name = "meal" value = "tea">Tea<br>
+								<input type = "radio" name = "meal" value = "dinner">Dinner<br>
+								<input type = "radio" name = "meal" value = "supper">Supper<br>
+							</div>
+							<div class = "col-md-9 col-sm-9">
+								Include a personal message :)</br>
+								<textarea id = "personalMessageBox" name = "message" rows = 4 cols = 15></textarea>
+								<input type = "button" value = "GO!" name = "submit" id = "submit"><b></b></div>
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
       <div id = "loginPrompt">
         <h1 style = "text-align: center;">Please login through Facebook</h1>
@@ -70,7 +83,7 @@
 				<br>
 				<br>
 				<div id="homeDescription" class = "col-md-4">
-          <div id = "status"></div>
+          			<div id = "status"></div>
 					<h2>Looking for a meal buddy?</h2>
 					<h2>Wanna make new friends?</h2>
 					<br>

@@ -39,6 +39,7 @@ ChatService.prototype.sendMessage = function(chat) {
 };
 
 ChatService.prototype.openChat = function(markerName, markerID) {
+    scrollChatAreaToLatest();
     $('#notificationsBox').fadeIn({queue: false, duration: 'slow'});
     $('#notificationsBox').animate({
             height: "400px"

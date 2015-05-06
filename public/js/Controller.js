@@ -38,6 +38,7 @@ function Controller() {
     this.clickPosition = null;
     this.pendingMarkerInfo = null;
     this.chatService = new ChatService();
+    this.closeAllPopUpsOnBackgroundClick();
 }
 
 Controller.prototype.askUserForMealType = function() {

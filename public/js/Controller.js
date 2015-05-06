@@ -1,5 +1,4 @@
 var controller = null;
-var dummyContacts = ["Tan Kang Soon", "Andhieka Putra", "Pee Choon Hian"];
 
 function initialise() {
     function disableEnterKey(){
@@ -38,69 +37,12 @@ function Controller() {
     this.storageManager.syncWithServer();
     this.clickPosition = null;
     this.pendingMarkerInfo = null;
-    var self = this;
-    $("#notifications").click(function() {
-        self.openNotifications();
-    });
-    $('#promptBackground').click(function(){
-        self.hideNotifications();
-    });
-    this.initialiseChat();
+    this.chatService = new ChatService();
 }
-
-Controller.prototype.initialiseChat = function() {
-    //loop through contact list and create new contact divs and chatArea divs
-    for (var i = 0; i < dummyContacts.length; i++){
-        dummyContact = dummyContacts[i].replace(/\s+/g,'');
-        $('#contactList').append('<div id = "' + dummyContact + '" class = "contact">' + dummyContact + '</div>');
-        $('#chatArea').append('<div id = "chat_' + dummyContact + '" class = "showChat">Chatting with ' + dummyContact + ': </div>');
-    }        
-
-    var self = this;
-
-    $('#chatField').keydown(function(event){
-        if (event.keyCode == 13){
-            var chat = $('#chatField').val();
-            self.sendMessage(chat);
-        }
-    });
-}
-
-Controller.prototype.sendMessage = function(chat) {
-    var self = this;
-    var name = self.userAuth.userName;
-    var id = self.userAuth.userID;
-    if (chat != ""){
-        $('#chatField').val('');
-        $('#chatArea').append(
-            '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
-            " " + chat + "</p>");
-    }
-
-};
-
-Controller.prototype.openNotifications = function(markerName, markerID) {
-    $('#notificationsBox').fadeIn({queue: false, duration: 'slow'});
-    $('#notificationsBox').animate({
-            height: "400px"
-        }, 800, function(){
-    });
-    $('#promptBackground').fadeIn(600);
-    $('#chatTitle').html('Jioing ' + markerName + "...");
-};
-
-Controller.prototype.hideNotifications = function() {
-    $('#notificationsBox').animate({
-            height: "0px"
-    }, 600, function() { });
-    $('#notificationsBox').fadeOut({queue: false, duration: 'slow'});
-    $('#promptBackground').fadeOut(600);
-
-};
 
 Controller.prototype.askUserForMealType = function() {
     this.displayMarkerPrompt();
-    this.closeMarkerPromptOnBackgroundClick();
+    this.closeAllPopUpsOnBackgroundClick();
     this.setMarkerPromptSubmitHandler(this.handleMarkerPromptSubmit);
 };
 
@@ -167,8 +109,12 @@ Controller.prototype.hideMarkerPrompt = function() {
     $('#promptBackground').fadeOut(600);
 };
 
-Controller.prototype.closeMarkerPromptOnBackgroundClick = function() {
-    $('#promptBackground').click(this.hideMarkerPrompt);
+Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
+    var self = this;
+    $('#promptBackground').click(function() {
+        self.hideMarkerPrompt();
+        self.chatService.hideChat();
+    });
 };
 
 Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {

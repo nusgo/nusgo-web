@@ -63,10 +63,10 @@ Marker.prototype.showInfoWindow = function() {
             }
         });
         $('#jioButton').click(function() {
-            controller.openNotifications(self.userName,self.userID);
+            controller.chatService.openChat(self.userName,self.userID);
         });
         $('#openChatButton').click(function() {
-            controller.openNotifications(self.userName,self.userID);
+            controller.chatService.openChat(self.userName,self.userID);
         });
     });
 };

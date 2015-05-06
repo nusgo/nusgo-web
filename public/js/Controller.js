@@ -1,4 +1,6 @@
 var controller = null;
+var dummyContacts = ["Tan Kang Soon", "Andhieka Putra", "Pee Choon Hian"];
+var currentID = dummyContacts[0].replace(/\s+/g,'');
 
 function initialise() {
     function disableEnterKey(){
@@ -38,7 +40,51 @@ function Controller() {
     this.afterLoginHandler = null;
     this.openNotifications();
     this.hideNotifications();
+    this.initialiseChat();
+    this.selectContact();
 }
+
+Controller.prototype.initialiseChat = function() {
+    //loop through contact list and create new contact divs and chatArea divs
+    for (var i = 0; i < dummyContacts.length; i++){
+        dummyContact = dummyContacts[i].replace(/\s+/g,'');
+        $('#contactList').append('<div id = "' + dummyContact + '" class = "contact">' + dummyContact + '</div>');
+        $('#chatArea').append('<div id = "chat_' + dummyContact + '" class = "showChat">Chatting with ' + dummyContact + ': </div>');
+    }
+};
+
+Controller.prototype.selectContact = function() {
+    var self = this;
+    $('.contact').click(function(){
+        currentID = this.id;
+        showID = '#chat_'+currentID;
+        $('.showChat').hide();
+        $(showID).show();
+        self.chatting(showID);
+    });
+};
+
+Controller.prototype.chatting = function(showID) {
+    var self = this;
+    var chatID = showID;
+    console.log("selected: " + chatID);
+    $('#chatField').focus(function(){
+        var name = self.userAuth.userName;
+        var id = self.userAuth.userID;
+        $('#chatField').keydown(function(event){
+            if (event.keyCode == 13){
+                var chat = $('#chatField').val();
+                if (chat != ""){
+                    $('#chatField').val('');
+                    console.log("appending to: " + chatID);
+                    $(chatID).append(
+                        '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
+                        " " + chat + "</p>");
+                }
+            }
+        });
+    });
+};
 
 Controller.prototype.openNotifications = function() {
     $("#notifications").click(function(){

@@ -3,6 +3,12 @@ body {
 	font-family: 'Montserrat', sans-serif;
 }
 
+::-webkit-scrollbar{width:5px;height:9px;}
+::-webkit-scrollbar-button:start:decrement,#doc ::-webkit-scrollbar-button:end:increment{display:block;height:0;background-color:transparent;}
+::-webkit-scrollbar-track-piece{background-color:#FAFAFA;-webkit-border-radius:0;-webkit-border-bottom-right-radius:8px;-webkit-border-bottom-left-radius:8px;}
+::-webkit-scrollbar-thumb:vertical{height:50px;background-color:#999;-webkit-border-radius:8px;}
+::-webkit-scrollbar-thumb:horizontal{width:50px;background-color:#999;-webkit-border-radius:8px;}
+
 #navBtn{
 	padding: 5px;
 }
@@ -114,14 +120,28 @@ body {
 
 #contactList{
 	height: 675px;
+	overflow: scroll;
+}
+
+.contact{
+	cursor: pointer;
+}
+
+.showChat{
+	display: none;
 }
 
 #chatField{
-	width: 400px;
+	width: 500px;
+	border-radius: 5px;
+}
+
+#chatArea{
+	height: 675px;
+	overflow: scroll;
 }
 
 #profilePic{
-	left: 40px;
 	width: 100px;
 }
 

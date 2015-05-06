@@ -20,6 +20,7 @@ ChatService.prototype.receiveMessage = function(chatMessage) {
     $('#chatArea').append(
     '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
     " " + chatMessage.content + "</p>");
+    scrollChatAreaToLatest();
 };
 
 ChatService.prototype.sendMessage = function(chat) {
@@ -31,15 +32,14 @@ ChatService.prototype.sendMessage = function(chat) {
             '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
             " " + chat + "</p>");
     }
-
     var chatMessage = new ChatMessage(this.markerID, chat);
     this.socket.emit("chatMessage",chatMessage.toDictionary());
     console.log("Sent Message:");
     console.log(chatMessage.toDictionary());
+    scrollChatAreaToLatest();
 };
 
 ChatService.prototype.openChat = function(markerName, markerID) {
-    scrollChatAreaToLatest();
     $('#notificationsBox').fadeIn({queue: false, duration: 'slow'});
     $('#notificationsBox').animate({
             height: "400px"

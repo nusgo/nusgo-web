@@ -38,10 +38,14 @@ function Controller() {
     this.storageManager.syncWithServer();
     this.clickPosition = null;
     this.pendingMarkerInfo = null;
-    this.openNotifications();
-    this.hideNotifications();
+    var self = this;
+    $("#notifications").click(function() {
+        self.openNotifications();
+    });
+    $('#promptBackground').click(function(){
+        self.hideNotifications();
+    });
     this.initialiseChat();
-    this.selectContact();
 }
 
 Controller.prototype.initialiseChat = function() {
@@ -62,50 +66,36 @@ Controller.prototype.initialiseChat = function() {
     });
 }
 
-Controller.prototype.selectContact = function() {
-    var self = this;
-    $('.contact').click(function(){
-        self.currentChatID = this.id;
-        var showID = '#chat_'+self.currentChatID;
-        $('.showChat').hide();
-        $(showID).show();
-        console.log("showID: " + showID);
-    });
-};
-
 Controller.prototype.sendMessage = function(chat) {
     var self = this;
     var name = self.userAuth.userName;
     var id = self.userAuth.userID;
     if (chat != ""){
         $('#chatField').val('');
-        var showID = '#chat_'+self.currentChatID;
-        console.log("appending to: " + showID);
-        $(showID).append(
+        $('#chatArea').append(
             '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
             " " + chat + "</p>");
     }
+
 };
 
-Controller.prototype.openNotifications = function() {
-    $("#notifications").click(function(){
-        $('#notificationsBox').fadeIn({queue: false, duration: 'slow'});
-        $('#notificationsBox').animate({
-                height: "800px"
-            }, 800, function(){
-        });
-        $('#promptBackground').fadeIn(600);
+Controller.prototype.openNotifications = function(markerName, markerID) {
+    $('#notificationsBox').fadeIn({queue: false, duration: 'slow'});
+    $('#notificationsBox').animate({
+            height: "400px"
+        }, 800, function(){
     });
+    $('#promptBackground').fadeIn(600);
+    $('#chatTitle').html('Jioing ' + markerName + "...");
 };
 
 Controller.prototype.hideNotifications = function() {
-    $('#promptBackground').click(function(){
-        $('#notificationsBox').animate({
-                height: "0px"
-        }, 600, function() { });
-        $('#notificationsBox').fadeOut({queue: false, duration: 'slow'});
-        $('#promptBackground').fadeOut(600);
-    });
+    $('#notificationsBox').animate({
+            height: "0px"
+    }, 600, function() { });
+    $('#notificationsBox').fadeOut({queue: false, duration: 'slow'});
+    $('#promptBackground').fadeOut(600);
+
 };
 
 Controller.prototype.askUserForMealType = function() {

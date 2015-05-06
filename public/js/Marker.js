@@ -5,6 +5,7 @@ function Marker() {
     this.lng = 0;
     this.message = "";
     this.mealType = "";
+    this.takenBy = null;
     this.mapMarker = null;
     this.map = null;
     this.infoWindow = null;
@@ -42,6 +43,12 @@ Marker.prototype.showInfoWindow = function() {
     var currentUserID = controller.userAuth.userID;
     if (currentUserID === this.userID) {
         contentString += '<br> <div id = "deleteMarker"><b>Delete Marker</b></div>';
+    } else {
+        if (this.takenBy === null) {
+            contentString += '<br> <div id = "jioButton"><b>Jio!</b></div>';
+        } else if (this.takenBy === currentUserID) {
+            contentString += '<br> <div id = "openChatButton"><b>Open Chat</b></div>';
+        }
     }
     var infoWindow = new google.maps.InfoWindow({
         content: contentString
@@ -54,6 +61,12 @@ Marker.prototype.showInfoWindow = function() {
             if (controller.userDidRemoveMarker) {
                 controller.userDidRemoveMarker(self);
             }
+        });
+        $('#jioButton').click(function() {
+            controller.openNotifications(self.userName,self.userID);
+        });
+        $('#openChatButton').click(function() {
+            controller.openNotifications(self.userName,self.userID);
         });
     });
 };
@@ -71,7 +84,8 @@ Marker.prototype.toDictionary = function() {
         message: this.message,
         mealType: this.mealType,
         userID: this.userID,
-        userName: this.userName
+        userName: this.userName,
+        takenBy: this.takenBy
     }
 };
 
@@ -82,6 +96,7 @@ Marker.prototype.updateWithDictionary = function(dict) {
     if (dict.mealType) this.mealType = dict.mealType;
     if (dict.userID) this.userID = dict.userID;
     if (dict.userName) this.userName = dict.userName;
+    if (dict.takenBy) this.takenBy = dict.takenBy;
 };
 
 Marker.prototype.equals = function(other) {

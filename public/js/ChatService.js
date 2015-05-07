@@ -54,15 +54,17 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
             }
         }
     }
+
+    console.log("openChat: " + roomCode);
     $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
     $('#'+roomCode).animate({
             height: "400px"
         }, 800, function(){
     });
     $('#promptBackground').fadeIn(600);
-    $('#chatTitle').html(roomCode);
     this.markerName = markerName;
     this.roomCode = roomCode;
+
 };
 
 ChatService.prototype.appendNewRoomHTML = function(roomCode) {
@@ -70,7 +72,7 @@ ChatService.prototype.appendNewRoomHTML = function(roomCode) {
         '<div class = "chatBox" id = ' + roomCode + '>'+
             '<div class = "container-fluid">'+
                 '<div class = "row">'+
-                    '<h2 id = "chatTitle" class = "col-sm-12 col-md-12"></h2>'+
+                    '<h2 id = "chatTitle" class = "col-sm-12 col-md-12">' + roomCode + '</h2>'+
                 '</div>'+
                 '<div class = "row">'+
                     '<div id = "chatArea" class = "col-md-12 col-sm-12"></div>'+
@@ -87,10 +89,10 @@ ChatService.prototype.appendNewRoomHTML = function(roomCode) {
 };
 
 ChatService.prototype.hideChat = function() {
-    $('#'+roomCode).animate({
+    $('.chatBox').animate({
             height: "0px"
     }, 600, function() { });
-    $('#'+roomCode).fadeOut({queue: false, duration: 'slow'});
+    $('.chatBox').fadeOut({queue: false, duration: 'slow'});
     $('#promptBackground').fadeOut(600);
 };
 

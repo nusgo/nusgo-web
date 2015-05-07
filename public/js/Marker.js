@@ -81,7 +81,10 @@ Marker.prototype.showInfoWindow = function() {
 };
 
 Marker.prototype.getRoomCode = function() {
-    return this.lat.toString() + this.lng.toString();
+    //roomCode cannot have a '.' in the string
+    var newLat = this.lat.toString().replace('.', '');
+    var newLng = this.lng.toString().replace('.', '');
+    return newLat+newLng;
 };
 
 Marker.prototype.closeInfoWindow = function() {

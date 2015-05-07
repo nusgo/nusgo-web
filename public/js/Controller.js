@@ -41,6 +41,11 @@ function Controller() {
     this.closeAllPopUpsOnBackgroundClick();
 }
 
+Controller.prototype.updatePeopleCount = function(markers) {
+    document.getElementById('hungryPeopleStatus').innerHTML = '<h2>Hungry people count: '
+    + markers.length + '</h2>';
+};
+
 Controller.prototype.askUserForMealType = function() {
     this.displayMarkerPrompt();
     this.closeAllPopUpsOnBackgroundClick();

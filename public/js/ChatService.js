@@ -1,4 +1,5 @@
 function ChatService() {
+    this.rooms = [];//for keeping track of rooms entered before
     var self = this;
     this.socket = io();
     $('#chatField').keydown(function(event){
@@ -36,22 +37,60 @@ ChatService.prototype.sendMessage = function(chat) {
 };
 
 ChatService.prototype.openChat = function(markerName, roomCode) {
-    $('#notificationsBox').fadeIn({queue: false, duration: 'slow'});
-    $('#notificationsBox').animate({
+    //checks if user has entered room before (via roomCode)
+    //if not in room before, append chatbox html with id = roomcCode
+    if (this.rooms.length === 0){
+        console.log("room not visited before, pushing room to records");
+        this.rooms.push(roomCode);
+        this.appendNewRoomHTML(roomCode);
+    }else{
+        for (var i = 0; i < this.rooms.length; i++){
+            if (this.rooms[i] === roomCode){
+                console.log("room is visited before");
+            }else{
+                console.log("room not visited before, pushing room to records");
+                this.rooms.push(roomCode);
+                this.appendNewRoomHTML(roomCode);
+            }
+        }
+    }
+    $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
+    $('#'+roomCode).animate({
             height: "400px"
         }, 800, function(){
     });
     $('#promptBackground').fadeIn(600);
-    $('#chatTitle').html('Jioing ' + markerName + "...");
+    $('#chatTitle').html(roomCode);
     this.markerName = markerName;
     this.roomCode = roomCode;
 };
 
+ChatService.prototype.appendNewRoomHTML = function(roomCode) {
+    $("#chatSection").append(
+        '<div class = "chatBox" id = ' + roomCode + '>'+
+            '<div class = "container-fluid">'+
+                '<div class = "row">'+
+                    '<h2 id = "chatTitle" class = "col-sm-12 col-md-12"></h2>'+
+                '</div>'+
+                '<div class = "row">'+
+                    '<div id = "chatArea" class = "col-md-12 col-sm-12"></div>'+
+                '</div>'+
+                '<div class = "row">'+
+                    '<div class = "col-md-12 col-sm-12">'+
+                        '<form>'+
+                            'Chat: <input id = "chatField" type = "text" name = "chat">'+
+                        '</form>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+        '</div>');
+};
+
 ChatService.prototype.hideChat = function() {
-    $('#notificationsBox').animate({
+    $('#'+roomCode).animate({
             height: "0px"
     }, 600, function() { });
-    $('#notificationsBox').fadeOut({queue: false, duration: 'slow'});
+    $('#'+roomCode).fadeOut({queue: false, duration: 'slow'});
     $('#promptBackground').fadeOut(600);
 };
 

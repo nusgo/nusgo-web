@@ -60,6 +60,10 @@ Marker.prototype.showInfoWindow = function() {
     infoWindow.open(this.map, this.mapMarker);
     var self = this;
     google.maps.event.addListener(infoWindow, 'domready', function() {
+        $('#checkRequests').click(function(){
+            controller.chatService.joinRoom(self.getRoomCode());
+            controller.chatService.openChat(self.userName, self.getRoomCode());
+        });
         $('#deleteMarker').click(function() {
             if (controller.userDidRemoveMarker) {
                 controller.userDidRemoveMarker(self);

@@ -157,7 +157,7 @@ body {
 	z-index: 5;
 }
 
-#notificationsBox{
+.chatBox{
 	background-color: white;
 	border-radius: 10px;
 	height: 0px;
@@ -211,7 +211,7 @@ body {
 	padding: 2px;
 }
 #checkRequests:hover{
-	background-color: #F4A460;
+	background-color: #B05817;
 }
 
 #submit{
@@ -229,7 +229,7 @@ body {
 	padding: 2px;
 }
 #deleteMarker:hover{
-	background-color: #F4A460;
+	background-color: #B05817;
 }
 
 .fb-like {

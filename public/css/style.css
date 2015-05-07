@@ -87,6 +87,10 @@ body {
        height: 90%;
 }
 
+#tohide {
+	visibility: hidden;
+}
+
 #footer{
 	position: absolute;
 		height: 100%;

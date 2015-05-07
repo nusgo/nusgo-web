@@ -91,7 +91,6 @@ Marker.prototype.toDictionary = function() {
         mealType: this.mealType,
         userID: this.userID,
         userName: this.userName,
-        takenBy: this.takenBy
     }
 };
 
@@ -102,7 +101,6 @@ Marker.prototype.updateWithDictionary = function(dict) {
     if (dict.mealType) this.mealType = dict.mealType;
     if (dict.userID) this.userID = dict.userID;
     if (dict.userName) this.userName = dict.userName;
-    if (dict.takenBy) this.takenBy = dict.takenBy;
 };
 
 Marker.prototype.equals = function(other) {

@@ -161,7 +161,7 @@ body {
 	background-color: white;
 	border-radius: 10px;
 	height: 0px;
-	width: 600px;
+	width: 800px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -170,13 +170,33 @@ body {
 	z-index: 10;
 }
 
-#contactList{
-	height: 675px;
+#goingList{
+	height: 350px;
 	overflow: scroll;
 }
 
 .contact{
 	cursor: pointer;
+}
+
+#chatTitle{
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	color: white;
+	text-align: center;
+	background-color: #FD8a33;
+}
+
+#goStatus{
+	border-radius: 10px;
+	color: white;
+	font-size: 25px;
+	text-align: center;
+	background-color: #FD8a33;
+	cursor: pointer;
+}
+#goStatus:hover{
+	background-color: #B05817;
 }
 
 .showChat{
@@ -189,7 +209,7 @@ body {
 }
 
 .chatArea{
-	height: 300px;
+	height: 390px;
 	overflow: scroll;
 }
 

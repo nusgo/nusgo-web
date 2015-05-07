@@ -50,13 +50,13 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
     if (found === false){
             console.log("room not visited before, pushing room to records");
             this.rooms.push(roomCode);
-            this.appendNewRoomHTML(roomCode);       
+            this.appendNewRoomHTML(markerName, roomCode);       
     }
 
     console.log("openChat: " + roomCode);
     $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
     $('#'+roomCode).animate({
-            height: "400px"
+            height: "500px"
         }, 800, function(){
     });
     $('#promptBackground').fadeIn(600);
@@ -73,21 +73,35 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
     });
 };
 
-ChatService.prototype.appendNewRoomHTML = function(roomCode) {
+ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode) {
     $("#chatSection").append(
         '<div class = "chatBox" id = ' + roomCode + '>'+
             '<div class = "container-fluid">'+
-                '<div class = "row">'+
-                    '<h2 class = "chatTitle" class = "col-sm-12 col-md-12">' + roomCode + '</h2>'+
+                '<div class = "row" id = "chatTitle">'+
+                    '<h2 class = "col-sm-12 col-md-12">' +
+                    markerName + ' is hungry!</h2>'+
                 '</div>'+
                 '<div class = "row">'+
-                    '<div class = "chatArea" class = "col-md-12 col-sm-12"></div>'+
-                '</div>'+
-                '<div class = "row">'+
-                    '<div class = "col-md-12 col-sm-12">'+
-                        '<form>'+
-                            'Chat: <input class = "chatField" type = "text" name = "chat">'+
-                        '</form>'+
+                    '<div class = "container-fluid">'+
+                        '<div class = "row">'+
+                            '<div class = "col-sm-9 col-md-9">'+
+                                '<div class = "row">'+
+                                    '<div class = "chatArea" class = "col-md-12 col-sm-12"></div>'+
+                                '</div>'+
+                                '<div class = "row">'+
+                                    '<div class = "col-md-12 col-sm-12">'+
+                                        '<form>'+
+                                            'Chat: <input class = "chatField" type = "text" name = "chat">'+
+                                        '</form>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class = "col-sm-3 col-md-3">'+
+                                '<p>Going:</p>'+
+                                '<div id = "goingList"></div>' +
+                                '<div id = "goStatus">I am going!</div>'+
+                            '</div>'+
+                        '</div>'+
                     '</div>'+
                 '</div>'+
             '</div>'+

@@ -9,8 +9,10 @@ var heightMapString;
 // 1. Each time user sends a chat message
 // 2. Each time a new message gets received
 
-function scrollChatAreaToLatest(){
-    var element = document.getElementById("chatArea");
+function scrollChatAreaToLatest(roomCode){
+    var elements = $('#'+ roomCode + ' .chatArea');
+    if (elements.length === 0) return;
+    var element = elements[0];
     element.scrollTop = element.scrollHeight;
 }
 

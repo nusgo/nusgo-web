@@ -183,12 +183,12 @@ body {
 	display: none;
 }
 
-#chatField{
+.chatField{
 	width: 500px;
 	border-radius: 5px;
 }
 
-#chatArea{
+.chatArea{
 	height: 300px;
 	overflow: scroll;
 }

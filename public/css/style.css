@@ -194,7 +194,24 @@ body {
 }
 
 #profilePic{
-	width: 100px;
+	float: left;
+	margin: 5px;
+	width: 67px;
+}
+
+#checkRequests{
+	background-color: #FD8a33;
+	color: white;
+	border-radius: 5px;
+	float: left;
+	margin-right: 5px;
+	cursor: pointer;
+}
+#checkRequests b{
+	padding: 2px;
+}
+#checkRequests:hover{
+	background-color: #F4A460;
 }
 
 #submit{
@@ -202,7 +219,17 @@ body {
 }
 
 #deleteMarker{
+	background-color: #FD8a33;
+	color: white;
+	border-radius: 5px;
+	float: left;
 	cursor: pointer;
+}
+#deleteMarker b{
+	padding: 2px;
+}
+#deleteMarker:hover{
+	background-color: #F4A460;
 }
 
 .fb-like {

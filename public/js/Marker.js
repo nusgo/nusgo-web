@@ -9,6 +9,7 @@ function Marker() {
     this.mapMarker = null;
     this.map = null;
     this.infoWindow = null;
+    this.dateString = "insert-time-here";
 }
 
 Marker.prototype.showInMap = function(map) {
@@ -37,12 +38,14 @@ Marker.prototype.showInfoWindow = function() {
 
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
-        + '<br>' + this.userName
-        + ' is looking for a ' + this.mealType + ' buddy!';
+        + '<b>' + this.userName + '</b> is hungry for <b>' + this.mealType + '</b>!<br>'
+        + '<b>' + this.dateString + '</b>'
+        + '<br>' + this.message;
 
     var currentUserID = controller.userAuth.userID;
     if (currentUserID === this.userID) {
-        contentString += '<br> <div id = "deleteMarker"><b>Delete Marker</b></div>';
+        contentString += '<br><div id = "checkRequests"><b>Check Requests</b></div>';
+        contentString += '<div id = "deleteMarker"><b>Delete Marker</b></div>';
     } else {
         if (this.takenBy === null) {
             contentString += '<br> <div id = "jioButton"><b>Jio!</b></div>';

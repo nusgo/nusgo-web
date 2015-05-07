@@ -1,3 +1,8 @@
+html, body {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
+
 
 body {
 	font-family: 'Montserrat', sans-serif;

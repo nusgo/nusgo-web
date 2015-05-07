@@ -29,6 +29,9 @@ Map.prototype.renderMarkers = function(markers) {
         markers[i].showInMap(this.map);
         this.currentMarkers.push(markers[i]);
     }
+
+    //update people count
+    controller.updatePeopleCount(this.currentMarkers);
 };
 
 Map.prototype.addMarker = function(marker) {
@@ -42,7 +45,9 @@ Map.prototype.addMarker = function(marker) {
     if (!alreadyShown) {
         marker.showInMap(this.map);
         this.currentMarkers.push(marker);
-    }
+    }  
+    //update people count
+    controller.updatePeopleCount(this.currentMarkers);
 };
 
 Map.prototype.removeMarker = function(marker) {
@@ -55,6 +60,8 @@ Map.prototype.removeMarker = function(marker) {
     this.currentMarkers = this.currentMarkers.filter(function(o) {
         return !(marker.equals(o));
     });
+    //update people count
+    controller.updatePeopleCount(this.currentMarkers);
 };
 
 Map.prototype.sieveMarkers = function(markers) {

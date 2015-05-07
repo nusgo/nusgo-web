@@ -41,6 +41,11 @@ function Controller() {
     this.closeAllPopUpsOnBackgroundClick();
 }
 
+Controller.prototype.updatePeopleCount = function(markers) {
+    document.getElementById('hungryPeopleStatus').innerHTML = '<h2>Hungry people count: '
+    + markers.length + '</h2>';
+};
+
 Controller.prototype.askUserForMealType = function() {
     this.displayMarkerPrompt();
     this.closeAllPopUpsOnBackgroundClick();
@@ -49,20 +54,7 @@ Controller.prototype.askUserForMealType = function() {
 
 Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message) {
     var self = this;
-    var hour = $('#hour :selected').text();
-    var min = $('#min :selected').text();
-    var ampm = $('#ampm :selected').text();
-    var dateString = "";
-    if (ampm === "am"){
-        dateString = hour + ':' + min;
-    }else{
-        var hourInt = parseInt(hour);
-        hourInt = (hourInt + 12) % 24;
-        hour = hourInt.toString();
-        dateString = hour + ':' + min;
-    }
-    console.log('Date String');
-    console.log(dateString);
+
     if (!(this instanceof Controller)) {
         self = this.controller;
     }
@@ -141,6 +133,18 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         var message = $('input[name=message]').val();
         var lat = self.clickPosition[0];
         var lng = self.clickPosition[1];
+        var hour = $('#hour :selected').text();
+        var min = $('#min :selected').text();
+        var ampm = $('#ampm :selected').text();
+        var dateString = "";
+        if (ampm === "am"){
+            dateString = hour + ':' + min;
+        }else{
+            var hourInt = parseInt(hour);
+            hourInt = (hourInt + 12) % 24;
+            hour = hourInt.toString();
+            dateString = hour + ':' + min;
+        }
         // do some validation
         if (mealPreference == undefined) {
             alert();

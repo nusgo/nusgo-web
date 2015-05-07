@@ -1,3 +1,8 @@
+html, body {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
+
 
 body {
 	font-family: 'Montserrat', sans-serif;
@@ -82,6 +87,10 @@ body {
        height: 90%;
 }
 
+#tohide {
+	visibility: hidden;
+}
+
 #footer{
 	position: absolute;
 		height: 100%;
@@ -97,6 +106,11 @@ body {
 	border-radius: 20px;
 	/*background-color: #c3dae3;*/
 	background-color: white;
+	box-shadow: 0px 0px 50px #575757;
+	padding: 10px;
+	font-size: 17px;
+
+
 }
 
 #prompt{
@@ -143,7 +157,7 @@ body {
 	z-index: 5;
 }
 
-#notificationsBox{
+.chatBox{
 	background-color: white;
 	border-radius: 10px;
 	height: 0px;
@@ -169,18 +183,35 @@ body {
 	display: none;
 }
 
-#chatField{
+.chatField{
 	width: 500px;
 	border-radius: 5px;
 }
 
-#chatArea{
+.chatArea{
 	height: 300px;
 	overflow: scroll;
 }
 
 #profilePic{
-	width: 100px;
+	float: left;
+	margin: 5px;
+	width: 67px;
+}
+
+#checkRequests{
+	background-color: #FD8a33;
+	color: white;
+	border-radius: 5px;
+	float: left;
+	margin-right: 5px;
+	cursor: pointer;
+}
+#checkRequests b{
+	padding: 2px;
+}
+#checkRequests:hover{
+	background-color: #B05817;
 }
 
 #submit{
@@ -188,7 +219,17 @@ body {
 }
 
 #deleteMarker{
+	background-color: #FD8a33;
+	color: white;
+	border-radius: 5px;
+	float: left;
 	cursor: pointer;
+}
+#deleteMarker b{
+	padding: 2px;
+}
+#deleteMarker:hover{
+	background-color: #B05817;
 }
 
 .fb-like {

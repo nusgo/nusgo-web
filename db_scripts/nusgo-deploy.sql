@@ -11,6 +11,8 @@ create table nusgo.markers (
     lng double precision not null,
     meal_type varchar(20) not null,
     message text null,
+    meal_time timestamp with time zone not null,
+    created_time timestamp with time zone not null,
     user_id varchar(128) references nusgo.users(id) on update cascade on delete cascade
 );
 

@@ -9,7 +9,8 @@ function Marker() {
     this.mapMarker = null;
     this.map = null;
     this.infoWindow = null;
-    this.dateString = "";
+    this.mealTime = "";
+    this.timeString;
 }
 
 Marker.prototype.showInMap = function(map) {
@@ -35,11 +36,11 @@ Marker.prototype.deleteFromMap = function() {
 
 Marker.prototype.showInfoWindow = function() {
     controller.map.closeAllInfoWindows();
-
+    console.log("showInfoWindow: " + this.timeString);
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
         + '<b>' + this.userName + '</b> is hungry for <b>' + this.mealType + '</b>!<br>'
-        + 'Time: <b>' + this.dateString + ' hrs</b>'
+        + 'Time: <b>' + this.mealTime + ' hrs</b>'
         + '<br>' + this.message;
 
     var currentUserID = controller.userAuth.userID;
@@ -62,7 +63,7 @@ Marker.prototype.showInfoWindow = function() {
     google.maps.event.addListener(infoWindow, 'domready', function() {
         $('#checkRequests').click(function(){
             controller.chatService.joinRoom(self.getRoomCode());
-            controller.chatService.openChat(self.userName, self.getRoomCode(), self.mealType, self.dateString);
+            controller.chatService.openChat(self.userName, self.getRoomCode(), self.mealType, self.mealTime);
         });
         $('#deleteMarker').click(function() {
             if (controller.userDidRemoveMarker) {
@@ -75,7 +76,7 @@ Marker.prototype.showInfoWindow = function() {
                 controller.displayLoginPrompt();
             }else{
                 controller.chatService.joinRoom(self.getRoomCode());
-                controller.chatService.openChat(self.userName, self.getRoomCode(), self.mealType, self.dateString);
+                controller.chatService.openChat(self.userName, self.getRoomCode(), self.mealType, self.mealTime);
             }
         });
         $('#openChatButton').click(function() {
@@ -99,6 +100,7 @@ Marker.prototype.closeInfoWindow = function() {
 };
 
 Marker.prototype.toDictionary = function() {
+    console.log("toDictionary: " + this.timeString);
     return {
         lat: this.lat,
         lng: this.lng,
@@ -106,18 +108,21 @@ Marker.prototype.toDictionary = function() {
         mealType: this.mealType,
         userID: this.userID,
         userName: this.userName,
-        dateString: this.dateString,
+        mealTime: this.mealTime,
+        timeString: this.timeString
     }
 };
 
 Marker.prototype.updateWithDictionary = function(dict) {
+    console.log("updateDictionary: " + dict.timeString);
     if (dict.lat) this.lat = dict.lat;
     if (dict.lng) this.lng = dict.lng;
     if (dict.message) this.message = dict.message;
     if (dict.mealType) this.mealType = dict.mealType;
     if (dict.userID) this.userID = dict.userID;
     if (dict.userName) this.userName = dict.userName;
-    if (dict.dateString) this.dateString = dict.dateString;
+    if (dict.mealTime) this.mealTime = dict.mealTime;
+    if (dict.timeString) this.timeString = dict.timeString;
 };
 
 Marker.prototype.equals = function(other) {
@@ -128,7 +133,8 @@ Marker.prototype.equals = function(other) {
     if (other.lng !== this.lng) return false;
     if (other.message !== this.message) return false;
     if (other.mealType !== this.mealType) return false;
-    if (other.dateString !== this.dateString) return false;
+    if (other.mealTime !== this.mealTime) return false;
+    if (other.timeString !== this.timeString) return false;
     // TODO: Check for user equality
     return true;
 };

@@ -52,9 +52,8 @@ Controller.prototype.askUserForMealType = function() {
     this.setMarkerPromptSubmitHandler(this.handleMarkerPromptSubmit);
 };
 
-Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message, dateString) {
+Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message, mealTime, timeString) {
     var self = this;
-
     if (!(this instanceof Controller)) {
         self = this.controller;
     }
@@ -66,16 +65,15 @@ Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, mes
             lng: lng,
             mealType: mealType,
             message: message,
-            dateString: dateString
+            mealTime: mealTime,
+            timeString: timeString
         };
     } else {
-        self.createAndStoreMarker(lat, lng, mealType, message, dateString);
+        self.createAndStoreMarker(lat, lng, mealType, message, mealTime, timeString);
     }
 };
 
-Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message, dateString) {
-    console.log("USER ID");
-    console.log(this.userAuth.userID);
+Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message, mealTime, timeString) {
     var marker = new Marker();
     marker.userName = this.userAuth.userName;
     marker.userID = this.userAuth.userID;
@@ -83,8 +81,10 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     marker.lng = lng;
     marker.mealType = mealType;
     marker.message = message;
-    marker.dateString = dateString;
-    console.log("create and stoer marker: " + message);
+    marker.mealTime = mealTime;
+    marker.timeString = timeString;
+    console.log("createAndStoreMarker: " + marker.timeString);
+    console.log(marker);
     // store marker
     this.storageManager.addMarker(marker);
     this.storageManager.syncWithServer();
@@ -138,28 +138,31 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         if (message.length !== 0){
             message = '"' + message + '"';
         }
-        console.log("setMarkerPromptSubmitHandler: " + message);
         var lat = self.clickPosition[0];
         var lng = self.clickPosition[1];
         var hour = $('#hour :selected').text();
         var min = $('#min :selected').text();
         var ampm = $('#ampm :selected').text();
-        var dateString = "";
+        var mealTime = "";
         if (ampm === "am"){
-            dateString = hour + ':' + min;
+            mealTime = hour + ':' + min;
         }else{
             var hourInt = parseInt(hour);
             hourInt = (hourInt + 12) % 24;
             hour = hourInt.toString();
-            dateString = hour + ':' + min;
+            mealTime = hour + ':' + min;
         }
+        var timeString = new Date();
+        timeString.setHours(hour);
+        timeString.setMinutes(min);
+        console.log("setMarkerPromptSubmitHandler" + timeString);
         // do some validation
         if (mealPreference == undefined) {
             alert();
             return;
         }
         self.hideMarkerPrompt();
-        handler(lat, lng, mealPreference, message, dateString);
+        handler(lat, lng, mealPreference, message, mealTime, timeString);
     });    
 }
 

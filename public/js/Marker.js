@@ -48,7 +48,7 @@ Marker.prototype.showInfoWindow = function() {
         contentString += '<div id = "deleteMarker"><b>Delete Marker</b></div>';
     } else {
         if (this.takenBy === null) {
-            contentString += '<br> <div id = "jioButton"><b>Jio!</b></div>';
+            contentString += '<br> <div id = "jioButton"><b>Jio me!</b></div>';
         } else if (this.takenBy === currentUserID) {
             contentString += '<br> <div id = "openChatButton"><b>Open Chat</b></div>';
         }

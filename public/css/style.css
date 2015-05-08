@@ -281,6 +281,22 @@ body {
 	background-color: #B05817;
 }
 
+#jioButton{
+	background-color: #FD8a33;
+	color: white;
+	border-radius: 5px;
+	float: left;
+	margin-right: 5px;
+	cursor: pointer;
+}
+#jioButton b{
+	padding: 2px;
+}
+#jioButton:hover{
+	background-color: #B05817;
+}
+
+
 .fb-like {
 	transform: scale(1.2);
 	-ms-transform: scale(1.2); 

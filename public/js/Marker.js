@@ -107,7 +107,6 @@ Marker.prototype.toDictionary = function() {
         userID: this.userID,
         userName: this.userName,
         dateString: this.dateString,
-        takenBy: this.takenBy
     }
 };
 
@@ -119,7 +118,6 @@ Marker.prototype.updateWithDictionary = function(dict) {
     if (dict.userID) this.userID = dict.userID;
     if (dict.userName) this.userName = dict.userName;
     if (dict.dateString) this.dateString = dict.dateString;
-    if (dict.takenBy) this.takenBy = dict.takenBy;
 };
 
 Marker.prototype.equals = function(other) {

@@ -11,9 +11,20 @@ function ChatService() {
 ChatService.prototype.receiveMessage = function(chatMessage) {
     this.openChat(chatMessage.markerName, chatMessage.roomCode);
     var roomCode = chatMessage.roomCode;
-    $('#'+ roomCode + ' .chatArea').append(
-    '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
-    " " + chatMessage.content + "</p>");
+    var chat = chatMessage.content;
+    var isEmoji = true;
+    if (chat.indexOf("img/") === -1){
+            isEmoji = false;
+        }
+    if (isEmoji === true){
+        $('#'+ roomCode + ' .chatArea').append(
+            '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
+            " <img src ='" + chat + "'></img></p>");
+    }else{
+        $('#'+ roomCode + ' .chatArea').append(
+        '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
+        " " + chatMessage.content + "</p>");
+    }
     scrollChatAreaToLatest(roomCode);
 };
 
@@ -22,11 +33,21 @@ ChatService.prototype.sendMessage = function(chat) {
     var name = controller.userAuth.userName;
     var id = controller.userAuth.userID;
     var roomCode = this.roomCode;
-    if (chat != ""){
-        $('#'+ roomCode + ' .chatField').val('');
+    var isEmoji = true;
+    if (chat.indexOf("img/") === -1){
+        isEmoji = false;
+    }
+    if (isEmoji === true){
         $('#'+ roomCode + ' .chatArea').append(
             '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
-            " " + chat + "</p>");
+            " <img src ='" + chat + "'></img></p>");
+    }else{
+        if (chat != ""){
+            $('#'+ roomCode + ' .chatField').val('');
+            $('#'+ roomCode + ' .chatArea').append(
+                '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
+                " " + chat + "</p>");
+        }
     }
     var chatMessage = new ChatMessage(this.markerName, this.roomCode, chat);
     this.socket.emit("chatMessage",chatMessage.toDictionary());
@@ -67,7 +88,6 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
         if (event.keyCode === 13){
             var chat = $('#'+ roomCode + ' .chatField').val();
             self.sendMessage(chat);
-
         }
     });
 
@@ -88,6 +108,12 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
             self.emojiShow = false;
         }
     });
+
+    //select emoji
+    $('#'+ roomCode + ' .emojiOption').click(function(){
+        var imgSrc = $(this).attr('src');
+        self.sendMessage(imgSrc);
+    });
 };
 
 ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode) {
@@ -95,17 +121,17 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode) {
         '<div class = "chatBox" id = ' + roomCode + '>'+
             '<div class = "emojiSelect">' +
                 '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
-                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji2.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji3.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji4.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji5.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji6.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji7.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji8.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji9.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji10.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji11.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji12.png"></img>'+
             '</div>'+
             '<div class = "container-fluid">'+
                 '<div class = "row" id = "chatTitle">'+

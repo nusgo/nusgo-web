@@ -124,6 +124,7 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
     var self = this;
     $('#promptBackground').click(function() {
         self.hideMarkerPrompt();
+        self.hideLoginPrompt();
         self.chatService.hideChat();
     });
 };
@@ -163,6 +164,7 @@ Controller.prototype.displayLoginPrompt = function() {
             height: "300px"
         }, 600, function(){
     });
+    $('#promptBackground').fadeIn(600);
 };
 
 Controller.prototype.hideLoginPrompt = function() {
@@ -171,6 +173,7 @@ Controller.prototype.hideLoginPrompt = function() {
         }, 600, function(){
     });
     $('#loginPrompt').fadeOut({queue: false, duration: 'slow'});
+    $('#promptBackground').fadeOut(600);
 };
 
 Controller.prototype.onReceiveNewMarker = function(marker) {

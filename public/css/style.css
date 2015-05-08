@@ -137,6 +137,7 @@ body {
 
 #loginPrompt{
 	background-color: white;
+	border-radius: 10px;
 	height: 0px;
 	width: 600px;
 	position: absolute;

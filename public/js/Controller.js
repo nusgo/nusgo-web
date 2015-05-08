@@ -166,7 +166,7 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
 Controller.prototype.displayLoginPrompt = function() {
     $('#loginPrompt').fadeIn({queue: false, duration: 'slow'});
     $('#loginPrompt').animate({
-            height: "300px"
+            height: "200px"
         }, 600, function(){
     });
     $('#promptBackground').fadeIn(600);

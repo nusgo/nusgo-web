@@ -12,7 +12,7 @@ create table nusgo.markers (
     meal_type varchar(20) not null,
     message text null,
     meal_time timestamp with time zone not null,
-    created_time timestamp with time zone not null,
+    created_time timestamp with time zone not null default now(),
     user_id varchar(128) references nusgo.users(id) on update cascade on delete cascade
 );
 
@@ -26,6 +26,7 @@ grant select on all tables in schema nusgo to nusgo;
 grant insert on all tables in schema nusgo to nusgo;
 grant update on all tables in schema nusgo to nusgo;
 grant delete on table nusgo.users_markers to nusgo;
+grant usage, select on sequence markers_id_seq to nusgo;
 
 -- Execute the syntax below to append nusgo schema to your search_path
 select set_config(

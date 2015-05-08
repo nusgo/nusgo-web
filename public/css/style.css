@@ -32,6 +32,12 @@ body {
 	background-color: #B05817;
 }
 
+#about{
+	float: right;
+	height: 52px;
+	padding: 2px;
+}
+
 #status{
 	font-size: 30px;
 }
@@ -137,6 +143,7 @@ body {
 
 #loginPrompt{
 	background-color: white;
+	border-radius: 10px;
 	height: 0px;
 	width: 600px;
 	position: absolute;
@@ -161,7 +168,7 @@ body {
 	background-color: white;
 	border-radius: 10px;
 	height: 0px;
-	width: 600px;
+	width: 800px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -170,13 +177,33 @@ body {
 	z-index: 10;
 }
 
-#contactList{
-	height: 675px;
+#goingList{
+	height: 350px;
 	overflow: scroll;
 }
 
 .contact{
 	cursor: pointer;
+}
+
+#chatTitle{
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	color: white;
+	text-align: center;
+	background-color: #FD8a33;
+}
+
+.goStatus{
+	border-radius: 10px;
+	color: white;
+	font-size: 25px;
+	text-align: center;
+	background-color: #FD8a33;
+	cursor: pointer;
+}
+.goStatus:hover{
+	background-color: #B05817;
 }
 
 .showChat{
@@ -189,8 +216,36 @@ body {
 }
 
 .chatArea{
-	height: 300px;
+	height: 390px;
 	overflow: scroll;
+}
+
+.emojiButton{
+	float: right;
+	cursor: pointer;
+	border-radius: 5px;
+}
+.emojiButton:hover{
+	background-color: #CFCFCF;
+}
+.emojiSelect{
+	display: none;
+	position: absolute;
+	border-radius: 5px;
+	background-color: white;
+	top: 360px;
+	left: 400px;
+	width: 240px;
+	height: 80px;
+	z-index: 20;
+	box-shadow: 2px 2px 20px 5px #CFCFCF;
+}
+.emojiOption:hover{
+	cursor: pointer;
+	border-radius: 5px;
+}
+.emojiOption:hover{
+	background-color: #CFCFCF;
 }
 
 #profilePic{
@@ -232,12 +287,42 @@ body {
 	background-color: #B05817;
 }
 
+#jioButton{
+	background-color: #FD8a33;
+	color: white;
+	border-radius: 5px;
+	float: left;
+	margin-right: 5px;
+	cursor: pointer;
+}
+#jioButton b{
+	padding: 2px;
+}
+#jioButton:hover{
+	background-color: #B05817;
+}
+
+
 .fb-like {
 	transform: scale(1.2);
 	-ms-transform: scale(1.2); 
 	-webkit-transform: scale(1.2); 
 	-o-transform: scale(1.2); 
 	-moz-transform: scale(1.2); 
+	transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-webkit-transform-origin: top left;
+}
+
+#loginButton{
+	padding-left: 60px;
+	transform: scale(2.3);
+	-ms-transform: scale(2.3); 
+	-webkit-transform: scale(2.3); 
+	-o-transform: scale(2.3); 
+	-moz-transform: scale(2.3); 
 	transform-origin: top left;
 	-ms-transform-origin: top left;
 	-webkit-transform-origin: top left;

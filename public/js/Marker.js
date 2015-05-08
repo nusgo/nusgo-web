@@ -9,7 +9,7 @@ function Marker() {
     this.mapMarker = null;
     this.map = null;
     this.infoWindow = null;
-    this.dateString = "insert-time-here";
+    this.dateString = "";
 }
 
 Marker.prototype.showInMap = function(map) {
@@ -39,7 +39,7 @@ Marker.prototype.showInfoWindow = function() {
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
         + '<b>' + this.userName + '</b> is hungry for <b>' + this.mealType + '</b>!<br>'
-        + '<b>' + this.dateString + '</b>'
+        + 'Time: <b>' + this.dateString + '</b>'
         + '<br>' + this.message;
 
     var currentUserID = controller.userAuth.userID;
@@ -48,7 +48,7 @@ Marker.prototype.showInfoWindow = function() {
         contentString += '<div id = "deleteMarker"><b>Delete Marker</b></div>';
     } else {
         if (this.takenBy === null) {
-            contentString += '<br> <div id = "jioButton"><b>Jio!</b></div>';
+            contentString += '<br> <div id = "jioButton"><b>Jio me!</b></div>';
         } else if (this.takenBy === currentUserID) {
             contentString += '<br> <div id = "openChatButton"><b>Open Chat</b></div>';
         }
@@ -70,8 +70,13 @@ Marker.prototype.showInfoWindow = function() {
             }
         });
         $('#jioButton').click(function() {
-            controller.chatService.joinRoom(self.getRoomCode());
-            controller.chatService.openChat(self.userName, self.getRoomCode());
+            //Must check if user is logged in
+            if(controller.userAuth.userID === 0){
+                controller.displayLoginPrompt();
+            }else{
+                controller.chatService.joinRoom(self.getRoomCode());
+                controller.chatService.openChat(self.userName, self.getRoomCode());
+            }
         });
         $('#openChatButton').click(function() {
             controller.chatService.joinRoom(self.getRoomCode());
@@ -101,6 +106,7 @@ Marker.prototype.toDictionary = function() {
         mealType: this.mealType,
         userID: this.userID,
         userName: this.userName,
+        dateString: this.dateString,
     }
 };
 
@@ -111,6 +117,7 @@ Marker.prototype.updateWithDictionary = function(dict) {
     if (dict.mealType) this.mealType = dict.mealType;
     if (dict.userID) this.userID = dict.userID;
     if (dict.userName) this.userName = dict.userName;
+    if (dict.dateString) this.dateString = dict.dateString;
 };
 
 Marker.prototype.equals = function(other) {
@@ -121,6 +128,7 @@ Marker.prototype.equals = function(other) {
     if (other.lng !== this.lng) return false;
     if (other.message !== this.message) return false;
     if (other.mealType !== this.mealType) return false;
+    if (other.dateString !== this.dateString) return false;
     // TODO: Check for user equality
     return true;
 };

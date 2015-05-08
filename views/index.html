@@ -22,7 +22,7 @@
 				</div>
 
 				<div class = "col-md-2 col-sm-3" id = "navBtn">
-					<div class = "navBtn" id = "about">Developers' Blog</div>
+					<a href="https://facebook.com/nusgoapp/"><img class = "navBtn" id = "about" src = "img/fbIcon.png"></img></a>
 				</div>
 			
 			</div>
@@ -38,7 +38,7 @@
 								<input type = "radio" name = "meal" value = "breakfast">Breakfast<br>
 								<input type = "radio" name = "meal" value = "brunch">Brunch<br>
 								<input type = "radio" name = "meal" value = "lunch">Lunch<br>
-								<input type = "radio" name = "meal" value = "tea">Tea<br>
+								<input type = "radio" name = "meal" value = "high tea">High Tea<br>
 								<input type = "radio" name = "meal" value = "dinner">Dinner<br>
 								<input type = "radio" name = "meal" value = "supper">Supper<br>
 							</div>
@@ -68,7 +68,7 @@
 									<option value="am">am</option>
 									<option value="pm">pm</option>
 								</select><br>
-								<textarea id = "personalMessageBox" name = "message" rows = 4 cols = 15 placeholder = "Include a personal message :)"></textarea>
+								<textarea id = "personalMessageBox" name = "message" rows = 4 cols = 15 placeholder = "Where are you going? Include a personal message :)"></textarea>
 								<input type = "button" value = "GO!" name = "submit" id = "submit"><b></b></div>
 							</div>
 						</form>
@@ -76,9 +76,10 @@
 				</div>
 			</div>
 		    <div id = "loginPrompt">
-		       	<h1 style = "text-align: center;">Please login through Facebook</h1>
-		        <fb:login-button id = "loginButton" scope="public_profile,email" onlogin="checkLoginState();">
-		        </fb:login-button>
+		       	<h1 style = "text-align: center;">Knock knock! Who's there? <img src = "img/emoji5.png"></img></h1>
+		        <fb:login-button id = "loginButton" scope="public_profile,email" onlogin="checkLoginState();"><h3>"Login to Facebook"</h3>
+		        </fb:login-button><br><br>
+		        <h3 style = "text-align: center;">"Login to Facebook, who?"</h3>
 		    </div>
 		</div>
 
@@ -103,14 +104,14 @@
 					<div id = "homeDescription">
 						<br>
 			      		<div id = "status"></div>
-			      		<h2>Looking for a meal buddy?</h2><br>
+			      		<h2>Looking for meal buddies?</h2><br>
 			      		<p><b><u>Place a marker on the map</u></b> to show that you up for a meal!<p>
 			      		<p>Or you can <b><u>click on a marker</u></b> to join him/her for a meal!</p><br>
-			      		<p>You will be notified when there are meal requests.</p>
+			      		<p>You will be notified when you receive meal requests.</p>
 			      		<div id = "hungryPeopleStatus"></div><br>
 			      		<p>NUSGo! is a web application for the adventurous to look for new meal buddies. Also, we believe that nobody deserves to eat alone.</p>
 			      		<br>
-			      		<div class="fb-like" data-href="https://nusgo.com" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div><br><br>
+			      		<div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div><br><br>
 			      	</div>
 			      	<div class = "container-fluid">
 			      		<div class = "row">

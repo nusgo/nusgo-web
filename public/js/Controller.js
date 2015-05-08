@@ -52,7 +52,7 @@ Controller.prototype.askUserForMealType = function() {
     this.setMarkerPromptSubmitHandler(this.handleMarkerPromptSubmit);
 };
 
-Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message) {
+Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message, dateString) {
     var self = this;
 
     if (!(this instanceof Controller)) {
@@ -65,14 +65,15 @@ Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, mes
             lat: lat,
             lng: lng,
             mealType: mealType,
-            message: message
+            message: message,
+            dateString: dateString
         };
     } else {
-        self.createAndStoreMarker(lat, lng, mealType, message);
+        self.createAndStoreMarker(lat, lng, mealType, message, dateString);
     }
 };
 
-Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message) {
+Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message, dateString) {
     console.log("USER ID");
     console.log(this.userAuth.userID);
     var marker = new Marker();
@@ -82,6 +83,8 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     marker.lng = lng;
     marker.mealType = mealType;
     marker.message = message;
+    marker.dateString = dateString;
+    console.log("create and stoer marker: " + message);
     // store marker
     this.storageManager.addMarker(marker);
     this.storageManager.syncWithServer();
@@ -122,6 +125,7 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
     var self = this;
     $('#promptBackground').click(function() {
         self.hideMarkerPrompt();
+        self.hideLoginPrompt();
         self.chatService.hideChat();
     });
 };
@@ -130,7 +134,11 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
     var self = this;
     $("#submit").click(function() {
         var mealPreference = $('input[name=meal]:checked').val();
-        var message = $('input[name=message]').val();
+        var message = $('#personalMessageBox').val();
+        if (message.length !== 0){
+            message = '"' + message + '"';
+        }
+        console.log("setMarkerPromptSubmitHandler: " + message);
         var lat = self.clickPosition[0];
         var lng = self.clickPosition[1];
         var hour = $('#hour :selected').text();
@@ -151,16 +159,17 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
             return;
         }
         self.hideMarkerPrompt();
-        handler(lat, lng, mealPreference, message);
+        handler(lat, lng, mealPreference, message, dateString);
     });    
 }
 
 Controller.prototype.displayLoginPrompt = function() {
     $('#loginPrompt').fadeIn({queue: false, duration: 'slow'});
     $('#loginPrompt').animate({
-            height: "300px"
+            height: "200px"
         }, 600, function(){
     });
+    $('#promptBackground').fadeIn(600);
 };
 
 Controller.prototype.hideLoginPrompt = function() {
@@ -169,6 +178,7 @@ Controller.prototype.hideLoginPrompt = function() {
         }, 600, function(){
     });
     $('#loginPrompt').fadeOut({queue: false, duration: 'slow'});
+    $('#promptBackground').fadeOut(600);
 };
 
 Controller.prototype.onReceiveNewMarker = function(marker) {

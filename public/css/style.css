@@ -218,6 +218,8 @@ body {
 .chatArea{
 	height: 390px;
 	overflow: scroll;
+	word-wrap: break-word;
+	padding: 15px;
 }
 
 .emojiButton{

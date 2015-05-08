@@ -53,7 +53,7 @@ ChatService.prototype.sendMessage = function(chat) {
     scrollChatAreaToLatest(roomCode);
 };
 
-ChatService.prototype.openChat = function(markerName, roomCode) {
+ChatService.prototype.openChat = function(markerName, roomCode, mealType, dateString) {
 
     //checks if user has entered room before (via roomCode)
     //if not in room before, append chatbox html with id = roomcCode
@@ -68,7 +68,7 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
     if (found === false){
         console.log("room not visited before, pushing room to records");
         this.rooms.push(roomCode);
-        this.appendNewRoomHTML(markerName, roomCode);       
+        this.appendNewRoomHTML(markerName, roomCode, mealType, dateString);       
     }
 
     console.log("openChat: " + roomCode);
@@ -127,7 +127,7 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
     });
 };
 
-ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode) {
+ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealType, dateString) {
     $("#chatSection").append(
         '<div class = "chatBox" id = ' + roomCode + '>'+
             '<div class = "emojiSelect">' +
@@ -146,8 +146,8 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode) {
             '</div>'+
             '<div class = "container-fluid">'+
                 '<div class = "row" id = "chatTitle">'+
-                    '<h2 class = "col-sm-12 col-md-12">' +
-                    markerName + ' is hungry!</h2>'+
+                    '<h2 class = "col-sm-12 col-md-12">Hungry for ' +
+                    mealType + '?</h2>'+
                 '</div>'+
                 '<div class = "row">'+
                     '<div class = "container-fluid">'+

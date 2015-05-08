@@ -39,7 +39,7 @@ Marker.prototype.showInfoWindow = function() {
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
         + '<b>' + this.userName + '</b> is hungry for <b>' + this.mealType + '</b>!<br>'
-        + 'Time: <b>' + this.dateString + '</b>'
+        + 'Time: <b>' + this.dateString + ' hrs</b>'
         + '<br>' + this.message;
 
     var currentUserID = controller.userAuth.userID;
@@ -62,7 +62,7 @@ Marker.prototype.showInfoWindow = function() {
     google.maps.event.addListener(infoWindow, 'domready', function() {
         $('#checkRequests').click(function(){
             controller.chatService.joinRoom(self.getRoomCode());
-            controller.chatService.openChat(self.userName, self.getRoomCode());
+            controller.chatService.openChat(self.userName, self.getRoomCode(), self.mealType, self.dateString);
         });
         $('#deleteMarker').click(function() {
             if (controller.userDidRemoveMarker) {
@@ -75,7 +75,7 @@ Marker.prototype.showInfoWindow = function() {
                 controller.displayLoginPrompt();
             }else{
                 controller.chatService.joinRoom(self.getRoomCode());
-                controller.chatService.openChat(self.userName, self.getRoomCode());
+                controller.chatService.openChat(self.userName, self.getRoomCode(), self.mealType, self.dateString);
             }
         });
         $('#openChatButton').click(function() {

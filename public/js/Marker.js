@@ -70,7 +70,7 @@ Marker.prototype.showInfoWindow = function() {
             }
         });
         $('#jioButton').click(function() {
-            //Must check if user is logged in!!!
+            //Must check if user is logged in
             if(controller.userAuth.userID === 0){
                 controller.displayLoginPrompt();
             }else{

@@ -1,5 +1,6 @@
 function ChatService() {
     this.rooms = [];//for keeping track of rooms entered before
+    this.emojiShow = false;
     var self = this;
     this.socket = io();
     this.socket.on("chatMessage",function(chatMessage){
@@ -76,11 +77,36 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
     $('#'+ roomCode + ' .goStatus').click(function(){
         console.log("status CLICKED");
     });
+
+    //open and close emoji menu
+    $('#'+ roomCode + ' .emojiButton').click(function(){
+        if(self.emojiShow === false){
+            $('#'+ roomCode + ' .emojiSelect').show();
+            self.emojiShow = true;
+        }else{
+            $('#'+ roomCode + ' .emojiSelect').hide();
+            self.emojiShow = false;
+        }
+    });
 };
 
 ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode) {
     $("#chatSection").append(
         '<div class = "chatBox" id = ' + roomCode + '>'+
+            '<div class = "emojiSelect">' +
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+                '<img class = "emojiOption" src = "img/emoji1.png"></img>'+
+            '</div>'+
             '<div class = "container-fluid">'+
                 '<div class = "row" id = "chatTitle">'+
                     '<h2 class = "col-sm-12 col-md-12">' +
@@ -94,11 +120,10 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode) {
                                     '<div class = "chatArea" class = "col-md-12 col-sm-12"></div>'+
                                 '</div>'+
                                 '<div class = "row">'+
-                                    '<div class = "col-md-12 col-sm-12">'+
-                                        '<form>'+
-                                            'Chat: <input class = "chatField" type = "text" name = "chat">'+
-                                        '</form>'+
-                                    '</div>'+
+                                    '<form>'+
+                                        'Chat: <input class = "chatField" type = "text" name = "chat">'+
+                                        '<img class = "emojiButton" src = "img/emoji1.png"></img>'+
+                                    '</form>'+
                                 '</div>'+
                             '</div>'+
                             '<div class = "col-sm-3 col-md-3">'+

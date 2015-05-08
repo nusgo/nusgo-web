@@ -84,6 +84,7 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     marker.mealType = mealType;
     marker.message = message;
     marker.dateString = dateString;
+    console.log("create and stoer marker: " + message);
     // store marker
     this.storageManager.addMarker(marker);
     this.storageManager.syncWithServer();
@@ -133,7 +134,11 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
     var self = this;
     $("#submit").click(function() {
         var mealPreference = $('input[name=meal]:checked').val();
-        var message = $('input[name=message]').val();
+        var message = $('#personalMessageBox').val();
+        if (message.length !== 0){
+            message = '"' + message + '"';
+        }
+        console.log("setMarkerPromptSubmitHandler: " + message);
         var lat = self.clickPosition[0];
         var lng = self.clickPosition[1];
         var hour = $('#hour :selected').text();

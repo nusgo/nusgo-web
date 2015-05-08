@@ -214,6 +214,34 @@ body {
 	overflow: scroll;
 }
 
+.emojiButton{
+	float: right;
+	cursor: pointer;
+	border-radius: 5px;
+}
+.emojiButton:hover{
+	background-color: #CFCFCF;
+}
+.emojiSelect{
+	display: none;
+	position: absolute;
+	border-radius: 5px;
+	background-color: white;
+	top: 360px;
+	left: 400px;
+	width: 240px;
+	height: 80px;
+	z-index: 20;
+	box-shadow: 2px 2px 20px 5px #CFCFCF;
+}
+.emojiOption:hover{
+	cursor: pointer;
+	border-radius: 5px;
+}
+.emojiOption:hover{
+	background-color: #CFCFCF;
+}
+
 #profilePic{
 	float: left;
 	margin: 5px;

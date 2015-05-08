@@ -9,7 +9,7 @@ function Marker() {
     this.mapMarker = null;
     this.map = null;
     this.infoWindow = null;
-    this.dateString = "insert-time-here";
+    this.dateString = "";
 }
 
 Marker.prototype.showInMap = function(map) {
@@ -39,7 +39,7 @@ Marker.prototype.showInfoWindow = function() {
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
         + '<b>' + this.userName + '</b> is hungry for <b>' + this.mealType + '</b>!<br>'
-        + '<b>' + this.dateString + '</b>'
+        + 'Time: <b>' + this.dateString + '</b>'
         + '<br>' + this.message;
 
     var currentUserID = controller.userAuth.userID;
@@ -101,6 +101,7 @@ Marker.prototype.toDictionary = function() {
         mealType: this.mealType,
         userID: this.userID,
         userName: this.userName,
+        dateString: this.dateString,
         takenBy: this.takenBy
     }
 };
@@ -112,6 +113,7 @@ Marker.prototype.updateWithDictionary = function(dict) {
     if (dict.mealType) this.mealType = dict.mealType;
     if (dict.userID) this.userID = dict.userID;
     if (dict.userName) this.userName = dict.userName;
+    if (dict.dateString) this.dateString = dict.dateString;
     if (dict.takenBy) this.takenBy = dict.takenBy;
 };
 
@@ -123,6 +125,7 @@ Marker.prototype.equals = function(other) {
     if (other.lng !== this.lng) return false;
     if (other.message !== this.message) return false;
     if (other.mealType !== this.mealType) return false;
+    if (other.dateString !== this.dateString) return false;
     // TODO: Check for user equality
     return true;
 };

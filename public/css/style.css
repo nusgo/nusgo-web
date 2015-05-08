@@ -187,7 +187,7 @@ body {
 	background-color: #FD8a33;
 }
 
-#goStatus{
+.goStatus{
 	border-radius: 10px;
 	color: white;
 	font-size: 25px;
@@ -195,7 +195,7 @@ body {
 	background-color: #FD8a33;
 	cursor: pointer;
 }
-#goStatus:hover{
+.goStatus:hover{
 	background-color: #B05817;
 }
 

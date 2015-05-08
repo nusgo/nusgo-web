@@ -52,7 +52,7 @@ Controller.prototype.askUserForMealType = function() {
     this.setMarkerPromptSubmitHandler(this.handleMarkerPromptSubmit);
 };
 
-Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message) {
+Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message, dateString) {
     var self = this;
 
     if (!(this instanceof Controller)) {
@@ -65,14 +65,15 @@ Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, mes
             lat: lat,
             lng: lng,
             mealType: mealType,
-            message: message
+            message: message,
+            dateString: dateString
         };
     } else {
-        self.createAndStoreMarker(lat, lng, mealType, message);
+        self.createAndStoreMarker(lat, lng, mealType, message, dateString);
     }
 };
 
-Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message) {
+Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message, dateString) {
     console.log("USER ID");
     console.log(this.userAuth.userID);
     var marker = new Marker();
@@ -82,6 +83,7 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     marker.lng = lng;
     marker.mealType = mealType;
     marker.message = message;
+    marker.dateString = dateString;
     // store marker
     this.storageManager.addMarker(marker);
     this.storageManager.syncWithServer();
@@ -151,7 +153,7 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
             return;
         }
         self.hideMarkerPrompt();
-        handler(lat, lng, mealPreference, message);
+        handler(lat, lng, mealPreference, message, dateString);
     });    
 }
 

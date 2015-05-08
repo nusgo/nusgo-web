@@ -1,8 +1,5 @@
 function ChatService() {
     this.rooms = [];//for keeping track of rooms entered before
-    //need the roomCode here
-    var roomCode = this.roomCode; //????
-    //
     var self = this;
     this.socket = io();
     this.socket.on("chatMessage",function(chatMessage){
@@ -48,9 +45,9 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
     }
 
     if (found === false){
-            console.log("room not visited before, pushing room to records");
-            this.rooms.push(roomCode);
-            this.appendNewRoomHTML(markerName, roomCode);       
+        console.log("room not visited before, pushing room to records");
+        this.rooms.push(roomCode);
+        this.appendNewRoomHTML(markerName, roomCode);       
     }
 
     console.log("openChat: " + roomCode);
@@ -64,12 +61,20 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
     this.roomCode = roomCode;
 
     var self = this;
+    //sending message
     $('#'+ roomCode + ' .chatField').keydown(function(event){
         if (event.keyCode === 13){
             var chat = $('#'+ roomCode + ' .chatField').val();
             self.sendMessage(chat);
 
         }
+    });
+
+    //press going button
+    var index;
+    var self = this;
+    $('#'+ roomCode + ' .goStatus').click(function(){
+        console.log("status CLICKED");
     });
 };
 
@@ -99,7 +104,7 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode) {
                             '<div class = "col-sm-3 col-md-3">'+
                                 '<p>Going:</p>'+
                                 '<div id = "goingList"></div>' +
-                                '<div id = "goStatus">I am going!</div>'+
+                                '<div class = "goStatus">I am going!</div>'+
                             '</div>'+
                         '</div>'+
                     '</div>'+

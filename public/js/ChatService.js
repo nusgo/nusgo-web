@@ -29,7 +29,6 @@ ChatService.prototype.receiveMessage = function(chatMessage) {
 };
 
 ChatService.prototype.sendMessage = function(chat) {
-    console.log(this);
     var name = controller.userAuth.userName;
     var id = controller.userAuth.userID;
     var roomCode = this.roomCode;
@@ -99,7 +98,8 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
     });
 
     //open and close emoji menu
-    $('#'+ roomCode + ' .emojiButton').click(function(){
+    $('#'+ roomCode + ' .emojiButton').click(function(event){
+        event.stopImmediatePropagation();
         if(self.emojiShow === false){
             $('#'+ roomCode + ' .emojiSelect').show();
             self.emojiShow = true;
@@ -110,8 +110,10 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
     });
 
     //select emoji
-    $('#'+ roomCode + ' .emojiOption').click(function(){
+    $('#'+ roomCode + ' .emojiOption').click(function(event){
+        event.stopImmediatePropagation();
         var imgSrc = $(this).attr('src');
+        console.log("SEND EMOJI");
         self.sendMessage(imgSrc);
     });
 };

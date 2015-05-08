@@ -32,6 +32,12 @@ body {
 	background-color: #B05817;
 }
 
+#about{
+	float: right;
+	height: 52px;
+	padding: 2px;
+}
+
 #status{
 	font-size: 30px;
 }

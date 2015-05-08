@@ -70,8 +70,13 @@ Marker.prototype.showInfoWindow = function() {
             }
         });
         $('#jioButton').click(function() {
-            controller.chatService.joinRoom(self.getRoomCode());
-            controller.chatService.openChat(self.userName, self.getRoomCode());
+            //Must check if user is logged in!!!
+            if(controller.userAuth.userID === 0){
+                controller.displayLoginPrompt();
+            }else{
+                controller.chatService.joinRoom(self.getRoomCode());
+                controller.chatService.openChat(self.userName, self.getRoomCode());
+            }
         });
         $('#openChatButton').click(function() {
             controller.chatService.joinRoom(self.getRoomCode());

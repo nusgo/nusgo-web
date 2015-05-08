@@ -2,7 +2,8 @@ create schema nusgo;
 
 create table nusgo.users (
     id varchar(128) constraint users_pk primary key,
-    name varchar(500) null
+    name varchar(500) null,
+    date_joined timestamp with time zone not null default now()
 );
 
 create table nusgo.markers (

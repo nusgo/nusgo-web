@@ -30,17 +30,13 @@ app.get('/messages/:roomCode', function(req, res) {
 });
 
 app.get('/testdb', function(req, res, next) {
-    var dummyMarker = {
-        lat: 2341.2345148,
-        lng: 1.3128000,
-        mealType: "Supper",
-        message: "Testing insert from express",
-        mealTime: new Date(),
-        userId: 1
+    var dummyUser = {
+        id: '40705',
+        name: 'Mario'
     };
-    removeMarker(dummyMarker, function onRemoveMarker(error, markers) {
+    insertUser(dummyUser, function(error, users) {
         if (error) return next(error);
-        return res.json(markers);
+        res.json(users);
     });
 });
 
@@ -96,6 +92,10 @@ var QUERY_INSERT_MARKER =
 var QUERY_REMOVE_MARKER = 
     "update markers set is_active = false " +
     "where user_id = $1 and lat = $2 and lng = $3;";
+var QUERY_INSERT_USER = 
+    "insert into users (id, name) " +
+    "select $1, $2 " +
+    "where not exists (select id from users where id = $1::varchar(128));";
 
 // MARK: QUERY FUNCTIONS
 function getAllMarkers(callback) {
@@ -114,6 +114,14 @@ function removeMarker(marker, callback) {
     return executeQuery(
         QUERY_REMOVE_MARKER, 
         [marker.userId, marker.lat, marker.lng],
+        identity,
+        callback);
+}
+
+function insertUser(user, callback) {
+    return executeQuery(
+        QUERY_INSERT_USER,
+        [user.id, user.name],
         identity,
         callback);
 }

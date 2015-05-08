@@ -2,6 +2,11 @@ function UserAuth() {
     this.isLogin = false;
     this.userName = null;
     this.userID = 0;
+    this.socket = io();
+    var self = this;
+    this.socket.on('connect', function() {
+        self.loginToServer();
+    });
 }
 
 UserAuth.prototype.fbStatusChangeCallback = function(response) {
@@ -12,6 +17,7 @@ UserAuth.prototype.fbStatusChangeCallback = function(response) {
         fetchUserInfo(function(userName, userID){
             self.userName = userName;
             self.userID = userID;
+            self.loginToServer();
             controller.loginHasFinished();
         });
     } else if (response.status === 'not_authorized') {
@@ -45,6 +51,15 @@ UserAuth.prototype.initialiseFacebook = function() {
     });
 
     this.checkLoginState();
+};
+
+UserAuth.prototype.loginToServer = function() {
+    if (this.userID === 0) return;
+    if (!(this.isLogin)) return;
+    this.socket.emit('login', {
+        id: this.userID,
+        name: this.userName
+    });
 };
 
 function fetchUserInfo(callback) {

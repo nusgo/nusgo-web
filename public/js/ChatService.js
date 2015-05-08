@@ -108,6 +108,15 @@ ChatService.prototype.openChat = function(markerName, roomCode) {
             self.emojiShow = false;
         }
     });
+    $('#'+ roomCode + ' .chatArea').click(function(){
+        $('#'+ roomCode + ' .emojiSelect').hide();
+        self.emojiShow = false;
+    });
+    $('#'+ roomCode + ' .goingList').click(function(){
+        $('#'+ roomCode + ' .emojiSelect').hide();
+        self.emojiShow = false;
+    });
+
 
     //select emoji
     $('#'+ roomCode + ' .emojiOption').click(function(event){
@@ -156,7 +165,7 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode) {
                             '</div>'+
                             '<div class = "col-sm-3 col-md-3">'+
                                 '<p>Going:</p>'+
-                                '<div id = "goingList"></div>' +
+                                '<div class = "goingList"></div>' +
                                 '<div class = "goStatus">I am going!</div>'+
                             '</div>'+
                         '</div>'+

@@ -8,21 +8,16 @@ var databaseUrl = process.env.DATABASE_URL;
 app.use(express.static(__dirname + '/public'));
 app.set('port', (process.env.PORT) || 5000);
 
-// Persistent Data
-var markers = [];
-var users = [];
-var joinedRooms = {};
-
+// MARK: Server Routes
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/views/index.html')
 });
 
 app.get('/markers', function(req, res) {
-    // getActiveMarkers(function onRetrieveMarkers(error, markers) {
-    //     if (error) return next(error);
-    //     return res.json(markers);
-    // });
-    res.json(markers);
+    getActiveMarkers(function onRetrieveMarkers(error, markers) {
+        if (error) return next(error);
+        return res.json(markers);
+    });
 });
 
 app.get('/messages/:roomCode', function(req, res, next) {
@@ -34,14 +29,14 @@ app.get('/messages/:roomCode', function(req, res, next) {
 });
 
 app.get('/testdb', function(req, res, next) {
-    insert
+    
 });
 
 http.listen(process.env.PORT || 5000, function() {
     console.log('NusGo Server is ready to serve on port ' + app.get('port') + "!");
 });
 
-// socket.io functions
+// MARK: Socket.io Functions
 
 io.on('connection', function(socket) {
     console.log('a user connected');
@@ -218,8 +213,8 @@ function markerToRow(marker) {
         marker.lng,
         marker.mealType,
         marker.message,
-        marker.mealTime,
-        marker.userId
+        marker.timeString,
+        marker.userID
     ];
 }
 

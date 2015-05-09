@@ -10,8 +10,7 @@ function Marker() {
     this.mapMarker = null;
     this.map = null;
     this.infoWindow = null;
-    this.mealTime = "";
-    this.timeString;
+    this.mealTime = null;
 }
 
 Marker.prototype.showInMap = function(map) {
@@ -105,7 +104,6 @@ Marker.prototype.toDictionary = function() {
         userID: this.userID,
         userName: this.userName,
         mealTime: this.mealTime,
-        timeString: this.timeString
     }
 };
 
@@ -116,8 +114,7 @@ Marker.prototype.updateWithDictionary = function(dict) {
     if (dict.mealType) this.mealType = dict.mealType;
     if (dict.userID) this.userID = dict.userID;
     if (dict.userName) this.userName = dict.userName;
-    if (dict.mealTime) this.mealTime = dict.mealTime;
-    if (dict.timeString) this.timeString = new Date(dict.timeString);
+    if (dict.mealTime) this.mealTime = new Date(dict.mealTime);
 };
 
 Marker.prototype.equals = function(other) {
@@ -129,7 +126,14 @@ Marker.prototype.equals = function(other) {
     if (other.message !== this.message) return false;
     if (other.mealType !== this.mealType) return false;
     if (other.mealTime !== this.mealTime) return false;
-    if (other.timeString !== this.timeString) return false;
-    // TODO: Check for user equality
     return true;
 };
+
+function dateToTimeString(date) {
+    var h = date.getHours();
+    var pm = (h >= 12);
+    h %= 12;
+    if (h === 0) h = 12;
+    var m = date.getMinutes();
+    return h.toString() + ':' + m.toString() + ' ' + (pm ? 'pm' : 'am');
+}

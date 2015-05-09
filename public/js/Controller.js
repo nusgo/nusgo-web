@@ -163,6 +163,14 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
         self.hideLoginPrompt();
         self.chatService.hideChat();
     });
+    $(document).keydown(function(e) {
+        // ESCAPE key pressed
+        if (e.keyCode == 27) {
+            self.hideMarkerPrompt();
+            self.hideLoginPrompt();
+            self.chatService.hideChat();
+        }
+    });
 };
 
 Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {

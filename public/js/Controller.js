@@ -42,7 +42,28 @@ function Controller() {
     this.chatService = new ChatService();
     this.closeAllPopUpsOnBackgroundClick();
     this.toggleHomeDescription();
+    this.displayAbout();
 }
+
+Controller.prototype.displayAbout = function() {
+    $('.about').click(function(){
+        console.log("ABOUT CLICKED");
+        $('#aboutWindow').fadeIn({queue: false, duration: 'slow'});
+        $('#aboutWindow').animate({
+                height: "310px"
+            }, 600, function(){
+        });
+        $('#promptBackground').fadeIn(600);
+    });    
+};
+
+Controller.prototype.hideAbout = function() {
+    $('#aboutWindow').animate({
+            height: "0px"
+        }, 600, function() { });
+    $('#aboutWindow').fadeOut({queue: false, duration: 'slow'});
+    $('#promptBackground').fadeOut(600);
+};
 
 Controller.prototype.toggleHomeDescription = function() {
     var self = this;
@@ -66,7 +87,8 @@ Controller.prototype.toggleHomeDescription = function() {
                         '<p>Or you can <b><u>click on a marker</u></b> to join him/her for a meal!</p><br>'+
                         '<p>You will be notified when you receive meal requests.</p>'+
                         '<div id = "hungryPeopleStatus"></div><br>'+
-                        '<p>NUSGo! is a web application for the adventurous to look for new meal buddies. Also, we believe that nobody deserves to eat alone.</p>'+
+                        '<p>NUSGo! is a web application for lonely hearts to look for meal buddies. We believe that nobody deserves to eat alone.</p>'+
+                        '<p class = "about">Find out more about NUSGo!</p>'+
                         '<br><div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div><br><br>');
                     self.updatePeopleCount(self.markers);
                     self.initialiseFacebookInController();
@@ -162,6 +184,7 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
         self.hideMarkerPrompt();
         self.hideLoginPrompt();
         self.chatService.hideChat();
+        self.hideAbout();
     });
     $(document).keydown(function(e) {
         // ESCAPE key pressed
@@ -169,6 +192,7 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
             self.hideMarkerPrompt();
             self.hideLoginPrompt();
             self.chatService.hideChat();
+            self.hideAbout();
         }
     });
 };
@@ -189,6 +213,18 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         //formatting mealTime and timeString
         var mealTime = hour + ':' + min + ' ' + ampm;
         var timeString = new Date();
+        var hourInt = parseInt(hour);
+        if(ampm === "pm"){
+            if (hourInt !== 12){
+                hourInt = (hourInt+12)%24;
+                hour = hourInt.toString();
+            }
+        }else{
+            if (hourInt === 12){
+                hourInt = 0;
+                hour = hourInt.toString();
+            }
+        }
         timeString.setHours(hour);
         timeString.setMinutes(min);
         //date + 1 if time is less than now
@@ -197,6 +233,8 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
             var todayDate = timeString.getDate() + 1;
             timeString.setDate(todayDate);
         }
+        //hours in all timeString should + 1
+        timeString.setHours(hourInt+1);
         // do some validation
         if (mealPreference == undefined) {
             alert();

@@ -39,7 +39,7 @@ Marker.prototype.showInfoWindow = function() {
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
         + '<b>' + this.userName + '</b> is hungry for <b>' + this.mealType + '</b>!<br>'
-        + 'Time: <b>' + this.mealTime + ' hrs</b>'
+        + 'Time: <b>' + this.mealTime + '</b>'
         + '<br>' + this.message;
 
     var currentUserID = controller.userAuth.userID;

@@ -28,6 +28,8 @@ function loadFacebookSDK() {
 }
 
 function Controller() {
+    this.homeDescriptionOpen = true;
+    this.markers = [];
     this.currentChatID = null;
     this.userAuth = new UserAuth();
     this.map = new Map();
@@ -39,9 +41,43 @@ function Controller() {
     this.pendingMarkerInfo = null;
     this.chatService = new ChatService();
     this.closeAllPopUpsOnBackgroundClick();
+    this.toggleHomeDescription();
 }
 
+Controller.prototype.toggleHomeDescription = function() {
+    var self = this;
+    $('#homeDescription').click(function(){
+        if (self.homeDescriptionOpen === true){
+            $('#homeDescription').animate({
+                height: "90px",
+                }, 600, function(){
+                    $('#homeDescription').html('<div id = "hungryPeopleStatus"></div><div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>');
+                    self.updatePeopleCount(self.markers);
+            });
+            self.homeDescriptionOpen = false;
+        } else {
+            $('#homeDescription').animate({
+                height: "100%",
+                }, 0, function(){
+                     $('#homeDescription').html('<br>'+
+                        '<div id = "status"></div>'+
+                        '<h2>Looking for meal buddies?</h2><br>'+
+                        '<p><b><u>Place a marker on the map</u></b> to show that you are up for a meal!<p>'+
+                        '<p>Or you can <b><u>click on a marker</u></b> to join him/her for a meal!</p><br>'+
+                        '<p>You will be notified when you receive meal requests.</p>'+
+                        '<div id = "hungryPeopleStatus"></div><br>'+
+                        '<p>NUSGo! is a web application for the adventurous to look for new meal buddies. Also, we believe that nobody deserves to eat alone.</p>'+
+                        '<br><div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div><br><br>');
+                    self.updatePeopleCount(self.markers);
+                    self.initialiseFacebookInController();
+            });
+            self.homeDescriptionOpen = true;
+        }
+    });
+};
+
 Controller.prototype.updatePeopleCount = function(markers) {
+    this.markers = markers;
     document.getElementById('hungryPeopleStatus').innerHTML = '<h2>Hungry people count: '
     + markers.length + '</h2>';
 };
@@ -143,15 +179,7 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         var min = $('#min :selected').text();
         var ampm = $('#ampm :selected').text();
         //formatting mealTime and timeString
-        var mealTime = "";
-        if (ampm === "am"){
-            mealTime = hour + ':' + min;
-        }else{
-            var hourInt = parseInt(hour);
-            hourInt = (hourInt + 12) % 24;
-            hour = hourInt.toString();
-            mealTime = hour + ':' + min;
-        }
+        var mealTime = hour + ':' + min + ' ' + ampm;
         var timeString = new Date();
         timeString.setHours(hour);
         timeString.setMinutes(min);

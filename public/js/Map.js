@@ -9,23 +9,24 @@ function Map() {
     this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     this.clickHandler = null;
     this.initialiseSearchBox();
-    this.removeMarkersAtInterval();
+    var self = this;
+    setInterval(function() {
+        self.removeExpiredMarkers(); 
+    }, 1000);
     //this.detectCurrentLocation();
 }
 
-Map.prototype.removeMarkersAtInterval = function() {
+Map.prototype.removeExpiredMarkers = function() {
     markers = this.currentMarkers;
-    var self = this;
-    setInterval(function(){
-        for(var i = 0; i < markers.length; i++){
-            var now = new Date();
-            if (markers[i].mealTime < expire){
-                self.removeMarker(currentMarker);
-            }
+    var expire = new Date();
+    expire.setHours(expire.getHours() + 1);
+    console.log("Cleaning up expired markers:");
+    for(var i = 0; i < markers.length; i++){
+        if (markers[i].mealTime < expire) {
+            this.removeMarker(markers[i]);
+            console.log(markers[i]);
         }
-        console.log(markers);
-    }, 60000);
-
+    }
 };
 
 Map.prototype.renderMarkers = function(markers) {

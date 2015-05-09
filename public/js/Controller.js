@@ -218,8 +218,6 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
             var todayDate = mealTime.getDate() + 1;
             mealTime.setDate(todayDate);
         }
-        //hours in all timeString should + 1
-        timeString.setHours(hourInt+1);
         // do some validation
         if (mealPreference == undefined) {
             alert('Please indicate meal type');

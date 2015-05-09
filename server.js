@@ -61,9 +61,11 @@ io.on('connection', function(socket) {
         insertUser(user, function onInsertUser(error, users) { });
     });
     socket.on('addmarker', function(marker) {
-        socket.broadcast.emit('addmarker', marker);
         insertMarker(marker, function onInsertMarker(error, rows) { 
-            socket.emit('markerid', rows[0].id);
+            var markerId = rows[0].id;
+            socket.emit('markerid', markerId);
+            marker.id = markerId;
+            socket.broadcast.emit('addmarker', marker);
         });
     });
     socket.on('removemarker', function(marker) {

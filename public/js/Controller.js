@@ -50,7 +50,7 @@ Controller.prototype.displayAbout = function() {
         console.log("ABOUT CLICKED");
         $('#aboutWindow').fadeIn({queue: false, duration: 'slow'});
         $('#aboutWindow').animate({
-                height: "310px"
+                height: "500px"
             }, 600, function(){
         });
         $('#promptBackground').fadeIn(600);
@@ -67,12 +67,14 @@ Controller.prototype.hideAbout = function() {
 
 Controller.prototype.toggleHomeDescription = function() {
     var self = this;
-    $('#homeDescription').click(function(){
+    $('#hide').click(function(){
         if (self.homeDescriptionOpen === true){
             $('#homeDescription').animate({
                 height: "90px",
                 }, 600, function(){
-                    $('#homeDescription').html('<div id = "hungryPeopleStatus"></div><div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>');
+                    $('#hide').html('+');
+                    $('.homeOthers').hide();
+                    $('.homeContent').html('<div id = "hungryPeopleStatus"></div>');
                     self.updatePeopleCount(self.markers);
             });
             self.homeDescriptionOpen = false;
@@ -80,16 +82,16 @@ Controller.prototype.toggleHomeDescription = function() {
             $('#homeDescription').animate({
                 height: "100%",
                 }, 0, function(){
-                     $('#homeDescription').html('<br>'+
-                        '<div id = "status"></div>'+
+                    $('#hide').html('-');
+                    $('.homeOthers').show();
+                    $('.homeContent').html(
+                        '<br><div id = "status"></div>'+
                         '<h2>Looking for meal buddies?</h2><br>'+
                         '<p><b><u>Place a marker on the map</u></b> to show that you are up for a meal!<p>'+
                         '<p>Or you can <b><u>click on a marker</u></b> to join him/her for a meal!</p><br>'+
                         '<p>You will be notified when you receive meal requests.</p>'+
                         '<div id = "hungryPeopleStatus"></div><br>'+
-                        '<p>NUSGo! is a web application for lonely hearts to look for meal buddies. We believe that nobody deserves to eat alone.</p>'+
-                        '<p class = "about">Find out more about NUSGo!</p>'+
-                        '<br><div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div><br><br>');
+                        '<p>NUSGo! is a web application for lonely hearts to look for meal buddies. We believe that nobody deserves to eat alone.</p>');
                     self.updatePeopleCount(self.markers);
                     self.initialiseFacebookInController();
             });

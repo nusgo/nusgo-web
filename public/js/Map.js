@@ -21,7 +21,7 @@ Map.prototype.removeMarkersAtInterval = function() {
         for(var i = 0; i < markers.length; i++){
             var currentMarker = markers[i];
             if (currentMarker.timeString < now){
-                self.removeMarker(currentMarker);
+                self.removeMarker(markers[i]);
             }
         }
         console.log("tick");

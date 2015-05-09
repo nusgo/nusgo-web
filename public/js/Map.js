@@ -12,7 +12,7 @@ function Map() {
     var self = this;
     setInterval(function() {
         self.removeExpiredMarkers(); 
-    }, 1000);
+    }, 60000);
     //this.detectCurrentLocation();
 }
 

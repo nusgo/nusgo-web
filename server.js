@@ -37,7 +37,6 @@ app.get('/rooms/:roomCode/users', function(req, res, next) {
 });
 
 app.get('/testdb', function(req, res, next) {
-    
 });
 
 http.listen(process.env.PORT || 5000, function() {
@@ -57,8 +56,12 @@ io.on('connection', function(socket) {
     });
     socket.on('login', function(user) {
         socket.user = user;
-        console.log('%s has logged in.', socket.user.name)
         insertUser(user, function onInsertUser(error, users) { });
+        getJoinedChatRooms(user, function onRetrieveChatRooms(error, roomCodes) {
+            for(var i = 0; i < roomCodes.length; i++) {
+                socket.join(roomCodes[i]);
+            }
+        });
     });
     socket.on('addmarker', function(marker) {
         insertMarker(marker, function onInsertMarker(error, rows) { 
@@ -132,7 +135,7 @@ var QUERY_PEEK_ROOM =
     "where um.marker_id = $1;";
 
 var QUERY_GET_MESSAGES = 
-    "select u.id as from_id, u.name as from_name, msg.content, m.id as room_code, u2.name as marker_name " +
+    "select u.id as from_id, u.name as from_name, msg.content, m.id as room_code, u2.name as marker_name, m.meal_type" +
     "from messages msg " +
     "inner join users u " +
     "   on msg.user_id = u.id " +
@@ -142,6 +145,11 @@ var QUERY_GET_MESSAGES =
     "   on m.user_id = u2.id " +
     "where marker_id = $1 " +
     "order by msg.created_time;";
+
+var QUERY_GET_JOINED_CHAT_ROOMS =
+    "select marker_id from users_markers where user_id = $1 " +
+    "union " +
+    "select id as marker_id from markers where user_id = $1;"
 
 // MARK: QUERY FUNCTIONS
 function getAllMarkers(callback) {
@@ -207,6 +215,14 @@ function getMessagesInChatRoom(roomCode, callback) {
         callback);
 }
 
+function getJoinedChatRooms(user, callback) {
+    return executeQuery(
+        QUERY_GET_JOINED_CHAT_ROOMS,
+        [user.id],
+        rowToRoomCode,
+        callback);
+}
+
 // MARK: ROW-TO-OBJECT TRANSFORM FUNCTIONS
 function rowToMarker(row) {
     return {
@@ -238,8 +254,13 @@ function rowToMessage(row) {
         fromName: row.from_name,
         content: row.content,
         roomCode: row.room_code,
-        markerName: row.marker_name
+        markerName: row.marker_name,
+        mealType: row.meal_type
     };
+}
+
+function rowToRoomCode(row) {
+    return row.marker_id;
 }
 
 function identity(row) {

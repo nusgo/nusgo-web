@@ -3,13 +3,17 @@ function ChatService() {
     this.emojiShow = false;
     var self = this;
     this.socket = io();
-    this.socket.on("chatMessage",function(chatMessage){
+    this.socket.on("chatMessage",function(chatMessage) {
+        self.openChat(chatMessage.markerName, chatMessage.roomCode, chatMessage.mealType);
         self.receiveMessage(chatMessage);
     });
+    this.roomCode = null;
+    this.mealType = null;
+
 }
 
 ChatService.prototype.receiveMessage = function(chatMessage) {
-    this.openChat(chatMessage.markerName, chatMessage.roomCode);
+    this.openChat(chatMessage.markerName, chatMessage.roomCode, chatMessage.mealType);
     var roomCode = chatMessage.roomCode;
     var chat = chatMessage.content;
     var isEmoji = true;
@@ -48,14 +52,18 @@ ChatService.prototype.sendMessage = function(chat) {
                 " " + chat + "</p>");
         }
     }
-    var chatMessage = new ChatMessage(this.markerName, this.roomCode, chat);
+    var chatMessage = new ChatMessage(this.markerName, this.roomCode, chat, this.mealType);
     console.log(chatMessage);
     this.socket.emit("chatMessage",chatMessage.toDictionary());
     scrollChatAreaToLatest(roomCode);
 };
 
-ChatService.prototype.openChat = function(markerName, roomCode, mealType, mealTime) {
-
+ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
+    this.markerName = markerName;
+    this.roomCode = roomCode;
+    this.mealType = mealType;
+    console.log("Open Chat!");
+    console.log(mealType);
     //checks if user has entered room before (via roomCode)
     //if not in room before, append chatbox html with id = roomcCode
     var found = false;
@@ -69,7 +77,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType, mealTi
     if (found === false){
         console.log("room not visited before, pushing room to records");
         this.rooms.push(roomCode);
-        this.appendNewRoomHTML(markerName, roomCode, mealType, mealTime);       
+        this.appendNewRoomHTML(markerName, roomCode, mealType);       
     }
 
     console.log("openChat: " + roomCode);
@@ -79,15 +87,15 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType, mealTi
         }, 800, function(){
     });
     $('#promptBackground').fadeIn(600);
-    this.markerName = markerName;
-    this.roomCode = roomCode;
 
     var self = this;
     //sending message
     $('#'+ roomCode + ' .chatField').keydown(function(event){
         if (event.keyCode === 13){
             var chat = $('#'+ roomCode + ' .chatField').val();
-            self.sendMessage(chat);
+            if (chat !== '') {
+                self.sendMessage(chat);
+            }
         }
     });
 
@@ -126,9 +134,13 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType, mealTi
         console.log("SEND EMOJI");
         self.sendMessage(imgSrc);
     });
+
+
+    //check if a room is open, if yes, do something
+
 };
 
-ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealType, mealTime) {
+ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealType) {
     $("#chatSection").append(
         '<div class = "chatBox" id = ' + roomCode + '>'+
             '<div class = "emojiSelect">' +
@@ -188,12 +200,13 @@ ChatService.prototype.joinRoom = function(roomCode) {
     this.socket.emit('joinroom', roomCode);
 };
 
-function ChatMessage(markerName, roomCode, content) {
+function ChatMessage(markerName, roomCode, content, mealType) {
     this.markerName = markerName;
     this.fromId = controller.userAuth.userID;
     this.fromName = controller.userAuth.userName;
     this.content = content;
     this.roomCode = roomCode;
+    this.mealType = mealType;
 }
 
 ChatMessage.prototype.toDictionary = function() {
@@ -202,7 +215,8 @@ ChatMessage.prototype.toDictionary = function() {
         fromId: this.fromId,
         fromName: this.fromName,
         roomCode: this.roomCode,
-        content: this.content
+        content: this.content,
+        mealType: this.mealType
     };
 };
 
@@ -212,4 +226,5 @@ ChatMessage.prototype.updateWithDictionary = function(dict) {
     if (dict.fromName) this.fromName = dict.fromName;
     if (dict.roomCode) this.roomCode = dict.roomCode;
     if (dict.content) this.content = dict.content;
+    if (dict.mealType) this.mealType = dict.mealType;
 };

@@ -4,7 +4,7 @@ var SocketEvents = Object.freeze({
 });
 
 function StorageManager() {
-    this.markers = []
+    this.markers = [];
     this.socket = io();
     var self = this;
     this.socket.on(SocketEvents.AddMarker, function(markerInfo) {
@@ -65,8 +65,7 @@ StorageManager.prototype.syncWithServer = function() {
                 observer.onRefreshMarkers(markers);
             }
         })
-    });
-    
+    });    
 };
 
 // protocol: a socket event with title "addMarker" must have the json

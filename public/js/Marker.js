@@ -36,7 +36,6 @@ Marker.prototype.deleteFromMap = function() {
 
 Marker.prototype.showInfoWindow = function() {
     controller.map.closeAllInfoWindows();
-    console.log("showInfoWindow: " + this.timeString);
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
         + '<b>' + this.userName + '</b> is hungry for <b>' + this.mealType + '</b>!<br>'
@@ -100,7 +99,6 @@ Marker.prototype.closeInfoWindow = function() {
 };
 
 Marker.prototype.toDictionary = function() {
-    console.log("toDictionary: " + this.timeString);
     return {
         lat: this.lat,
         lng: this.lng,
@@ -114,7 +112,6 @@ Marker.prototype.toDictionary = function() {
 };
 
 Marker.prototype.updateWithDictionary = function(dict) {
-    console.log("updateDictionary: " + dict.timeString);
     if (dict.lat) this.lat = dict.lat;
     if (dict.lng) this.lng = dict.lng;
     if (dict.message) this.message = dict.message;
@@ -122,7 +119,7 @@ Marker.prototype.updateWithDictionary = function(dict) {
     if (dict.userID) this.userID = dict.userID;
     if (dict.userName) this.userName = dict.userName;
     if (dict.mealTime) this.mealTime = dict.mealTime;
-    if (dict.timeString) this.timeString = dict.timeString;
+    if (dict.timeString) this.timeString = new Date(dict.timeString);
 };
 
 Marker.prototype.equals = function(other) {

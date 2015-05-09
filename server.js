@@ -41,7 +41,7 @@ http.listen(process.env.PORT || 5000, function() {
 io.on('connection', function(socket) {
     console.log('a user connected');
     socket.on('disconnect', function() {
-        console.log('%s disconnected', socket.user.name);
+        //console.log('%s disconnected', socket.user.name);
     });
     socket.on('login', function(user) {
         socket.user = user;

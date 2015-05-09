@@ -34,7 +34,7 @@ function Controller() {
     this.map.registerClickHandler(this);
     this.storageManager = new StorageManager();
     this.storageManager.registerObserver(this);
-    this.storageManager.syncWithServer();
+    this.storageManager.syncWithServer(); //gets markersList
     this.clickPosition = null;
     this.pendingMarkerInfo = null;
     this.chatService = new ChatService();
@@ -83,7 +83,6 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     marker.message = message;
     marker.mealTime = mealTime;
     marker.timeString = timeString;
-    console.log("createAndStoreMarker: " + marker.timeString);
     console.log(marker);
     // store marker
     this.storageManager.addMarker(marker);
@@ -143,6 +142,7 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         var hour = $('#hour :selected').text();
         var min = $('#min :selected').text();
         var ampm = $('#ampm :selected').text();
+        //formatting mealTime and timeString
         var mealTime = "";
         if (ampm === "am"){
             mealTime = hour + ':' + min;
@@ -155,7 +155,12 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         var timeString = new Date();
         timeString.setHours(hour);
         timeString.setMinutes(min);
-        console.log("setMarkerPromptSubmitHandler" + timeString);
+        //date + 1 if time is less than now
+        var now = new Date();
+        if (timeString < now){
+            var todayDate = timeString.getDate() + 1;
+            timeString.setDate(todayDate);
+        }
         // do some validation
         if (mealPreference == undefined) {
             alert();

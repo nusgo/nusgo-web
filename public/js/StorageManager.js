@@ -39,6 +39,8 @@ StorageManager.prototype.addMarker = function(marker) {
     this.socket.emit(SocketEvents.AddMarker, marker.toDictionary());
     this.socket.on(SocketEvents.MarkerId, function updateMarkerId(id) {
         marker.id = id;
+        controller.chatService.joinRoom(id);
+        console.log("joining room %d", id);
     });
 };
 
@@ -63,7 +65,6 @@ StorageManager.prototype.syncWithServer = function() {
         });
         console.log(markers);
         this.markers = markers;
-        controller.chatService.joinChatRoomForOwnMarkers(markers);
         this.observers.map(function(observer) {
             if (observer.onRefreshMarkers) {
                 observer.onRefreshMarkers(markers);

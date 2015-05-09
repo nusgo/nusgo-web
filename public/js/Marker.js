@@ -39,7 +39,7 @@ Marker.prototype.showInfoWindow = function() {
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
         + '<b>' + this.userName + '</b> is hungry for <b>' + this.mealType + '</b>!<br>'
-        + 'Time: <b>' + this.mealTime + ' hrs</b>'
+        + 'Time: <b>' + dateToTimeString(this.mealTime) + '</b>'
         + '<br>' + this.message;
 
     var currentUserID = controller.userAuth.userID;
@@ -47,7 +47,7 @@ Marker.prototype.showInfoWindow = function() {
         contentString += '<br><div id = "checkRequests"><b>Check Requests</b></div>';
         contentString += '<div id = "deleteMarker"><b>Delete Marker</b></div>';
     } else {
-        if (this.takenBy === null) {
+        if (true) { // andhieka : temporary solution :p
             contentString += '<br> <div id = "jioButton"><b>Jio me!</b></div>';
         } else if (this.takenBy === currentUserID) {
             contentString += '<br> <div id = "openChatButton"><b>Open Chat</b></div>';
@@ -60,8 +60,7 @@ Marker.prototype.showInfoWindow = function() {
     infoWindow.open(this.map, this.mapMarker);
     var self = this;
     google.maps.event.addListener(infoWindow, 'domready', function() {
-        $('#checkRequests').click(function(){
-            controller.chatService.joinRoom(self.getRoomCode());
+        $('#checkRequests').click(function() {
             controller.chatService.openChat(self.userName, self.getRoomCode(), self.mealType, self.mealTime);
         });
         $('#deleteMarker').click(function() {
@@ -73,13 +72,12 @@ Marker.prototype.showInfoWindow = function() {
             //Must check if user is logged in
             if(controller.userAuth.userID === 0){
                 controller.displayLoginPrompt();
-            }else{
+            } else {
                 controller.chatService.joinRoom(self.getRoomCode());
                 controller.chatService.openChat(self.userName, self.getRoomCode(), self.mealType, self.mealTime);
             }
         });
         $('#openChatButton').click(function() {
-            controller.chatService.joinRoom(self.getRoomCode());
             controller.chatService.openChat(self.userName, self.getRoomCode());
         });
     });
@@ -97,6 +95,7 @@ Marker.prototype.closeInfoWindow = function() {
 
 Marker.prototype.toDictionary = function() {
     return {
+        id: this.id,
         lat: this.lat,
         lng: this.lng,
         message: this.message,
@@ -108,6 +107,7 @@ Marker.prototype.toDictionary = function() {
 };
 
 Marker.prototype.updateWithDictionary = function(dict) {
+    if (dict.id) this.id = dict.id;
     if (dict.lat) this.lat = dict.lat;
     if (dict.lng) this.lng = dict.lng;
     if (dict.message) this.message = dict.message;
@@ -135,5 +135,6 @@ function dateToTimeString(date) {
     h %= 12;
     if (h === 0) h = 12;
     var m = date.getMinutes();
-    return h.toString() + ':' + m.toString() + ' ' + (pm ? 'pm' : 'am');
+    if (m < 10) m = '0' + m;
+    return h + ':' + m + ' ' + (pm ? 'pm' : 'am');
 }

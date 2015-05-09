@@ -20,11 +20,19 @@ app.get('/markers', function(req, res) {
     });
 });
 
-app.get('/messages/:roomCode', function(req, res, next) {
+app.get('/rooms/:roomCode/messages', function(req, res, next) {
     var roomCode = req.params.roomCode;
     getMessagesInChatRoom(roomCode, function onRetrieveMessages(error, messages) {
         if (error) return next(error);
         res.json(messages);
+    });
+});
+
+app.get('/rooms/:roomCode/users', function(req, res, next) {
+    var roomCode = req.params.roomCode;
+    getUsersInChatRoom(roomCode, function onRetrieveUsers(error, users) {
+        if (error) return next(error);
+        res.json(users);
     });
 });
 
@@ -63,6 +71,7 @@ io.on('connection', function(socket) {
         removeMarker(marker, function onRemoveMarker(error, markers) { });
     });
     socket.on('chatMessage', function(chatMessage){
+        console.log(chatMessage);
         var roomCode = chatMessage.roomCode;
         socket.to(roomCode).emit('chatMessage', chatMessage);
         insertMessage(chatMessage, function onInsertMessage(error, rows) { });
@@ -71,7 +80,7 @@ io.on('connection', function(socket) {
         if (!(socket.user)) return;
         console.log("%s joins room %d", socket.user.name, roomCode);
         socket.join(roomCode);
-        joinRoom(socket.user, marker, function onJoinRoom(error, row) { });
+        joinRoom(socket.user, roomCode, function onJoinRoom(error, row) { });
     })
 });
 
@@ -94,7 +103,7 @@ var QUERY_INSERT_MARKER =
 
 var QUERY_REMOVE_MARKER = 
     "update markers set is_active = false " +
-    "where user_id = $1 and lat = $2 and lng = $3;";
+    "where id = $1";
 
 var QUERY_INSERT_USER = 
     "insert into users (id, name) " +
@@ -102,11 +111,11 @@ var QUERY_INSERT_USER =
     "where not exists (select id from users where id = $1::varchar(128));";
 
 var QUERY_JOIN_ROOM =
-    "insert into users_markers " +
+    "insert into users_markers (user_id, marker_id) " +
     "select $1 as user_id, $2 as marker_id " +
     "where not exists ( " +
     "   select * from users_markers " +
-    "   where user_id = $1 and marker_id = $2 " +
+    "   where user_id = $1::varchar(128) and marker_id = $2 " +
     ");";
 
 var QUERY_INSERT_MESSAGE = 
@@ -146,9 +155,10 @@ function insertMarker(marker, callback) {
 }
 
 function removeMarker(marker, callback) {
+    console.log("Deactivating marker id %d", marker.id);
     return executeQuery(
         QUERY_REMOVE_MARKER, 
-        [marker.userId, marker.lat, marker.lng],
+        [marker.id],
         identity,
         callback);
 }
@@ -162,6 +172,8 @@ function insertUser(user, callback) {
 }
 
 function joinRoom(user, roomCode, callback) {
+    console.log(user.id);
+    console.log(roomCode);
     return executeQuery(
         QUERY_JOIN_ROOM,
         [user.id, roomCode],
@@ -202,7 +214,7 @@ function rowToMarker(row) {
         mealType: row.meal_type,
         message: row.message,
         mealTime: row.meal_time,
-        userId: row.user_id,
+        userID: row.user_id,
         userName: row.user_name
     }
 }
@@ -213,7 +225,7 @@ function markerToRow(marker) {
         marker.lng,
         marker.mealType,
         marker.message,
-        marker.timeString,
+        marker.mealTime,
         marker.userID
     ];
 }

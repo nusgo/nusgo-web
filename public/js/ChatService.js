@@ -49,6 +49,7 @@ ChatService.prototype.sendMessage = function(chat) {
         }
     }
     var chatMessage = new ChatMessage(this.markerName, this.roomCode, chat);
+    console.log(chatMessage);
     this.socket.emit("chatMessage",chatMessage.toDictionary());
     scrollChatAreaToLatest(roomCode);
 };
@@ -181,15 +182,6 @@ ChatService.prototype.hideChat = function() {
     }, 600, function() { });
     $('.chatBox').fadeOut({queue: false, duration: 'slow'});
     $('#promptBackground').fadeOut(600);
-};
-
-ChatService.prototype.joinChatRoomForOwnMarkers = function(markers) {
-    var ownMarkers = markers.filter(function(marker) {
-        return marker.userID == controller.userAuth.userID;
-    });
-    for(var i = 0; i < ownMarkers.length; i++) {
-        this.joinRoom(ownMarkers[i].getRoomCode());
-    }
 };
 
 ChatService.prototype.joinRoom = function(roomCode) {

@@ -52,7 +52,7 @@ Controller.prototype.askUserForMealType = function() {
     this.setMarkerPromptSubmitHandler(this.handleMarkerPromptSubmit);
 };
 
-Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message, mealTime, timeString) {
+Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message, mealTime) {
     var self = this;
     if (!(this instanceof Controller)) {
         self = this.controller;
@@ -65,15 +65,14 @@ Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, mes
             lng: lng,
             mealType: mealType,
             message: message,
-            mealTime: mealTime,
-            timeString: timeString
+            mealTime: mealTime
         };
     } else {
-        self.createAndStoreMarker(lat, lng, mealType, message, mealTime, timeString);
+        self.createAndStoreMarker(lat, lng, mealType, message, mealTime);
     }
 };
 
-Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message, mealTime, timeString) {
+Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message, mealTime) {
     var marker = new Marker();
     marker.userName = this.userAuth.userName;
     marker.userID = this.userAuth.userID;
@@ -82,7 +81,6 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     marker.mealType = mealType;
     marker.message = message;
     marker.mealTime = mealTime;
-    marker.timeString = timeString;
     console.log(marker);
     // store marker
     this.storageManager.addMarker(marker);
@@ -90,8 +88,6 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     // retrieve and render marker
     var markers = this.storageManager.markers;
     this.map.renderMarkers(markers);
-    // join chat room for marker
-    this.chatService.joinRoom(marker.getRoomCode());
 };
 
 Controller.prototype.mapIsClicked = function(lat, lng) {
@@ -139,35 +135,27 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         }
         var lat = self.clickPosition[0];
         var lng = self.clickPosition[1];
-        var hour = $('#hour :selected').text();
-        var min = $('#min :selected').text();
+        var hour = parseInt($('#hour :selected').text());
+        var min = parseInt($('#min :selected').text());
         var ampm = $('#ampm :selected').text();
-        //formatting mealTime and timeString
-        var mealTime = "";
-        if (ampm === "am"){
-            mealTime = hour + ':' + min;
-        }else{
-            var hourInt = parseInt(hour);
-            hourInt = (hourInt + 12) % 24;
-            hour = hourInt.toString();
-            mealTime = hour + ':' + min;
-        }
-        var timeString = new Date();
-        timeString.setHours(hour);
-        timeString.setMinutes(min);
+        if (ampm === 'pm') hour += 12;
+        var mealTime = new Date();
+        mealTime.setHours(hour);
+        mealTime.setMinutes(min);
+
         //date + 1 if time is less than now
         var now = new Date();
-        if (timeString < now){
-            var todayDate = timeString.getDate() + 1;
-            timeString.setDate(todayDate);
+        if (mealTime < now){
+            var todayDate = mealTime.getDate() + 1;
+            mealTime.setDate(todayDate);
         }
         // do some validation
         if (mealPreference == undefined) {
-            alert();
+            alert('Please indicate meal type');
             return;
         }
         self.hideMarkerPrompt();
-        handler(lat, lng, mealPreference, message, mealTime, timeString);
+        handler(lat, lng, mealPreference, message, mealTime);
     });    
 }
 
@@ -212,7 +200,6 @@ Controller.prototype.loginHasFinished = function() {
         var info = this.pendingMarkerInfo;
         this.createAndStoreMarker(info.lat, info.lng, info.mealType, info.message);
     }
-    this.chatService.joinChatRoomForOwnMarkers(this.storageManager.markers);
 };
 
 google.maps.event.addDomListener(window, 'load', initialise);

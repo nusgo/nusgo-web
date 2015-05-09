@@ -21,12 +21,12 @@ Map.prototype.removeMarkersAtInterval = function() {
     setInterval(function(){
         for(var i = 0; i < markers.length; i++){
             var currentMarker = markers[i];
-            if (currentMarker.timeString < expire){
+            if (currentMarker.mealTime < expire){
                 self.removeMarker(currentMarker);
             }
         }
         console.log(markers);
-    },1000);
+    }, 60000);
 };
 
 Map.prototype.renderMarkers = function(markers) {

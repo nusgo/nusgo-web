@@ -18,14 +18,14 @@ create table nusgo.markers (
 );
 
 create table nusgo.users_markers (
-    marker_id int references nusgo.markers(id) on update cascade on delete cascade,
-    user_id varchar(128) references nusgo.users(id) on update cascade on delete cascade
+    marker_id int not null references nusgo.markers(id) on update cascade on delete cascade,
+    user_id varchar(128) not null references nusgo.users(id) on update cascade on delete cascade
 );
 
 create table nusgo.messages (
     id serial constraint messages_pk primary key,
-    user_id varchar(128) references nusgo.users(id) on update cascade on delete cascade,
-    marker_id int references nusgo.markers(id) on update cascade on delete cascade,
+    user_id varchar(128) not null references nusgo.users(id) on update cascade on delete cascade,
+    marker_id int not null references nusgo.markers(id) on update cascade on delete cascade,
     content text null,
     created_time timestamp with time zone not null default now(),
 );
@@ -36,6 +36,7 @@ grant insert on all tables in schema nusgo to nusgo;
 grant update on all tables in schema nusgo to nusgo;
 grant delete on table nusgo.users_markers to nusgo;
 grant usage, select on sequence markers_id_seq to nusgo;
+grant usage, select on sequence messages_id_seq to nusgo;
 
 -- Execute the syntax below to append nusgo schema to your search_path
 select set_config(

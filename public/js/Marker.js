@@ -1,4 +1,5 @@
 function Marker() {
+    this.id = null;
     this.userName = "";
     this.userID = 0;
     this.lat = 0;
@@ -86,10 +87,7 @@ Marker.prototype.showInfoWindow = function() {
 };
 
 Marker.prototype.getRoomCode = function() {
-    //roomCode cannot have a '.' in the string
-    var newLat = this.lat.toString().replace('.', '');
-    var newLng = this.lng.toString().replace('.', '');
-    return newLat+newLng;
+    return this.id;
 };
 
 Marker.prototype.closeInfoWindow = function() {

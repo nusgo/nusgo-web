@@ -1,6 +1,7 @@
 var SocketEvents = Object.freeze({
     AddMarker: "addmarker",
-    RemoveMarker: "removemarker"
+    RemoveMarker: "removemarker",
+    MarkerId: "markerid"
 });
 
 function StorageManager() {
@@ -36,6 +37,9 @@ StorageManager.prototype.registerObserver = function(observer) {
 StorageManager.prototype.addMarker = function(marker) {
     this.markers.push(marker);
     this.socket.emit(SocketEvents.AddMarker, marker.toDictionary());
+    this.socket.on(SocketEvents.MarkerId, function updateMarkerId(id) {
+        marker.id = id;
+    });
 };
 
 // This method will remove marker from the server as well

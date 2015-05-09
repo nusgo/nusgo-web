@@ -81,6 +81,58 @@
 		        </fb:login-button><br><br>
 		        <h3 style = "text-align: center;">"Login to Facebook, who?"</h3>
 		    </div>
+		    <div id = "aboutWindow">
+		    	<div class = class = "container-fluid">
+		    		<div class = "row" id = "aboutHeader">
+					    <div class = "col-sm-12 col-md-12">
+					    	<img src = "img/title.png"></img>
+					    </div>
+				    </div>
+				    <div class = "row" id = "aboutMain">
+				    	<div class = "col-sm-12 col-md-12">
+						    <br>
+					    	<p>NUSGo! is a hacking experiment that aims to solve a social problem. It is built during a 5 days extended hackathon by a group of NUS School of Computing students, within the walls of Tembusu College.
+					    	<p>NUSGo! is currently in its beta testing phase and more features/perks (ie. discount from NUS restaurants) may be introduced, depending on the number of users during this testing period.</p>
+					    	<p>Hopefully, NUSGo! will be fully released by August 2015!</p>
+					    	<h3>Features (Beta V1.0):</h3>
+					    	<ul>
+					    		<li>Real-time map updates</li>
+					    		<li>Facebook integration for easy login</li>
+					    		<li>Instant messaging and notifications</li>
+					    		<li>Search for places of interests</li>
+					    		<li>Open chat environments to promote interaction</li>
+					    		<li>Responsive layout for mobile devices</li>
+					    		<li>Cute emojis by Team RollingGO!</li>
+					    	</ul>
+					    	<h3>Tools/Frameworks/APIs:</h3>
+					    	<ul>
+					    		<li>Node.js</li>
+					    		<li>Socket.io</li>
+					    		<li>jQuery</li>
+					    		<li>Postgre SQL</li>
+					    		<li>Google Maps API</li>
+					    		<li>Facebook API</li>
+					    	</ul>
+					    	<br>
+					    </div>
+					</div>
+		    		<div class = "row">
+		    			<div class = "col-sm-5 col-md-5">
+				    		<img id = "teamPhoto" src="img/rollinggophoto.jpg"></img>
+				    	</div>
+				    	<div class = "col-sm-7 col-md-7">
+				    		<div id = "teamDesc">
+						    	<h2 style = "text-align: center;"><img id = "teamLogo" src = "img/logo.png"></img>Team RollingGO!</h2>
+						    	<div style = "text-align: center">
+						    		<p>Kang Soon: Client-side developer/Emojis</p>
+						    		<p>Andhieka: Server-side developer</p>
+						    		<p>Choon Hian: User interface designer</p>
+						    	</div>
+						    </div>
+					    </div>
+				    </div>
+			    </div>
+		    </div>
 		</div>
 
 
@@ -102,16 +154,21 @@
 				<div class = "col-md-4 col-sm-6">
 					<br>
 					<div id = "homeDescription">
-						<br>
-			      		<div id = "status"></div>
-			      		<h2>Looking for meal buddies?</h2><br>
-			      		<p><b><u>Place a marker on the map</u></b> to show that you up for a meal!<p>
-			      		<p>Or you can <b><u>click on a marker</u></b> to join him/her for a meal!</p><br>
-			      		<p>You will be notified when you receive meal requests.</p>
-			      		<div id = "hungryPeopleStatus"></div><br>
-			      		<p>NUSGo! is a web application for the adventurous to look for new meal buddies. Also, we believe that nobody deserves to eat alone.</p>
-			      		<br>
-			      		<div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div><br><br>
+						<div id = "hide" >-</div>
+						<div class = "homeContent">
+							<br>
+				      		<div id = "status"></div>
+				      		<h2>Looking for meal buddies?</h2><br>
+				      		<p><b><u>Place a marker on the map</u></b> to show that you are up for a meal!<p>
+				      		<p>Or you can <b><u>click on a marker</u></b> to join him/her for a meal!</p><br>
+				      		<p>You will be notified when you receive meal requests.</p>
+				      		<div id = "hungryPeopleStatus"></div><br>
+				      		<p>NUSGo! is a web application for lonely hearts to look for meal buddies. We believe that nobody deserves to eat alone.</p>
+			      		</div>
+			      		<div class = "homeOthers">
+				      		<p class = "about">Find out more about NUSGo!</p><br>
+				      		<div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div><br><br>
+				      	</div>
 			      	</div>
 			      	<div class = "container-fluid">
 			      		<div class = "row">

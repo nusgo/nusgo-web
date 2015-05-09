@@ -28,6 +28,8 @@ function loadFacebookSDK() {
 }
 
 function Controller() {
+    this.homeDescriptionOpen = true;
+    this.markers = [];
     this.currentChatID = null;
     this.userAuth = new UserAuth();
     this.map = new Map();
@@ -39,9 +41,67 @@ function Controller() {
     this.pendingMarkerInfo = null;
     this.chatService = new ChatService();
     this.closeAllPopUpsOnBackgroundClick();
+    this.toggleHomeDescription();
+    this.displayAbout();
 }
 
+Controller.prototype.displayAbout = function() {
+    $('.about').click(function(){
+        console.log("ABOUT CLICKED");
+        $('#aboutWindow').fadeIn({queue: false, duration: 'slow'});
+        $('#aboutWindow').animate({
+                height: "500px"
+            }, 600, function(){
+        });
+        $('#promptBackground').fadeIn(600);
+    });    
+};
+
+Controller.prototype.hideAbout = function() {
+    $('#aboutWindow').animate({
+            height: "0px"
+        }, 600, function() { });
+    $('#aboutWindow').fadeOut({queue: false, duration: 'slow'});
+    $('#promptBackground').fadeOut(600);
+};
+
+Controller.prototype.toggleHomeDescription = function() {
+    var self = this;
+    $('#hide').click(function(){
+        if (self.homeDescriptionOpen === true){
+            $('#homeDescription').animate({
+                height: "90px",
+                }, 600, function(){
+                    $('#hide').html('+');
+                    $('.homeOthers').hide();
+                    $('.homeContent').html('<div id = "hungryPeopleStatus"></div>');
+                    self.updatePeopleCount(self.markers);
+            });
+            self.homeDescriptionOpen = false;
+        } else {
+            $('#homeDescription').animate({
+                height: "100%",
+                }, 0, function(){
+                    $('#hide').html('-');
+                    $('.homeOthers').show();
+                    $('.homeContent').html(
+                        '<br><div id = "status"></div>'+
+                        '<h2>Looking for meal buddies?</h2><br>'+
+                        '<p><b><u>Place a marker on the map</u></b> to show that you are up for a meal!<p>'+
+                        '<p>Or you can <b><u>click on a marker</u></b> to join him/her for a meal!</p><br>'+
+                        '<p>You will be notified when you receive meal requests.</p>'+
+                        '<div id = "hungryPeopleStatus"></div><br>'+
+                        '<p>NUSGo! is a web application for lonely hearts to look for meal buddies. We believe that nobody deserves to eat alone.</p>');
+                    self.updatePeopleCount(self.markers);
+                    self.initialiseFacebookInController();
+            });
+            self.homeDescriptionOpen = true;
+        }
+    });
+};
+
 Controller.prototype.updatePeopleCount = function(markers) {
+    this.markers = markers;
     document.getElementById('hungryPeopleStatus').innerHTML = '<h2>Hungry people count: '
     + markers.length + '</h2>';
 };
@@ -122,6 +182,16 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
         self.hideMarkerPrompt();
         self.hideLoginPrompt();
         self.chatService.hideChat();
+        self.hideAbout();
+    });
+    $(document).keydown(function(e) {
+        // ESCAPE key pressed
+        if (e.keyCode == 27) {
+            self.hideMarkerPrompt();
+            self.hideLoginPrompt();
+            self.chatService.hideChat();
+            self.hideAbout();
+        }
     });
 };
 
@@ -142,13 +212,14 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         var mealTime = new Date();
         mealTime.setHours(hour);
         mealTime.setMinutes(min);
-
         //date + 1 if time is less than now
         var now = new Date();
         if (mealTime < now){
             var todayDate = mealTime.getDate() + 1;
             mealTime.setDate(todayDate);
         }
+        //hours in all timeString should + 1
+        timeString.setHours(hourInt+1);
         // do some validation
         if (mealPreference == undefined) {
             alert('Please indicate meal type');

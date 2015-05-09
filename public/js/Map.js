@@ -15,18 +15,17 @@ function Map() {
 
 Map.prototype.removeMarkersAtInterval = function() {
     markers = this.currentMarkers;
-    var expire = new Date();
-    expire.setHours(expire.getHours()+1);
     var self = this;
     setInterval(function(){
         for(var i = 0; i < markers.length; i++){
-            var currentMarker = markers[i];
-            if (currentMarker.mealTime < expire){
+            var now = new Date();
+            if (markers[i].mealTime < expire){
                 self.removeMarker(currentMarker);
             }
         }
         console.log(markers);
     }, 60000);
+
 };
 
 Map.prototype.renderMarkers = function(markers) {

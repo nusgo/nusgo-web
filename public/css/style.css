@@ -7,6 +7,7 @@ html, body {
 body {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 18px;
+	background-color: #FD8a33;
 }
 
 ::-webkit-scrollbar{width:5px;height:9px;}
@@ -43,7 +44,6 @@ body {
 }
 
 #navigation{
-	background-color: #FD8a33;
 }
 
 #searchBox{
@@ -98,7 +98,9 @@ body {
 }
 
 #footer{
-	position: absolute;
+	color: white;
+	padding-left: 10px;
+	position: fixed;
 		height: 100%;
 		z-index: -10;
 }
@@ -115,8 +117,75 @@ body {
 	box-shadow: 0px 0px 50px #575757;
 	padding: 10px;
 	font-size: 17px;
+}
 
+#hide{
+	float: right;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 5px;
+	color: white;
+	background-color:  #FD8a33;
+	cursor: pointer;
+}
+#hide:hover{
+	background-color:  #B05817;
+}
 
+.about{
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+	color: white;
+	width: 300px;
+	border-radius: 5px;
+	background-color: #FD8a33;
+	cursor: pointer;
+}
+.about:hover{
+	background-color: #B05817;
+}
+
+#aboutWindow{
+	background-color: white;
+	height: 0px;
+	width: 850px;
+	border-radius: 10px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+	z-index: 10;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+#aboutHeader{
+	background-color: #FD8a33;
+	text-align: center;
+}
+#aboutHeader img{
+	width: 250px;
+	padding-top: 10px;
+	padding-bottom: 5px;
+}
+#aboutMain{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#teamPhoto{
+	border-radius: 5px;
+	width: 250px;
+	float: right;
+	padding-bottom: 20px;
+}
+#teamDesc{
+	float: left;
+}
+#teamLogo{
+	padding-right: 10px;
+	height: 80px;
 }
 
 #prompt{

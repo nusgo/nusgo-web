@@ -1,5 +1,5 @@
 function Map() {
-    this.currentMarkers = []
+    this.currentMarkers = [];
     this.nus = new google.maps.LatLng(1.2956, 103.7767);
     var mapProp = {
         center:this.nus,
@@ -9,8 +9,25 @@ function Map() {
     this.map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     this.clickHandler = null;
     this.initialiseSearchBox();
-    this.detectCurrentLocation();
+    this.removeMarkersAtInterval();
+    //this.detectCurrentLocation();
 }
+
+Map.prototype.removeMarkersAtInterval = function() {
+    markers = this.currentMarkers;
+    var expire = new Date();
+    expire.setHours(expire.getHours()+1);
+    var self = this;
+    setInterval(function(){
+        for(var i = 0; i < markers.length; i++){
+            var currentMarker = markers[i];
+            if (currentMarker.timeString < expire){
+                self.removeMarker(currentMarker);
+            }
+        }
+        console.log(markers);
+    },1000);
+};
 
 Map.prototype.renderMarkers = function(markers) {
     // Delete all marker in currentMarkers from the map
@@ -20,7 +37,7 @@ Map.prototype.renderMarkers = function(markers) {
     while(this.currentMarkers.length > 0) { 
         this.currentMarkers.pop();
     };
-    
+
     // Filter out duplicate markers
     markers = this.sieveMarkers(markers);
 
@@ -78,7 +95,8 @@ Map.prototype.sieveMarkers = function(markers) {
     return markers;
 };
 
-Map.prototype.detectCurrentLocation = function() {
+//Comment this out before beta testing//-----------------
+/*Map.prototype.detectCurrentLocation = function() {
     var map = this.map;
     var browserSupportFlag;
     if(navigator.geolocation) {
@@ -106,7 +124,8 @@ Map.prototype.handleNoGeolocation = function(errorFlag) {
         initialLocation = this.nus;
     }
     this.map.setCenter(initialLocation);
-};
+};*/
+//-----------------------------------------------------------
 
 Map.prototype.initialiseSearchBox = function() {
     var input = document.getElementById('pac-input');

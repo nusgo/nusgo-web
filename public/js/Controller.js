@@ -83,7 +83,7 @@ Controller.prototype.toggleHomeDescription = function() {
                 height: "100%",
                 }, 0, function(){
                     $('#hide').html('-');
-                    $('.homeOthers').show();
+                    $('.homeOthers').slideDown(1000);
                     $('.homeContent').html(
                         '<br><div id = "status"></div>'+
                         '<h2>Looking for meal buddies?</h2><br>'+
@@ -91,7 +91,7 @@ Controller.prototype.toggleHomeDescription = function() {
                         '<p>Or you can <b><u>click on a marker</u></b> to join him/her for a meal!</p><br>'+
                         '<p>You will be notified when you receive meal requests.</p>'+
                         '<div id = "hungryPeopleStatus"></div><br>'+
-                        '<p>NUSGo! is a web application for lonely hearts to look for meal buddies. We believe that nobody deserves to eat alone.</p>');
+                        '<p>NUSGo! is a web application for lonely hearts to look for meal buddies. Are your friends too busy to dine today? <br>No problem! Make a new friend today!</p>');
                     self.updatePeopleCount(self.markers);
                     self.initialiseFacebookInController();
             });

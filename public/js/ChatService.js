@@ -6,8 +6,6 @@ function ChatService() {
     this.socket.on("chatMessage",function(chatMessage) {
         self.receiveMessage(chatMessage);
     });
-    this.roomCode = null;
-    this.mealType = null;
 
     this.goingUsers = [];
 }
@@ -34,27 +32,20 @@ ChatService.prototype.appendMessageToChatBox = function(chatMessage) {
         '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
         " " + chatMessage.content + "</p>");
     }
-    setTimeout(function() {
-        scrollChatAreaToLatest(roomCode);
-    }, 600);
+    scrollChatAreaToLatest(roomCode);
 };
 
-ChatService.prototype.sendMessage = function(chat) {
+ChatService.prototype.sendMessage = function(chat, markerName, roomCode, mealType) {
     if (chat === '') return;
-    var chatMessage = new ChatMessage(this.markerName, this.roomCode, chat, this.mealType);
+    var chatMessage = new ChatMessage(markerName, roomCode, chat, mealType);
     this.socket.emit('chatMessage', chatMessage.toDictionary());
     this.appendMessageToChatBox(chatMessage);
-    $('#' + this.roomCode + ' .chatField').val('');
+    $('#' + roomCode + ' .chatField').val('');
 };
 
 ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
     var minimise = false;
     this.goingUsers[roomCode] = [];
-    this.markerName = markerName;
-    this.roomCode = roomCode;
-    this.mealType = mealType;
-    console.log("Open Chat!");
-    console.log(mealType);
     //checks if user has entered room before (via roomCode)
     //if not in room before, append chatbox html with id = roomCode
     var found = false;
@@ -77,6 +68,9 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             for (var i = 0; i < messages.length; i++) {
                 this.appendMessageToChatBox(messages[i]);
             }
+             setTimeout(function() {
+                scrollChatAreaToLatest(roomCode);
+            }, 600);
         });
         $.ajax({
             url: '/rooms/' + roomCode + '/going',
@@ -107,28 +101,26 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         if (event.keyCode === 13){
             var chat = $('#'+ roomCode + ' .chatField').val();
             if (chat !== '') {
-                self.sendMessage(chat);
+                self.sendMessage(chat, markerName, roomCode, mealType);
             }
         }
     });
-
-    console.log(this.goingUsers);
 
     //press going button
     var index;
     var self = this;
     $('#'+ roomCode + ' .goStatus').click(function(){
-        this.alreadyGoing = false;
+        var alreadyGoing = false;
         for(var i = 0; i < self.goingUsers[roomCode].length; i++){
             if(controller.userAuth.userName === self.goingUsers[roomCode][i]){
-                this.alreadyGoing = true;
+                var alreadyGoing = true;
             }
         }
-        if (this.alreadyGoing === false){
+        if (alreadyGoing === false){
             self.socket.emit('going', self.roomCode);
             $('#'+ roomCode + ' .goStatus').click(false);
             self.goingUsers[roomCode].push(controller.userAuth.userName);
-            self.sendMessage("I'll like to join you!");
+            self.sendMessage("I'll like to join you!", markerName, roomCode, mealType);
         }
         $('#'+ roomCode + ' .goStatus').html("Jio-ed!");
     });
@@ -158,7 +150,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         event.stopImmediatePropagation();
         var imgSrc = $(this).attr('src');
         console.log("SEND EMOJI");
-        self.sendMessage(imgSrc);
+        self.sendMessage(imgSrc, markerName, roomCode, mealType);
     });
 
     //draggable

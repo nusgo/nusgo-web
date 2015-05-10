@@ -53,7 +53,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
     console.log("Open Chat!");
     console.log(mealType);
     //checks if user has entered room before (via roomCode)
-    //if not in room before, append chatbox html with id = roomcCode
+    //if not in room before, append chatbox html with id = roomCode
     var found = false;
     for (var i = 0; i < this.rooms.length; i++){
         if (this.rooms[i] === roomCode){
@@ -85,7 +85,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         });
         this.socket.on('going-' + roomCode, function onUserJoinRoom(joiningUser) {
             self.addUserToGoingList(joiningUser, roomCode);
-            //self.sendMessage();
+            self.sendMessage("I'll like to join you!");
         });
     }
 
@@ -113,6 +113,8 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
     var self = this;
     $('#'+ roomCode + ' .goStatus').click(function(){
         self.socket.emit('going', self.roomCode);
+        $('#'+ roomCode + ' .goStatus').html("Jio-ed!");
+        $('#'+ roomCode + ' .goStatus').click(false);
     });
 
     //open and close emoji menu
@@ -144,9 +146,28 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         self.sendMessage(imgSrc);
     });
 
-
+    this.draggable(roomCode);
     //check if a room is open, if yes, do something
     return found;
+};
+
+ChatService.prototype.draggable = function(roomCode) {
+    var $dragging = null;
+    $(document.body).on("mousemove",function(e){
+        if($dragging){
+            $dragging.offset({
+                top: e.pageY - 50,
+                left: e.pageX - 400
+            });
+        }
+    });
+    $(document.body).on("mousedown", "#" + roomCode + " .dragSelect", function(){
+        console.log("DRAGGING: " + roomCode);
+        $dragging = $('#' + roomCode);
+    });
+    $(document.body).on("mouseup", function(e){
+        $dragging = null;
+    });
 };
 
 ChatService.prototype.addUserToGoingList = function(user, roomCode) {
@@ -174,10 +195,14 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealTyp
                 '<img class = "emojiOption" src = "img/emoji12.png"></img>'+
             '</div>'+
             '<div class = "container-fluid">'+
-                '<div class = "row" id = "chatTitle">'+
-                    '<h2 class = "col-sm-12 col-md-12">Hungry for ' +
-                    mealType + '?</h2>'+
-                '</div>'+
+                '<div class = "dragSelect">'+
+                    '<div class = "row" id = "chatTitle">'+
+                        '<div class = "col-sm-12 col-md-12">'+
+                            '<p id = "dragInstructions">[Drag the window]</p>'+
+                            '<h2 id = "hungryFor">Hungry for ' + mealType + '?</h2>'+
+                        '</div>'+
+                    '</div>'+
+                '<div>'+
                 '<div class = "row">'+
                     '<div class = "container-fluid">'+
                         '<div class = "row">'+

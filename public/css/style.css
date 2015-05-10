@@ -252,6 +252,15 @@ body {
 	z-index: 10;
 	box-shadow: 2px 2px 50px 5px #4A4A4A;
 }
+#dragInstructions{
+	float:right;
+	padding-top: 2px;
+	font-size: 15px;
+}
+#hungryFor{
+	padding-left: 140px;
+}
+
 .goingList{
 	height: 350px;
 	overflow: scroll;
@@ -268,11 +277,15 @@ body {
 }
 
 #chatTitle{
+	cursor: move;
 	border-top-right-radius: 10px;
 	border-top-left-radius: 10px;
 	color: white;
 	text-align: center;
 	background-color: #FD8a33;
+}
+#chatTitle:hover{
+	background-color: #B05817;
 }
 
 .goStatus{

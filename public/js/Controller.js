@@ -180,7 +180,6 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
     $('#promptBackground').click(function() {
         self.hideMarkerPrompt();
         self.hideLoginPrompt();
-        self.chatService.hideChat();
         self.hideAbout();
     });
     $(document).keydown(function(e) {
@@ -188,7 +187,6 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
         if (e.keyCode == 27) {
             self.hideMarkerPrompt();
             self.hideLoginPrompt();
-            self.chatService.hideChat();
             self.hideAbout();
         }
     });

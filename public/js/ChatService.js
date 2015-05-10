@@ -95,7 +95,6 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             height: "500px"
         }, 800, function(){
     });
-    $('#promptBackground').fadeIn(600);
 
     var self = this;
     //sending message
@@ -198,8 +197,9 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealTyp
                 '<div class = "dragSelect">'+
                     '<div class = "row" id = "chatTitle">'+
                         '<div class = "col-sm-12 col-md-12">'+
-                            '<p id = "dragInstructions">[Drag the window]</p>'+
-                            '<h2 id = "hungryFor">Hungry for ' + mealType + '?</h2>'+
+                            '<p class = "closeChatButton">x</p>'+
+                            '<p class = "minimiseChatButton">-</p>'+
+                            '<h2 class = "hungryFor">Hungry for ' + mealType + '?</h2>'+
                         '</div>'+
                     '</div>'+
                 '<div>'+

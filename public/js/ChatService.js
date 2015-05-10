@@ -9,6 +9,7 @@ function ChatService() {
     this.roomCode = null;
     this.mealType = null;
 
+    this.goingUsers = [];
 }
 
 ChatService.prototype.receiveMessage = function(chatMessage) {
@@ -48,6 +49,7 @@ ChatService.prototype.sendMessage = function(chat) {
 
 ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
     var minimise = false;
+    this.goingUsers[roomCode] = [];
     this.markerName = markerName;
     this.roomCode = roomCode;
     this.mealType = mealType;
@@ -80,13 +82,19 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             url: '/rooms/' + roomCode + '/going',
             context: this
         }).done(function(users) {
+            var goingAlready = false;
             for (var i = 0; i < users.length; i++) {
                 self.addUserToGoingList(users[i], roomCode);
+                if (controller.userAuth.userName === users[i].name){
+                    goingAlready = true;
+                }
+            }
+            if (goingAlready === true){
+                $('#'+ roomCode + ' .goStatus').html("Jio-ed!");
             }
         });
         this.socket.on('going-' + roomCode, function onUserJoinRoom(joiningUser) {
             self.addUserToGoingList(joiningUser, roomCode);
-            self.sendMessage("I'll like to join you!");
         });
     }
 
@@ -104,13 +112,25 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         }
     });
 
+    console.log(this.goingUsers);
+
     //press going button
     var index;
     var self = this;
     $('#'+ roomCode + ' .goStatus').click(function(){
-        self.socket.emit('going', self.roomCode);
+        this.alreadyGoing = false;
+        for(var i = 0; i < self.goingUsers[roomCode].length; i++){
+            if(controller.userAuth.userName === self.goingUsers[roomCode][i]){
+                this.alreadyGoing = true;
+            }
+        }
+        if (this.alreadyGoing === false){
+            self.socket.emit('going', self.roomCode);
+            $('#'+ roomCode + ' .goStatus').click(false);
+            self.goingUsers[roomCode].push(controller.userAuth.userName);
+            self.sendMessage("I'll like to join you!");
+        }
         $('#'+ roomCode + ' .goStatus').html("Jio-ed!");
-        $('#'+ roomCode + ' .goStatus').click(false);
     });
 
     //open and close emoji menu
@@ -190,9 +210,9 @@ ChatService.prototype.draggable = function(roomCode) {
 
 ChatService.prototype.addUserToGoingList = function(user, roomCode) {
     // you can use user.id and user.name
-    console.log("%s is going to event %d!", user.name, this.roomCode);
+    console.log("%s is going to event %d!", user.name, roomCode);
     $('#' + roomCode + ' .goingList').append('<p><img id = "goingListPhoto" src="//graph.facebook.com/' + user.id + '/picture"></img>'+user.name+'</p>');
-
+    this.goingUsers[roomCode].push(user.name);
 };
 
 ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealType) {

@@ -13,7 +13,7 @@ app.get('/', function(req, res) {
     res.sendFile(__dirname + '/views/index.html')
 });
 
-app.get('/markers', function(req, res) {
+app.get('/markers', function(req, res, next) {
     getActiveMarkers(function onRetrieveMarkers(error, markers) {
         if (error) return next(error);
         return res.json(markers);

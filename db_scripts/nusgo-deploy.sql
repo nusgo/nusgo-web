@@ -27,7 +27,7 @@ create table nusgo.messages (
     user_id varchar(128) not null references nusgo.users(id) on update cascade on delete cascade,
     marker_id int not null references nusgo.markers(id) on update cascade on delete cascade,
     content text null,
-    created_time timestamp with time zone not null default now(),
+    created_time timestamp with time zone not null default now()
 );
 
 create table nusgo.goinglist (

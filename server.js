@@ -116,10 +116,10 @@ var QUERY_INSERT_USER =
     "where not exists (select id from users where id = $1::varchar(128));";
 
 var QUERY_JOIN_ROOM =
-    "insert into users_markers (user_id, marker_id) " +
+    "insert into chatrooms (user_id, marker_id) " +
     "select $1 as user_id, $2 as marker_id " +
     "where not exists ( " +
-    "   select * from users_markers " +
+    "   select * from chatrooms " +
     "   where user_id = $1::varchar(128) and marker_id = $2 " +
     ");";
 
@@ -129,10 +129,10 @@ var QUERY_INSERT_MESSAGE =
 
 var QUERY_PEEK_ROOM = 
     "select u.id, u.name " +
-    "from users_markers um " +
+    "from chatrooms cr " +
     "inner join users u " +
-    "   on u.id = um.user_id " +
-    "where um.marker_id = $1;";
+    "   on u.id = cr.user_id " +
+    "where cr.marker_id = $1;";
 
 var QUERY_GET_MESSAGES = 
     "select u.id as from_id, u.name as from_name, msg.content, m.id as room_code, u2.name as marker_name, m.meal_type" +
@@ -147,7 +147,7 @@ var QUERY_GET_MESSAGES =
     "order by msg.created_time;";
 
 var QUERY_GET_JOINED_CHAT_ROOMS =
-    "select marker_id from users_markers where user_id = $1 " +
+    "select marker_id from chatrooms where user_id = $1 " +
     "union " +
     "select id as marker_id from markers where user_id = $1;"
 

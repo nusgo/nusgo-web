@@ -17,7 +17,7 @@ create table nusgo.markers (
     user_id varchar(128) references nusgo.users(id) on update cascade on delete cascade
 );
 
-create table nusgo.users_markers (
+create table nusgo.chatrooms (
     marker_id int not null references nusgo.markers(id) on update cascade on delete cascade,
     user_id varchar(128) not null references nusgo.users(id) on update cascade on delete cascade
 );
@@ -30,11 +30,16 @@ create table nusgo.messages (
     created_time timestamp with time zone not null default now(),
 );
 
+create table nusgo.goinglist (
+    user_id varchar(128) not null references nusgo.users(id) on update cascade on delete cascade,
+    marker_id int not null references nusgo.markers(id) on update cascade on delete cascade
+);
+
 grant usage on schema nusgo to nusgo;
 grant select on all tables in schema nusgo to nusgo;
 grant insert on all tables in schema nusgo to nusgo;
 grant update on all tables in schema nusgo to nusgo;
-grant delete on table nusgo.users_markers to nusgo;
+grant delete on table nusgo.chatrooms to nusgo;
 grant usage, select on sequence markers_id_seq to nusgo;
 grant usage, select on sequence messages_id_seq to nusgo;
 

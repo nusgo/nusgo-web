@@ -136,7 +136,6 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         self.emojiShow = false;
     });
 
-
     //select emoji
     $('#'+ roomCode + ' .emojiOption').click(function(event){
         event.stopImmediatePropagation();
@@ -145,7 +144,15 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         self.sendMessage(imgSrc);
     });
 
+    //draggable
     this.draggable(roomCode);
+
+    //close chatbox
+    $('#' + roomCode + ' .closeChatButton').click(function(){
+        console.log('#' + roomCode + ' .closeChatButton');
+        self.hideChat(roomCode);
+    });
+
     //check if a room is open, if yes, do something
     return found;
 };
@@ -196,10 +203,12 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealTyp
             '<div class = "container-fluid">'+
                 '<div class = "dragSelect">'+
                     '<div class = "row" id = "chatTitle">'+
-                        '<div class = "col-sm-12 col-md-12">'+
+                        '<div class = "col-sm-11 col-md-11">'+
+                            '<h2 class = "hungryFor">Hungry for ' + mealType + '?</h2>'+
+                        '</div>'+
+                        '<div class = "col-md-1 cols-sm-1">'+
                             '<p class = "closeChatButton">x</p>'+
                             '<p class = "minimiseChatButton">-</p>'+
-                            '<h2 class = "hungryFor">Hungry for ' + mealType + '?</h2>'+
                         '</div>'+
                     '</div>'+
                 '<div>'+
@@ -229,12 +238,11 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealTyp
         '</div>');
 };
 
-ChatService.prototype.hideChat = function() {
-    $('.chatBox').animate({
+ChatService.prototype.hideChat = function(roomCode) {
+    $('#' + roomCode).animate({
             height: "0px"
     }, 600, function() { });
-    $('.chatBox').fadeOut({queue: false, duration: 'slow'});
-    $('#promptBackground').fadeOut(600);
+    $('#' + roomCode).fadeOut({queue: false, duration: 'slow'});
 };
 
 ChatService.prototype.joinRoom = function(roomCode) {

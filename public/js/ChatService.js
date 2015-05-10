@@ -47,6 +47,7 @@ ChatService.prototype.sendMessage = function(chat) {
 };
 
 ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
+    var minimise = false;
     this.markerName = markerName;
     this.roomCode = roomCode;
     this.mealType = mealType;
@@ -89,12 +90,8 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         });
     }
 
-    console.log("openChat: " + roomCode);
-    $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
-    $('#'+roomCode).animate({
-            height: "500px"
-        }, 800, function(){
-    });
+    //opening/display chat
+    this.displayChat(roomCode);
 
     var self = this;
     //sending message
@@ -149,9 +146,24 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
 
     //close chatbox
     $('#' + roomCode + ' .closeChatButton').click(function(){
-        console.log('#' + roomCode + ' .closeChatButton');
         self.hideChat(roomCode);
     });
+
+    //minimise chat window
+    $('#' + roomCode + ' .minimiseChatButton').click(function(){
+        if (minimise === false){
+            $('#' + roomCode).animate({
+                height: "60px"
+            }, 600, function() { });
+            $('#' + roomCode + " .chatNonTitle").hide();
+            $('#' + roomCode + " .minimiseChatButton").html("+");
+            minimise = true
+        } else {
+            self.displayChat(roomCode);
+            $('#' + roomCode + " .minimiseChatButton").html("-");
+            minimise = false;
+        }
+    });    
 
     //check if a room is open, if yes, do something
     return found;
@@ -203,39 +215,51 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealTyp
             '<div class = "container-fluid">'+
                 '<div class = "dragSelect">'+
                     '<div class = "row" id = "chatTitle">'+
-                        '<div class = "col-sm-11 col-md-11">'+
+                        '<div class = "col-sm-10 col-md-10">'+
                             '<h2 class = "hungryFor">Hungry for ' + mealType + '?</h2>'+
                         '</div>'+
-                        '<div class = "col-md-1 cols-sm-1">'+
+                        '<div class = "col-md-2 col-sm-2">'+
                             '<p class = "closeChatButton">x</p>'+
                             '<p class = "minimiseChatButton">-</p>'+
                         '</div>'+
                     '</div>'+
                 '<div>'+
-                '<div class = "row">'+
-                    '<div class = "container-fluid">'+
-                        '<div class = "row">'+
-                            '<div class = "col-sm-9 col-md-9">'+
-                                '<div class = "row">'+
-                                    '<div class = "chatArea" class = "col-md-12 col-sm-12"></div>'+
+                '<div class = "chatNonTitle">'+
+                    '<div class = "row">'+
+                        '<div class = "container-fluid">'+
+                            '<div class = "row">'+
+                                '<div class = "col-sm-9 col-md-9">'+
+                                    '<div class = "row">'+
+                                        '<div class = "chatArea" class = "col-md-12 col-sm-12"></div>'+
+                                    '</div>'+
+                                    '<div class = "row">'+
+                                        '<form>'+
+                                            'Chat: <input class = "chatField" type = "text" name = "chat">'+
+                                            '<img class = "emojiButton" src = "img/emoji1.png"></img>'+
+                                        '</form>'+
+                                    '</div>'+
                                 '</div>'+
-                                '<div class = "row">'+
-                                    '<form>'+
-                                        'Chat: <input class = "chatField" type = "text" name = "chat">'+
-                                        '<img class = "emojiButton" src = "img/emoji1.png"></img>'+
-                                    '</form>'+
+                                '<div class = "col-sm-3 col-md-3">'+
+                                    '<p>Going:</p>'+
+                                    '<div class = "goingList"></div>' +
+                                    '<div class = "goStatus">I am going!</div>'+
                                 '</div>'+
-                            '</div>'+
-                            '<div class = "col-sm-3 col-md-3">'+
-                                '<p>Going:</p>'+
-                                '<div class = "goingList"></div>' +
-                                '<div class = "goStatus">I am going!</div>'+
                             '</div>'+
                         '</div>'+
                     '</div>'+
                 '</div>'+
             '</div>'+
         '</div>');
+};
+
+ChatService.prototype.displayChat = function(roomCode) {
+    console.log("openChat: " + roomCode);
+    $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
+    $('#'+roomCode).animate({
+            height: "500px"
+        }, 800, function(){
+    });
+    $('#' + roomCode + " .chatNonTitle").show();
 };
 
 ChatService.prototype.hideChat = function(roomCode) {

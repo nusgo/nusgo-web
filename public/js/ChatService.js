@@ -4,7 +4,6 @@ function ChatService() {
     var self = this;
     this.socket = io();
     this.socket.on("chatMessage",function(chatMessage) {
-        self.openChat(chatMessage.markerName, chatMessage.roomCode, chatMessage.mealType);
         self.receiveMessage(chatMessage);
     });
     this.roomCode = null;
@@ -13,7 +12,12 @@ function ChatService() {
 }
 
 ChatService.prototype.receiveMessage = function(chatMessage) {
-    this.openChat(chatMessage.markerName, chatMessage.roomCode, chatMessage.mealType);
+    var found = this.openChat(chatMessage.markerName, chatMessage.roomCode, chatMessage.mealType);
+    if (found) this.appendMessageToChatBox(chatMessage);
+};
+
+ChatService.prototype.appendMessageToChatBox = function(chatMessage) {
+    console.log("APPENDING MESSAGE");
     var roomCode = chatMessage.roomCode;
     var chat = chatMessage.content;
     var isEmoji = true;
@@ -29,33 +33,17 @@ ChatService.prototype.receiveMessage = function(chatMessage) {
         '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
         " " + chatMessage.content + "</p>");
     }
-    scrollChatAreaToLatest(roomCode);
+    setTimeout(function() {
+        scrollChatAreaToLatest(roomCode);
+    }, 600);
 };
 
 ChatService.prototype.sendMessage = function(chat) {
-    var name = controller.userAuth.userName;
-    var id = controller.userAuth.userID;
-    var roomCode = this.roomCode;
-    var isEmoji = true;
-    if (chat.indexOf("img/") === -1){
-        isEmoji = false;
-    }
-    if (isEmoji === true){
-        $('#'+ roomCode + ' .chatArea').append(
-            '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
-            " <img src ='" + chat + "'></img></p>");
-    }else{
-        if (chat != ""){
-            $('#'+ roomCode + ' .chatField').val('');
-            $('#'+ roomCode + ' .chatArea').append(
-                '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + id + '/picture">'+
-                " " + chat + "</p>");
-        }
-    }
+    if (chat === '') return;
     var chatMessage = new ChatMessage(this.markerName, this.roomCode, chat, this.mealType);
-    console.log(chatMessage);
-    this.socket.emit("chatMessage",chatMessage.toDictionary());
-    scrollChatAreaToLatest(roomCode);
+    this.socket.emit('chatMessage', chatMessage.toDictionary());
+    this.appendMessageToChatBox(chatMessage);
+    $('#' + this.roomCode + ' .chatField').val('');
 };
 
 ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
@@ -71,15 +59,33 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         if (this.rooms[i] === roomCode){
             console.log("room visited before");
             found = true;
+            break;
         }
     }
     var self = this;
     if (found === false){
         console.log("room not visited before, pushing room to records");
         this.rooms.push(roomCode);
-        this.appendNewRoomHTML(markerName, roomCode, mealType);  
+        this.appendNewRoomHTML(markerName, roomCode, mealType);
+        $.ajax({
+            url: '/rooms/' + roomCode + '/messages',
+            context: this
+        }).done(function(messages) {
+            for (var i = 0; i < messages.length; i++) {
+                this.appendMessageToChatBox(messages[i]);
+            }
+        });
+        $.ajax({
+            url: '/rooms/' + roomCode + '/going',
+            context: this
+        }).done(function(users) {
+            for (var i = 0; i < users.length; i++) {
+                self.addUserToGoingList(users[i], roomCode);
+            }
+        });
         this.socket.on('going-' + roomCode, function onUserJoinRoom(joiningUser) {
             self.addUserToGoingList(joiningUser, roomCode);
+            //self.sendMessage();
         });
     }
 
@@ -140,12 +146,14 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
 
 
     //check if a room is open, if yes, do something
-
+    return found;
 };
 
 ChatService.prototype.addUserToGoingList = function(user, roomCode) {
     // you can use user.id and user.name
     console.log("%s is going to event %d!", user.name, this.roomCode);
+    $('#' + roomCode + ' .goingList').append('<p><img id = "goingListPhoto" src="//graph.facebook.com/' + user.id + '/picture"></img>'+user.name+'</p>');
+
 };
 
 ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealType) {

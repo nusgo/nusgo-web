@@ -19,7 +19,7 @@ function Map() {
 Map.prototype.removeExpiredMarkers = function() {
     markers = this.currentMarkers;
     var expire = new Date();
-    expire.setHours(expire.getHours() + 1);
+    expire.setHours(expire.getHours() - 1);
     console.log("Cleaning up expired markers:");
     for(var i = 0; i < markers.length; i++){
         if (markers[i].mealTime < expire) {

@@ -144,7 +144,6 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     console.log(marker);
     // store marker
     this.storageManager.addMarker(marker);
-    this.storageManager.syncWithServer();
     // retrieve and render marker
     var markers = this.storageManager.markers;
     this.map.renderMarkers(markers);

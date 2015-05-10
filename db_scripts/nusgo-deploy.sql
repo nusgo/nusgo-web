@@ -40,6 +40,7 @@ grant select on all tables in schema nusgo to nusgo;
 grant insert on all tables in schema nusgo to nusgo;
 grant update on all tables in schema nusgo to nusgo;
 grant delete on table nusgo.chatrooms to nusgo;
+grant delete on table nusgo.goinglist to nusgo;
 grant usage, select on sequence markers_id_seq to nusgo;
 grant usage, select on sequence messages_id_seq to nusgo;
 

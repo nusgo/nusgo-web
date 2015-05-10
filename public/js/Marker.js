@@ -121,11 +121,7 @@ Marker.prototype.equals = function(other) {
     if (!(other instanceof Marker)) return false;
     if (other === this) return true;
     if (other === null) return false;
-    if (other.lat !== this.lat) return false;
-    if (other.lng !== this.lng) return false;
-    if (other.message !== this.message) return false;
-    if (other.mealType !== this.mealType) return false;
-    if (other.mealTime !== this.mealTime) return false;
+    if (other.id !== this.id) return false;
     return true;
 };
 

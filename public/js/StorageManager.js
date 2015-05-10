@@ -35,6 +35,7 @@ StorageManager.prototype.registerObserver = function(observer) {
 
 // After this method is called, marker will be pushed to the server as well
 StorageManager.prototype.addMarker = function(marker) {
+    console.log("Adding marker");
     this.markers.push(marker);
     this.socket.emit(SocketEvents.AddMarker, marker.toDictionary());
     this.socket.on(SocketEvents.MarkerId, function updateMarkerId(id) {

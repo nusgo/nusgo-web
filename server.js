@@ -84,7 +84,6 @@ io.on('connection', function(socket) {
         removeMarker(marker, function onRemoveMarker(error, markers) { });
     });
     socket.on('chatMessage', function(chatMessage){
-        console.log(chatMessage);
         var roomCode = chatMessage.roomCode;
         socket.to(roomCode).emit('chatMessage', chatMessage);
         insertMessage(chatMessage, function onInsertMessage(error, rows) { });
@@ -99,21 +98,21 @@ io.on('connection', function(socket) {
         if (!(socket.user)) return;
         console.log("%s is going! (Room %d)", socket.user.name, roomCode);
         joinEvent(socket.user, roomCode, function onJoinEvent(error, rows) { });
-        socket.broadcast.emit('going-' + roomCode, socket.user);
+        io.emit('going-' + roomCode, socket.user);
     })
 });
 
 
 // MARK: QUERY STRING
-var QUERY_ALL_MARKERS = 
-    "select * from markers;";
 
 var QUERY_ACTIVE_MARKERS = 
     "select m.id, m.lat, m.lng, m.meal_type, m.message, m.meal_time, m.user_id, u.name as user_name " +
     "from markers m " +
     "inner join users u " + 
-    "on m.user_id = u.id " +
-    "where meal_time + interval '1 hour' > now();"
+    "   on m.user_id = u.id " +
+    "where meal_time + interval '1 hour' > now() " +
+    "   and m.is_active = true;";
+
 
 var QUERY_INSERT_MARKER = 
     "insert into markers (lat, lng, meal_type, message, meal_time, user_id) " +
@@ -157,7 +156,7 @@ var QUERY_PEEK_ROOM =
     "where cr.marker_id = $1;";
 
 var QUERY_GET_MESSAGES = 
-    "select u.id as from_id, u.name as from_name, msg.content, m.id as room_code, u2.name as marker_name, m.meal_type" +
+    "select u.id as from_id, u.name as from_name, msg.content, m.id as room_code, u2.name as marker_name, m.meal_type " +
     "from messages msg " +
     "inner join users u " +
     "   on msg.user_id = u.id " +
@@ -187,9 +186,6 @@ var QUERY_GET_GOING_LIST =
     "where m.id = $1;";
 
 // MARK: QUERY FUNCTIONS
-function getAllMarkers(callback) {
-    return executeQuery(QUERY_ALL_MARKERS, [], rowToMarker, callback);
-}
 
 function getActiveMarkers(callback) {
     return executeQuery(QUERY_ACTIVE_MARKERS, [], rowToMarker, callback);

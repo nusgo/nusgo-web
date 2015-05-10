@@ -8,6 +8,12 @@ body {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 18px;
 	background-color: #FD8a33;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 ::-webkit-scrollbar{width:5px;height:9px;}
@@ -244,11 +250,17 @@ body {
 	transform: translate(-50%, -50%);
 	display: none;
 	z-index: 10;
+	box-shadow: 2px 2px 50px 5px #4A4A4A;
 }
-
 .goingList{
 	height: 350px;
 	overflow: scroll;
+	font-size: 13px;
+}
+#goingListPhoto{
+	height: 40px;
+	padding-right: 5px;
+	border-radius: 20px;
 }
 
 .contact{

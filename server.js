@@ -36,6 +36,14 @@ app.get('/rooms/:roomCode/users', function(req, res, next) {
     });
 });
 
+app.get('/rooms/:roomCode/going', function(req, res, next) {
+    var roomCode = req.params.roomCode;
+    getGoingList(roomCode, function onRetrieveUsers(error, users) {
+        if (error) return next(error);
+        res.json(users);
+    })
+});
+
 app.get('/testdb', function(req, res, next) {
 });
 
@@ -86,6 +94,12 @@ io.on('connection', function(socket) {
         console.log("%s joins room %d", socket.user.name, roomCode);
         socket.join(roomCode);
         joinRoom(socket.user, roomCode, function onJoinRoom(error, row) { });
+    });
+    socket.on('going', function(roomCode) {
+        if (!(socket.user)) return;
+        console.log("%s is going! (Room %d)", socket.user.name, roomCode);
+        joinEvent(socket.user, roomCode, function onJoinEvent(error, rows) { });
+        socket.broadcast.emit('going-' + roomCode, socket.user);
     })
 });
 
@@ -123,6 +137,14 @@ var QUERY_JOIN_ROOM =
     "   where user_id = $1::varchar(128) and marker_id = $2 " +
     ");";
 
+var QUERY_JOIN_EVENT =
+    "insert into goinglist (user_id, marker_id) " +
+    "select $1 as user_id, $2 as marker_id " +
+    "where not exists ( " +
+    "   select * from goinglist " +
+    "   where user_id = $1::varchar(128) and marker_id = $2 " +
+    ");";
+
 var QUERY_INSERT_MESSAGE = 
     "insert into messages (user_id, marker_id, content)" +
     "values ($1, $2, $3);";
@@ -150,6 +172,19 @@ var QUERY_GET_JOINED_CHAT_ROOMS =
     "select marker_id from chatrooms where user_id = $1 " +
     "union " +
     "select id as marker_id from markers where user_id = $1;"
+
+var QUERY_GET_GOING_LIST = 
+    "select u.id, u.name " +
+    "from goinglist g " +
+    "inner join users u " +
+    "   on g.user_id = u.id " +
+    "where g.marker_id = $1 " +
+    "union " +
+    "select u.id, u.name " +
+    "from markers m " +
+    "inner join users u " +
+    "   on m.user_id = u.id " +
+    "where m.id = $1;";
 
 // MARK: QUERY FUNCTIONS
 function getAllMarkers(callback) {
@@ -182,8 +217,6 @@ function insertUser(user, callback) {
 }
 
 function joinRoom(user, roomCode, callback) {
-    console.log(user.id);
-    console.log(roomCode);
     return executeQuery(
         QUERY_JOIN_ROOM,
         [user.id, roomCode],
@@ -220,6 +253,22 @@ function getJoinedChatRooms(user, callback) {
         QUERY_GET_JOINED_CHAT_ROOMS,
         [user.id],
         rowToRoomCode,
+        callback);
+}
+
+function joinEvent(user, roomCode, callback) {
+    return executeQuery(
+        QUERY_JOIN_EVENT,
+        [user.id, roomCode],
+        identity,
+        callback);
+}
+
+function getGoingList(roomCode, callback) {
+    return executeQuery(
+        QUERY_GET_GOING_LIST,
+        [roomCode],
+        identity,
         callback);
 }
 

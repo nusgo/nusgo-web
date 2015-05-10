@@ -73,11 +73,14 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             found = true;
         }
     }
-
+    var self = this;
     if (found === false){
         console.log("room not visited before, pushing room to records");
         this.rooms.push(roomCode);
-        this.appendNewRoomHTML(markerName, roomCode, mealType);       
+        this.appendNewRoomHTML(markerName, roomCode, mealType);  
+        this.socket.on('going-' + roomCode, function onUserJoinRoom(joiningUser) {
+            self.addUserToGoingList(joiningUser, roomCode);
+        });
     }
 
     console.log("openChat: " + roomCode);
@@ -103,7 +106,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
     var index;
     var self = this;
     $('#'+ roomCode + ' .goStatus').click(function(){
-        console.log("status CLICKED");
+        self.socket.emit('going', self.roomCode);
     });
 
     //open and close emoji menu
@@ -138,6 +141,11 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
 
     //check if a room is open, if yes, do something
 
+};
+
+ChatService.prototype.addUserToGoingList = function(user, roomCode) {
+    // you can use user.id and user.name
+    console.log("%s is going to event %d!", user.name, this.roomCode);
 };
 
 ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealType) {

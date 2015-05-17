@@ -90,6 +90,8 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         this.socket.on('going-' + roomCode, function onUserJoinRoom(joiningUser) {
             self.addUserToGoingList(joiningUser, roomCode);
         });
+        //draggable
+        self.draggable(roomCode);
     }
 
     //opening/display chat
@@ -153,9 +155,6 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         self.sendMessage(imgSrc, markerName, roomCode, mealType);
     });
 
-    //draggable
-    this.draggable(roomCode);
-
     //close chatbox
     $('#' + roomCode + ' .closeChatButton').click(function(){
         self.hideChat(roomCode);
@@ -165,13 +164,20 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
     $('#' + roomCode + ' .minimiseChatButton').click(function(){
         if (minimise === false){
             $('#' + roomCode).animate({
+                "top": "-=220px",
                 height: "60px"
             }, 600, function() { });
             $('#' + roomCode + " .chatNonTitle").hide();
             $('#' + roomCode + " .minimiseChatButton").html("+");
             minimise = true
         } else {
-            self.displayChat(roomCode);
+            $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
+            $('#'+roomCode).animate({
+                    "top": "+=220px",
+                    height: "500px"
+                }, 800, function(){
+            });
+            $('#' + roomCode + " .chatNonTitle").show();
             $('#' + roomCode + " .minimiseChatButton").html("-");
             minimise = false;
         }
@@ -183,27 +189,25 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
 
 ChatService.prototype.draggable = function(roomCode) {
     var $dragging = null;
-    var mouseX = 0;
-    var mouseY = 0;
     $(document.body).on("mousemove",function(e){
         if($dragging){
-            var deltaY = e.pageY - mouseY;
-            var deltaX = e.pageX - mouseX;
+            var deltaY = e.pageY - $dragging.mouseY;
+            var deltaX = e.pageX - $dragging.mouseX;
             var pos = $dragging.position();
             $dragging.offset({
                 top: pos.top + deltaY,
                 left: pos.left + deltaX
             });
-            mouseX = e.pageX;
-            mouseY = e.pageY;
+            $dragging.mouseX = e.pageX;
+            $dragging.mouseY = e.pageY;
         }
     });
     $(document.body).on("mousedown", "#" + roomCode + " .dragSelect", function(e){
         console.log("DRAGGING: " + roomCode);
         $dragging = $('#' + roomCode);
         console.log("E IS...." + e.pageX + " " + e.pageY);
-        mouseX = e.pageX;
-        mouseY = e.pageY;
+        $dragging.mouseX = e.pageX;
+        $dragging.mouseY = e.pageY;
     });
     $(document.body).on("mouseup", function(e){
         $dragging = null;

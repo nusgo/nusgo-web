@@ -248,6 +248,7 @@ body {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	/*transform-origin: left top;*/
 	display: none;
 	z-index: 2;
 	box-shadow: 2px 2px 50px 5px #4A4A4A;

@@ -183,17 +183,27 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
 
 ChatService.prototype.draggable = function(roomCode) {
     var $dragging = null;
+    var mouseX = 0;
+    var mouseY = 0;
     $(document.body).on("mousemove",function(e){
         if($dragging){
+            var deltaY = e.pageY - mouseY;
+            var deltaX = e.pageX - mouseX;
+            var pos = $dragging.position();
             $dragging.offset({
-                top: e.pageY - 50,
-                left: e.pageX - 400
+                top: pos.top + deltaY,
+                left: pos.left + deltaX
             });
+            mouseX = e.pageX;
+            mouseY = e.pageY;
         }
     });
-    $(document.body).on("mousedown", "#" + roomCode + " .dragSelect", function(){
+    $(document.body).on("mousedown", "#" + roomCode + " .dragSelect", function(e){
         console.log("DRAGGING: " + roomCode);
         $dragging = $('#' + roomCode);
+        console.log("E IS...." + e.pageX + " " + e.pageY);
+        mouseX = e.pageX;
+        mouseY = e.pageY;
     });
     $(document.body).on("mouseup", function(e){
         $dragging = null;

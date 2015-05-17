@@ -195,7 +195,7 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
 Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
     var self = this;
     $("#submit").click(function() {
-        var mealPreference = $('input[name=meal]:checked').val();
+
         var message = $('#personalMessageBox').val();
         if (message.length !== 0){
             message = '"' + message + '"';
@@ -204,16 +204,21 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         var lng = self.clickPosition[1];
 
 
-        //var hour = parseInt($('#hour :selected').text());
-        //var min = parseInt($('#min :selected').text());
-
         var time = $('#time :selected').text();
         var hour = parseInt($('#time :selected').text()); // correct
         var min = parseInt(time.substring(3,time.length));
         var ampm = $('#ampm :selected').text();
         
-
+        // add 12 hours if pm is selected
         if (ampm === 'pm') hour += 12;
+
+        // special case for 12.00 : weird bug, resolved with this
+        if (ampm === 'am' && hour == 12) {
+            hour = 24;
+        } else if (ampm === 'pm' && hour == 24) {
+            hour = hour - 12;
+        }
+
         var mealTime = new Date();
         mealTime.setHours(hour);
         mealTime.setMinutes(min);
@@ -223,24 +228,39 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
             var todayDate = mealTime.getDate() + 1;
             mealTime.setDate(todayDate);
         }
-        // do some validation
-        if (mealPreference == undefined) {
-            alert('Please indicate meal type');
-            return;
-        }
         self.hideMarkerPrompt();
+        
+        // Auto select meal type based on meal time
+        if (hour >= 5 && hour <= 10) {
+            mealPreference = "breakfast";
+        }
+        else if (hour === 11) {
+            mealPreference = "brunch";
+        }
+        else if (hour >= 12 && hour <= 14) {
+            //alert(hour);
+            mealPreference = "lunch";
+        }
+        else if (hour >= 15 && hour <= 16) {
+            mealPreference = "high tea";
+        }
+        else if (hour >= 17 && hour <= 21) {
+            mealPreference = "dinner";
+        }
+        else if (hour >= 22 && hour <= 24) {
+            mealPreference = "supper";
+        }
+
+        else if (hour >= 0 && hour <= 4) {
+            mealPreference = "supper";
+        }
+    
         handler(lat, lng, mealPreference, message, mealTime);
-
-
-        
-        
-
-        //alert(time);
-        alert(hour); // correct
-        alert(min);
-
     });    
 }
+
+
+
 
 Controller.prototype.displayLoginPrompt = function() {
     $('#loginPrompt').fadeIn({queue: false, duration: 'slow'});

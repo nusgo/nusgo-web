@@ -445,3 +445,16 @@ body {
 	-moz-transform-origin: top left;
 	-webkit-transform-origin: top left;
 }
+
+
+#chatInMarker {
+	/*visibility: none;*/
+	/*background-color: #FD8a33;*/
+	height: 230px;
+	overflow-y: scroll;
+}
+
+#chatFieldInMarker{
+	width: 200px;
+	border-radius: 5px;
+}

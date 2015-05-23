@@ -90,8 +90,14 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         this.socket.on('going-' + roomCode, function onUserJoinRoom(joiningUser) {
             self.addUserToGoingList(joiningUser, roomCode);
         });
+
         //draggable
         self.draggable(roomCode);
+        
+        //update z-index on click
+        $('#'+ roomCode).click(function(){
+            this.css("z-index", 1000);
+        });
 
         var self = this;
         //sending message

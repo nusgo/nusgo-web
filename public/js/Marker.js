@@ -35,6 +35,8 @@ Marker.prototype.deleteFromMap = function() {
 };
 
 Marker.prototype.showInfoWindow = function() {
+    var self = this;
+
     controller.map.closeAllInfoWindows();
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
@@ -53,12 +55,47 @@ Marker.prototype.showInfoWindow = function() {
             contentString += '<br> <div id = "openChatButton"><b>Open Chat</b></div>';
         }
     }
+
+
+
+
+    // INTEGRATED CHAT STUFF BEGIN
+
+
+    if(controller.userAuth.userID !== 0) { //Only if user is logged in
+        contentString += '<br><br><br>Chat Room code = ' + self.roomCode;
+
+        contentString += '<div id = "chatInMarker"> ';
+
+        for (i = 0; i < 30; i++) {
+            //contentString += '<img src="http://graph.facebook.com/' + self.username + '/picture">ha</img>';
+            contentString += 'Chat Dummy Message ' + i + '<br>';
+        }
+
+
+
+        contentString += '</div>';
+
+        contentString += '<form>'+
+        'Chat: <input id= "chatFieldInMarker" type = "text" name = "chat">'+
+        '<img class = "emojiButton" src = "img/emoji1.png"></img>'+
+        '</form>';
+    }
+
+
+    // INTEGRATED CHAT STUFF END
+
+
+
+
     var infoWindow = new google.maps.InfoWindow({
         content: contentString
     });
     this.infoWindow = infoWindow;
     infoWindow.open(this.map, this.mapMarker);
-    var self = this;
+
+    
+    
     google.maps.event.addListener(infoWindow, 'domready', function() {
         $('#checkRequests').click(function() {
             controller.chatService.openChat(self.userName, self.getRoomCode(), self.mealType, self.mealTime);
@@ -80,6 +117,10 @@ Marker.prototype.showInfoWindow = function() {
         $('#openChatButton').click(function() {
             controller.chatService.openChat(self.userName, self.getRoomCode());
         });
+
+
+        
+        scrollChatAreaToLatestMarker();  
     });
 };
 

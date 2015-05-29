@@ -59,31 +59,6 @@ Marker.prototype.showInfoWindow = function() {
 
 
 
-    // INTEGRATED CHAT STUFF BEGIN
-
-
-    if(controller.userAuth.userID !== 0) { //Only if user is logged in
-        contentString += '<br><br><br>Chat Room code = ' + self.roomCode;
-
-        contentString += '<div id = "chatInMarker"> ';
-
-        for (i = 0; i < 30; i++) {
-            //contentString += '<img src="http://graph.facebook.com/' + self.username + '/picture">ha</img>';
-            contentString += 'Chat Dummy Message ' + i + '<br>';
-        }
-
-
-
-        contentString += '</div>';
-
-        contentString += '<form>'+
-        'Chat: <input id= "chatFieldInMarker" type = "text" name = "chat">'+
-        '<img class = "emojiButton" src = "img/emoji1.png"></img>'+
-        '</form>';
-    }
-
-
-    // INTEGRATED CHAT STUFF END
 
 
 

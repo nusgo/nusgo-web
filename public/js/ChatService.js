@@ -6,7 +6,7 @@ function ChatService() {
     this.socket.on("chatMessage",function(chatMessage) {
         self.receiveMessage(chatMessage);
     });
-
+    this.maxZIndex = 30;
     this.goingUsers = [];
 }
 
@@ -18,7 +18,6 @@ ChatService.prototype.receiveMessage = function(chatMessage) {
 ChatService.prototype.appendMessageToChatBox = function(chatMessage) {
     console.log("APPENDING MESSAGE");
     var roomCode = chatMessage.roomCode;
-    var chat = chatMessage.content;
     var isEmoji = true;
     if (chat.indexOf("img/") === -1){
             isEmoji = false;
@@ -26,11 +25,12 @@ ChatService.prototype.appendMessageToChatBox = function(chatMessage) {
     if (isEmoji === true){
         $('#'+ roomCode + ' .chatArea').append(
             '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
-            " <img src ='" + chat + "'></img></p>");
-    }else{
+            " <img src ='" + chatMessage.content + "'></img></p>");
+    } else {
+        var chat = safeConverter.makeHtml(chatMessage.content);
         $('#'+ roomCode + ' .chatArea').append(
         '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
-        " " + chatMessage.content + "</p>");
+        " " + chat + "</p>");
     }
     scrollChatAreaToLatest(roomCode);
 };
@@ -93,10 +93,10 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
 
         //draggable
         self.draggable(roomCode);
-        
+
         //update z-index on click
         $('#'+ roomCode).click(function(){
-            this.css("z-index", 1000);
+            $('#'+ roomCode).css("z-index", self.maxZIndex++);
         });
 
         var self = this;
@@ -187,7 +187,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
     }
 
     //opening/display chat
-    this.displayChat(roomCode);
+    self.displayChat(roomCode);
 
     //check if a room is open, if yes, do something
     return found;
@@ -294,6 +294,7 @@ ChatService.prototype.displayChat = function(roomCode) {
     });
     $('#' + roomCode + " .chatNonTitle").show();
     $('#' + roomCode + " .minimiseChatButton").html("-");
+    $('#'+ roomCode).css("z-index", this.maxZIndex++); //move to frontmost
 };
 
 ChatService.prototype.hideChat = function(roomCode) {

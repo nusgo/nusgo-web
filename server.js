@@ -5,6 +5,9 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var pg = require('pg');
 var favicon = require('serve-favicon');
+var pagedown = require('pagedown');
+var safeConverter = pagedown.getSanitizingConverter();
+
 var databaseUrl = process.env.DATABASE_URL;
 app.use(express.static(__dirname + '/public'));
 app.use(favicon(__dirname + '/public/img/favicon.ico'));
@@ -74,6 +77,8 @@ io.on('connection', function(socket) {
         });
     });
     socket.on('addmarker', function(marker) {
+        // Sanitize and parse markdown
+        marker.message = safeConverter.makeHtml(marker.message);
         insertMarker(marker, function onInsertMarker(error, rows) { 
             var markerId = rows[0].id;
             socket.emit('markerid', markerId);
@@ -86,6 +91,8 @@ io.on('connection', function(socket) {
         removeMarker(marker, function onRemoveMarker(error, markers) { });
     });
     socket.on('chatMessage', function(chatMessage){
+        // Sanitize and parse markdown
+        chatMessage.content = safeConverter.makeHtml(chatMessage.content);
         var roomCode = chatMessage.roomCode;
         socket.to(roomCode).emit('chatMessage', chatMessage);
         insertMessage(chatMessage, function onInsertMessage(error, rows) { });

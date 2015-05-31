@@ -16,14 +16,6 @@ function scrollChatAreaToLatest(roomCode){
     element.scrollTop = element.scrollHeight;
 }
 
-
-function scrollChatAreaToLatestMarker(roomCode){
-    var element = document.getElementById("chatInMarker");
-    element.scrollTop = element.scrollHeight;
-}
-
-
-
 function setMapSize() {
 	heightMap = $(window).height() - 100;
 

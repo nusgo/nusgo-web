@@ -19,7 +19,7 @@ ChatService.prototype.appendMessageToChatBox = function(chatMessage) {
     console.log("APPENDING MESSAGE");
     var roomCode = chatMessage.roomCode;
     var isEmoji = true;
-    if (chat.indexOf("img/") === -1){
+    if (chatMessage.content.indexOf("img/") === -1){
             isEmoji = false;
         }
     if (isEmoji === true){

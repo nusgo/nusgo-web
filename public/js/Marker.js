@@ -38,11 +38,12 @@ Marker.prototype.showInfoWindow = function() {
     var self = this;
 
     controller.map.closeAllInfoWindows();
+    var messageHtml = safeConverter.makeHtml(this.message);
     var contentString =
         '<img id="profilePic" src="//graph.facebook.com/' + this.userID + '/picture?type=large" />'
         + '<b>' + this.userName + '</b> is hungry for <b>' + this.mealType + '</b>!<br>'
         + 'Time: <b>' + dateToTimeString(this.mealTime) + '</b>'
-        + '<br>' + this.message;
+        + '<br>' + messageHtml;
 
     var currentUserID = controller.userAuth.userID;
     if (currentUserID === this.userID) {
@@ -92,10 +93,6 @@ Marker.prototype.showInfoWindow = function() {
         $('#openChatButton').click(function() {
             controller.chatService.openChat(self.userName, self.getRoomCode());
         });
-
-
-        
-        scrollChatAreaToLatestMarker();  
     });
 };
 

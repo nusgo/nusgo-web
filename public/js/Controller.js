@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', function(event) {
+    safeConverter = Markdown.getSanitizingConverter();
+});
+
 var controller = null;
 
 function initialise() {

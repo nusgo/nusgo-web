@@ -168,7 +168,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             var minimise = (sign === '+');
             if (minimise === false){
                 $('#' + roomCode).animate({
-                    "top": "-=220px",
+                    "top": "-=180px",//original "top: -=220px"
                     height: "60px"
                 }, 600, function() { });
                 $('#' + roomCode + " .chatNonTitle").hide();
@@ -176,8 +176,8 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             } else {
                 $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
                 $('#'+roomCode).animate({
-                        "top": "+=220px",
-                        height: "500px"
+                        "top": "+=180px",
+                        height: "350px"
                     }, 800, function(){
                 });
                 $('#' + roomCode + " .chatNonTitle").show();
@@ -289,7 +289,7 @@ ChatService.prototype.displayChat = function(roomCode) {
     $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
     $('#'+roomCode).animate({
             "top": "50%",
-            height: "500px"
+            height: "350px"
         }, 800, function(){
     });
     $('#' + roomCode + " .chatNonTitle").show();

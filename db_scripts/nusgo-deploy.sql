@@ -1,3 +1,18 @@
+###
+#
+# PREREQUISITE
+# Run in your console:
+#
+#    psql postgres postgres
+#
+### 
+
+create role nusgo with password 'nusgo' login;
+
+create database nusgodb;
+
+\c nusgodb;
+
 create schema nusgo;
 
 create table nusgo.users (

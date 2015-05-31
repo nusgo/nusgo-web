@@ -90,92 +90,104 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
         this.socket.on('going-' + roomCode, function onUserJoinRoom(joiningUser) {
             self.addUserToGoingList(joiningUser, roomCode);
         });
+
+        //draggable
+        self.draggable(roomCode);
+        
+        //update z-index on click
+        $('#'+ roomCode).click(function(){
+            this.css("z-index", 1000);
+        });
+
+        var self = this;
+        //sending message
+        $('#'+ roomCode + ' .chatField').keydown(function(event){
+            if (event.keyCode === 13){
+                var chat = $('#'+ roomCode + ' .chatField').val();
+                if (chat !== '') {
+                    self.sendMessage(chat, markerName, roomCode, mealType);
+                }
+            }
+        });
+
+        //press going button
+        var index;
+        var self = this;
+        $('#'+ roomCode + ' .goStatus').click(function(){
+            var alreadyGoing = false;
+            for(var i = 0; i < self.goingUsers[roomCode].length; i++){
+                if(controller.userAuth.userName === self.goingUsers[roomCode][i]){
+                    var alreadyGoing = true;
+                }
+            }
+            if (alreadyGoing === false){
+                self.socket.emit('going', self.roomCode);
+                $('#'+ roomCode + ' .goStatus').click(false);
+                self.goingUsers[roomCode].push(controller.userAuth.userName);
+                self.sendMessage("I'll like to join you!", markerName, roomCode, mealType);
+            }
+            $('#'+ roomCode + ' .goStatus').html("Jio-ed!");
+        });
+
+        //open and close emoji menu
+        $('#'+ roomCode + ' .emojiButton').click(function(event){
+            event.stopImmediatePropagation();
+            if(self.emojiShow === false){
+                $('#'+ roomCode + ' .emojiSelect').show();
+                self.emojiShow = true;
+            }else{
+                $('#'+ roomCode + ' .emojiSelect').hide();
+                self.emojiShow = false;
+            }
+        });
+        $('#'+ roomCode + ' .chatArea').click(function(){
+            $('#'+ roomCode + ' .emojiSelect').hide();
+            self.emojiShow = false;
+        });
+        $('#'+ roomCode + ' .goingList').click(function(){
+            $('#'+ roomCode + ' .emojiSelect').hide();
+            self.emojiShow = false;
+        });
+
+        //select emoji
+        $('#'+ roomCode + ' .emojiOption').click(function(event){
+            event.stopImmediatePropagation();
+            var imgSrc = $(this).attr('src');
+            console.log("SEND EMOJI");
+            self.sendMessage(imgSrc, markerName, roomCode, mealType);
+        });
+
+        //close chatbox
+        $('#' + roomCode + ' .closeChatButton').click(function(){
+            self.hideChat(roomCode);
+        });
+
+        //minimise chat window
+        $('#' + roomCode + ' .minimiseChatButton').click(function(){
+            var sign = $('#' + roomCode + " .minimiseChatButton").html();
+            var minimise = (sign === '+');
+            if (minimise === false){
+                $('#' + roomCode).animate({
+                    "top": "-=220px",
+                    height: "60px"
+                }, 600, function() { });
+                $('#' + roomCode + " .chatNonTitle").hide();
+                $('#' + roomCode + " .minimiseChatButton").html("+");
+            } else {
+                $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
+                $('#'+roomCode).animate({
+                        "top": "+=220px",
+                        height: "500px"
+                    }, 800, function(){
+                });
+                $('#' + roomCode + " .chatNonTitle").show();
+                $('#' + roomCode + " .minimiseChatButton").html("-");
+            }
+        });    
     }
 
     //opening/display chat
     this.displayChat(roomCode);
-
-    var self = this;
-    //sending message
-    $('#'+ roomCode + ' .chatField').keydown(function(event){
-        if (event.keyCode === 13){
-            var chat = $('#'+ roomCode + ' .chatField').val();
-            if (chat !== '') {
-                self.sendMessage(chat, markerName, roomCode, mealType);
-            }
-        }
-    });
-
-    //press going button
-    var index;
-    var self = this;
-    $('#'+ roomCode + ' .goStatus').click(function(){
-        var alreadyGoing = false;
-        for(var i = 0; i < self.goingUsers[roomCode].length; i++){
-            if(controller.userAuth.userName === self.goingUsers[roomCode][i]){
-                var alreadyGoing = true;
-            }
-        }
-        if (alreadyGoing === false){
-            self.socket.emit('going', self.roomCode);
-            $('#'+ roomCode + ' .goStatus').click(false);
-            self.goingUsers[roomCode].push(controller.userAuth.userName);
-            self.sendMessage("I'll like to join you!", markerName, roomCode, mealType);
-        }
-        $('#'+ roomCode + ' .goStatus').html("Jio-ed!");
-    });
-
-    //open and close emoji menu
-    $('#'+ roomCode + ' .emojiButton').click(function(event){
-        event.stopImmediatePropagation();
-        if(self.emojiShow === false){
-            $('#'+ roomCode + ' .emojiSelect').show();
-            self.emojiShow = true;
-        }else{
-            $('#'+ roomCode + ' .emojiSelect').hide();
-            self.emojiShow = false;
-        }
-    });
-    $('#'+ roomCode + ' .chatArea').click(function(){
-        $('#'+ roomCode + ' .emojiSelect').hide();
-        self.emojiShow = false;
-    });
-    $('#'+ roomCode + ' .goingList').click(function(){
-        $('#'+ roomCode + ' .emojiSelect').hide();
-        self.emojiShow = false;
-    });
-
-    //select emoji
-    $('#'+ roomCode + ' .emojiOption').click(function(event){
-        event.stopImmediatePropagation();
-        var imgSrc = $(this).attr('src');
-        console.log("SEND EMOJI");
-        self.sendMessage(imgSrc, markerName, roomCode, mealType);
-    });
-
-    //draggable
-    this.draggable(roomCode);
-
-    //close chatbox
-    $('#' + roomCode + ' .closeChatButton').click(function(){
-        self.hideChat(roomCode);
-    });
-
-    //minimise chat window
-    $('#' + roomCode + ' .minimiseChatButton').click(function(){
-        if (minimise === false){
-            $('#' + roomCode).animate({
-                height: "60px"
-            }, 600, function() { });
-            $('#' + roomCode + " .chatNonTitle").hide();
-            $('#' + roomCode + " .minimiseChatButton").html("+");
-            minimise = true
-        } else {
-            self.displayChat(roomCode);
-            $('#' + roomCode + " .minimiseChatButton").html("-");
-            minimise = false;
-        }
-    });    
 
     //check if a room is open, if yes, do something
     return found;
@@ -185,15 +197,23 @@ ChatService.prototype.draggable = function(roomCode) {
     var $dragging = null;
     $(document.body).on("mousemove",function(e){
         if($dragging){
+            var deltaY = e.pageY - $dragging.mouseY;
+            var deltaX = e.pageX - $dragging.mouseX;
+            var pos = $dragging.position();
             $dragging.offset({
-                top: e.pageY - 50,
-                left: e.pageX - 400
+                top: pos.top + deltaY,
+                left: pos.left + deltaX
             });
+            $dragging.mouseX = e.pageX;
+            $dragging.mouseY = e.pageY;
         }
     });
-    $(document.body).on("mousedown", "#" + roomCode + " .dragSelect", function(){
+    $(document.body).on("mousedown", "#" + roomCode + " #chatTitle", function(e){
         console.log("DRAGGING: " + roomCode);
         $dragging = $('#' + roomCode);
+        console.log("E IS...." + e.pageX + " " + e.pageY);
+        $dragging.mouseX = e.pageX;
+        $dragging.mouseY = e.pageY;
     });
     $(document.body).on("mouseup", function(e){
         $dragging = null;
@@ -268,10 +288,12 @@ ChatService.prototype.displayChat = function(roomCode) {
     console.log("openChat: " + roomCode);
     $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
     $('#'+roomCode).animate({
+            "top": "50%",
             height: "500px"
         }, 800, function(){
     });
     $('#' + roomCode + " .chatNonTitle").show();
+    $('#' + roomCode + " .minimiseChatButton").html("-");
 };
 
 ChatService.prototype.hideChat = function(roomCode) {

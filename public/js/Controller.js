@@ -101,7 +101,7 @@ Controller.prototype.toggleHomeDescription = function() {
                         '<div id = "hungryPeopleStatus"></div><br>'+
                         '<p>NUSGo! is a web application for lonely hearts to look for meal buddies. Are your friends too busy to dine today? <br>No problem! Make a new friend today!</p>');
                     self.updatePeopleCount(self.markers);
-                    self.initialiseFacebookInController();
+                    
             });
             self.homeDescriptionOpen = true;
         }

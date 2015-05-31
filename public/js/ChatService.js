@@ -6,7 +6,6 @@ function ChatService() {
     this.socket.on("chatMessage",function(chatMessage) {
         self.receiveMessage(chatMessage);
     });
-    this.maxZIndex = 30;
     this.goingUsers = [];
 }
 
@@ -210,9 +209,7 @@ ChatService.prototype.draggable = function(roomCode) {
         }
     });
     $(document.body).on("mousedown", "#" + roomCode + " #chatTitle", function(e){
-        console.log("DRAGGING: " + roomCode);
         $dragging = $('#' + roomCode);
-        console.log("E IS...." + e.pageX + " " + e.pageY);
         $dragging.mouseX = e.pageX;
         $dragging.mouseY = e.pageY;
     });
@@ -296,7 +293,7 @@ ChatService.prototype.displayChat = function(roomCode) {
     });
     $('#' + roomCode + " .chatNonTitle").show();
     $('#' + roomCode + " .minimiseChatButton").html("-");
-    $('#'+ roomCode).css("z-index", this.maxZIndex++); //move to frontmost
+    $('#'+ roomCode).css("z-index", controller.maxZIndex++); //move to frontmost
 };
 
 ChatService.prototype.hideChat = function(roomCode) {

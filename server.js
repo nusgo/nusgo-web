@@ -4,8 +4,10 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var pg = require('pg');
+var favicon = require('serve-favicon');
 var databaseUrl = process.env.DATABASE_URL;
 app.use(express.static(__dirname + '/public'));
+app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.set('port', (process.env.PORT) || 5000);
 
 // MARK: Server Routes

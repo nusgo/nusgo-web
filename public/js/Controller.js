@@ -47,9 +47,11 @@ function Controller() {
     this.closeAllPopUpsOnBackgroundClick();
     this.toggleHomeDescription();
     this.displayAbout();
+    this.maxZIndex = 30;
 }
 
 Controller.prototype.displayAbout = function() {
+    var self = this;
     $('.about').click(function(){
         console.log("ABOUT CLICKED");
         $('#aboutWindow').fadeIn({queue: false, duration: 'slow'});
@@ -58,6 +60,8 @@ Controller.prototype.displayAbout = function() {
             }, 600, function(){
         });
         $('#promptBackground').fadeIn(600);
+        $('#aboutWindow').css("z-index", ++self.maxZIndex);
+        $('#promptBackground').css("z-index", self.maxZIndex)
     });    
 };
 
@@ -163,12 +167,15 @@ Controller.prototype.initialiseFacebookInController = function() {
 };
 
 Controller.prototype.displayMarkerPrompt = function() {
+    var self = this;
     $('#prompt').fadeIn({queue: false, duration: 'slow'});
     $('#prompt').animate({
             height: "310px"
         }, 600, function(){
     });
+    $('#prompt').css("z-index", ++self.maxZIndex);
     $('#promptBackground').fadeIn(600);
+    $('#promptBackground').css("z-index", self.maxZIndex);
 };
 
 Controller.prototype.hideMarkerPrompt = function() {
@@ -263,12 +270,15 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
 }
 
 Controller.prototype.displayLoginPrompt = function() {
+    var self = this;
     $('#loginPrompt').fadeIn({queue: false, duration: 'slow'});
     $('#loginPrompt').animate({
             height: "200px"
         }, 600, function(){
     });
+    $('#loginPrompt').css('z-index', ++self.maxZIndex);
     $('#promptBackground').fadeIn(600);
+    $('#promptBackground').css('z-index', self.maxZIndex);
 };
 
 Controller.prototype.hideLoginPrompt = function() {

@@ -91,13 +91,14 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             self.addUserToGoingList(joiningUser, roomCode);
         });
 
+        //update z-index on click
+        var self = this;
+        $('#'+ roomCode).mousedown(function(){
+            $('#' + roomCode).css("z-index", ++controller.maxZIndex);
+        });
+
         //draggable
         self.draggable(roomCode);
-
-        //update z-index on click
-        $('#'+ roomCode).click(function(){
-            $('#'+ roomCode).css("z-index", self.maxZIndex++);
-        });
 
         var self = this;
         //sending message
@@ -168,7 +169,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             var minimise = (sign === '+');
             if (minimise === false){
                 $('#' + roomCode).animate({
-                    "top": "-=220px",
+                    "top": "-=180px",
                     height: "60px"
                 }, 600, function() { });
                 $('#' + roomCode + " .chatNonTitle").hide();
@@ -176,8 +177,8 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             } else {
                 $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
                 $('#'+roomCode).animate({
-                        "top": "+=220px",
-                        height: "500px"
+                        "top": "+=180px",
+                        height: "350px"
                     }, 800, function(){
                 });
                 $('#' + roomCode + " .chatNonTitle").show();
@@ -281,7 +282,8 @@ ChatService.prototype.appendNewRoomHTML = function(markerName, roomCode, mealTyp
                     '</div>'+
                 '</div>'+
             '</div>'+
-        '</div>');
+        '</div>'
+    );
 };
 
 ChatService.prototype.displayChat = function(roomCode) {
@@ -289,7 +291,7 @@ ChatService.prototype.displayChat = function(roomCode) {
     $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
     $('#'+roomCode).animate({
             "top": "50%",
-            height: "500px"
+            height: "350px"
         }, 800, function(){
     });
     $('#' + roomCode + " .chatNonTitle").show();

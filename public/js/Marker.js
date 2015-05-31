@@ -57,20 +57,11 @@ Marker.prototype.showInfoWindow = function() {
         }
     }
 
-
-
-
-
-
-
-
     var infoWindow = new google.maps.InfoWindow({
         content: contentString
     });
     this.infoWindow = infoWindow;
     infoWindow.open(this.map, this.mapMarker);
-
-    
     
     google.maps.event.addListener(infoWindow, 'domready', function() {
         $('#checkRequests').click(function() {

@@ -208,11 +208,10 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         //var min = parseInt($('#min :selected').text());
 
         var time = $('#time :selected').text();
-        var hour = parseInt($('#time :selected').text()); // correct
+        var hour = parseInt(time);
         var min = parseInt(time.substring(3,time.length));
         var ampm = $('#ampm :selected').text();
         
-
         if (ampm === 'pm') hour += 12;
         var mealTime = new Date();
         mealTime.setHours(hour);
@@ -230,15 +229,6 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
         }
         self.hideMarkerPrompt();
         handler(lat, lng, mealPreference, message, mealTime);
-
-
-        
-        
-
-        //alert(time);
-        alert(hour); // correct
-        alert(min);
-
     });    
 }
 

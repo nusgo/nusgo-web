@@ -21,9 +21,9 @@ WebSocket connection to 'ws://www.nusgo.net/socket.io/?EIO=3&transport=websocket
 
 =====================================================
 OPEN
-Cross-Site Scripting (javascript inside chat). reflected xss.
+
 All the going is not recorded in the database for some reason
-Jio-ed button should be disabled. (I am going > jieod cant be clicked > close > open > jioed can be clicked again)
+
 =====================================================
 
 ANDHIEKA
@@ -31,20 +31,24 @@ you should be notified when there is a message that is not pushed yet to you
 "Jio me" must be saved after login. (Must save pending jio, just like pending marker)
 Double/triple/quadruple counting of hungry people (via socket only)
 After press I'm going, not appended to going list
+Cross-Site Scripting (javascript inside chat). reflected xss.
+
 
 KANG SOON
 Discuss: Hungry people count is not useful to the general user. It is covering the map.
 
 differentiate markers that you join + filtering  (by join and by time)
 
-Dragging chat box should only be allowed on the title, and must be more physically intuitive. NOTE: Make the chat box animation grow downwards instead of upwards.
-Then you don't have to make the whole chat box draggable. (Obsolete if CH implement
-infoWindow chat)
+Jio-ed button should be disabled. (I am going > jieod cant be clicked > close > open > jioed can be clicked again
+
+Last selected chat box should have the highest z-index
+
+
 
 CHOON HIAN 
-chat box can be smaller & fixed position || chat on the marker
+chat box can be smaller
 
-put time and date inside picker. (start from current time) 24 hour format preferable?
+Combine hours and minutes: 24 hour format preferable? (Use . as separator preferable?)
 auto-infer meal type from time
 
 Time and location (description) must be shown inside the chat.

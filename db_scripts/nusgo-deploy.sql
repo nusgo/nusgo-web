@@ -42,8 +42,8 @@ grant insert on all tables in schema nusgo to nusgo;
 grant update on all tables in schema nusgo to nusgo;
 grant delete on table nusgo.chatrooms to nusgo;
 grant delete on table nusgo.goinglist to nusgo;
-grant usage, select on sequence markers_id_seq to nusgo;
-grant usage, select on sequence messages_id_seq to nusgo;
+grant usage, select on sequence nusgo.markers_id_seq to nusgo;
+grant usage, select on sequence nusgo.messages_id_seq to nusgo;
 
 -- Execute the syntax below to append nusgo schema to your search_path
 select set_config(

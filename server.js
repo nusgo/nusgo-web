@@ -185,6 +185,12 @@ var QUERY_GET_GOING_LIST =
     "   on m.user_id = u.id " +
     "where m.id = $1;";
 
+var QUERY_GET_UNREAD_MESSAGES = 
+    "begin; " +
+    "select message_id from unread_messages where user_id = $1; " +
+    "delete from unread_messages where user_id = $1; " +
+    "commit;";
+
 // MARK: QUERY FUNCTIONS
 
 function getActiveMarkers(callback) {

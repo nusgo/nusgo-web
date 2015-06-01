@@ -71,6 +71,10 @@ io.on('connection', function(socket) {
         socket.user = user;
         insertUser(user, function onInsertUser(error, users) { });
         getJoinedChatRooms(user, function onRetrieveChatRooms(error, roomCodes) {
+            if (error) {
+                console.log(error) ;
+                return;
+            }
             for(var i = 0; i < roomCodes.length; i++) {
                 socket.join(roomCodes[i]);
             }
@@ -79,7 +83,12 @@ io.on('connection', function(socket) {
     socket.on('addmarker', function(marker) {
         // Sanitize and parse markdown
         // marker.message = safeConverter.makeHtml(marker.message);
-        insertMarker(marker, function onInsertMarker(error, rows) { 
+        insertMarker(marker, function onInsertMarker(error, rows) {
+            if (error) {
+                console.log(error) ;
+                return;
+            }
+            console.log(rows);
             var markerId = rows[0].id;
             socket.emit('markerid', markerId);
             marker.id = markerId;

@@ -125,7 +125,8 @@ Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, mes
     if (!(this instanceof Controller)) {
         self = this.controller;
     }
-
+    console.log(mealType);
+    console.log(message);
     if (self.userAuth.isLogin == false) {
         self.displayLoginPrompt();
         self.pendingMarkerInfo = {
@@ -311,7 +312,7 @@ Controller.prototype.loginHasFinished = function() {
     if (this.pendingMarkerInfo) {
         console.log(this.userAuth.userID);
         var info = this.pendingMarkerInfo;
-        this.createAndStoreMarker(info.lat, info.lng, info.mealType, info.message);
+        this.createAndStoreMarker(info.lat, info.lng, info.mealType, info.message, info.mealTime);
     }
 };
 

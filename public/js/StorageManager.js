@@ -35,13 +35,13 @@ StorageManager.prototype.registerObserver = function(observer) {
 
 // After this method is called, marker will be pushed to the server as well
 StorageManager.prototype.addMarker = function(marker) {
-    console.log("Adding marker");
+    console.log("Pushing marker to server");
     this.markers.push(marker);
     this.socket.emit(SocketEvents.AddMarker, marker.toDictionary());
     this.socket.on(SocketEvents.MarkerId, function updateMarkerId(id) {
         marker.id = id;
         controller.chatService.joinRoom(id);
-        console.log("joining room %d", id);
+        console.log("ID received. Joining room %d", id);
     });
 };
 

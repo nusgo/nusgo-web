@@ -45,6 +45,7 @@ function Controller() {
     this.pendingMarkerInfo = null;
     this.chatService = new ChatService();
     this.closeAllPopUpsOnBackgroundClick();
+    this.setMarkerPromptSubmitHandler(this.handleMarkerPromptSubmit);
     this.toggleHomeDescription();
     this.displayAbout();
     this.maxZIndex = 30;
@@ -116,11 +117,10 @@ Controller.prototype.updatePeopleCount = function(markers) {
 
 Controller.prototype.askUserForMealType = function() {
     this.displayMarkerPrompt();
-    this.closeAllPopUpsOnBackgroundClick();
-    this.setMarkerPromptSubmitHandler(this.handleMarkerPromptSubmit);
 };
 
 Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message, mealTime) {
+    console.log("HANDLE MARKER PROMPT SUBMIT LINE 124");
     var self = this;
     if (!(this instanceof Controller)) {
         self = this.controller;

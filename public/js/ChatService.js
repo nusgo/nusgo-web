@@ -123,7 +123,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             if (alreadyGoing === false){
                 self.socket.emit('going', self.roomCode);
                 $('#'+ roomCode + ' .goStatus').click(false);
-                self.goingUsers[roomCode].push(controller.userAuth.userName);
+                self.addUserToGoingList(controller.userAuth.user, roomCode);
                 self.sendMessage("I'll like to join you!", markerName, roomCode, mealType);
             }
             $('#'+ roomCode + ' .goStatus').html("Jio-ed!");

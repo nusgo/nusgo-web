@@ -2,6 +2,7 @@ function UserAuth() {
     this.isLogin = false;
     this.userName = null;
     this.userID = 0;
+    this.user = null;
     this.socket = io();
     var self = this;
     this.socket.on('connect', function() {
@@ -17,6 +18,10 @@ UserAuth.prototype.fbStatusChangeCallback = function(response) {
         fetchUserInfo(function(userName, userID){
             self.userName = userName;
             self.userID = userID;
+            self.user = {
+                id: userID,
+                name: userName
+            };
             self.loginToServer();
             controller.loginHasFinished();
         });

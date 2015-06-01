@@ -24,12 +24,12 @@ ChatService.prototype.appendMessageToChatBox = function(chatMessage) {
     if (isEmoji === true){
         $('#'+ roomCode + ' .chatArea').append(
             '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
-            " <img src ='" + chatMessage.content + "'></img></p>");
+            " <img src ='" + chatMessage.content + "'></img></p><br>");
     } else {
         var chat = safeConverter.makeHtml(chatMessage.content);
         $('#'+ roomCode + ' .chatArea').append(
         '<p><img id = "chatProfilePic" src="//graph.facebook.com/' + chatMessage.fromId + '/picture">'+
-        " " + chat + "</p>");
+        " " + chat + "</p><br>");
     }
     scrollChatAreaToLatest(roomCode);
 };

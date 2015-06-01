@@ -349,6 +349,11 @@ body {
 	padding: 15px;
 }
 
+#chatProfilePic{
+	float: left;
+	padding: 3px;
+}
+
 .emojiButton{
 	float: right;
 	cursor: pointer;

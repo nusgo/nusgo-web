@@ -11,6 +11,7 @@ function Marker() {
     this.map = null;
     this.infoWindow = null;
     this.mealTime = null;
+    this.goingUserIDs = []; // excludes the creator's user ID (check this.userID)
 }
 
 Marker.prototype.showInMap = function(map) {
@@ -97,6 +98,13 @@ Marker.prototype.closeInfoWindow = function() {
     this.infoWindow = null;
 };
 
+Marker.prototype.containsGoingUser = function(userID) {
+    if (this.userID === userID) return true;
+    var idx = this.goingUserIDs.indexOf(userID);
+    if (idx >= 0) return true;
+    return false;
+};
+
 Marker.prototype.toDictionary = function() {
     return {
         id: this.id,
@@ -119,6 +127,7 @@ Marker.prototype.updateWithDictionary = function(dict) {
     if (dict.userID) this.userID = dict.userID;
     if (dict.userName) this.userName = dict.userName;
     if (dict.mealTime) this.mealTime = new Date(dict.mealTime);
+    if (dict.goingUserIDs) this.goingUserIDs = dict.goingUserIDs;
 };
 
 Marker.prototype.equals = function(other) {

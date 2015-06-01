@@ -124,7 +124,9 @@ io.on('connection', function(socket) {
 // MARK: QUERY STRING
 
 var QUERY_ACTIVE_MARKERS = 
-    "select m.id, m.lat, m.lng, m.meal_type, m.message, m.meal_time, m.user_id, u.name as user_name " +
+    "select m.id, m.lat, m.lng, m.meal_type, m.message, m.meal_time, " + 
+    "m.user_id, u.name as user_name, " +
+    "array_to_json(array(select user_id from goinglist where marker_id = m.id)) as going_user_ids " +
     "from markers m " +
     "inner join users u " + 
     "   on m.user_id = u.id " +
@@ -302,7 +304,8 @@ function rowToMarker(row) {
         message: row.message,
         mealTime: row.meal_time,
         userID: row.user_id,
-        userName: row.user_name
+        userName: row.user_name,
+        goingUserIDs: row.going_user_ids
     }
 }
 

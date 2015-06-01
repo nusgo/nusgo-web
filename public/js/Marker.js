@@ -76,6 +76,7 @@ Marker.prototype.showInfoWindow = function() {
         $('#jioButton').click(function() {
             //Must check if user is logged in
             if(controller.userAuth.userID === 0){
+                controller.pendingMarkerToJoin = self;
                 controller.displayLoginPrompt();
             } else {
                 controller.chatService.joinRoom(self.getRoomCode());
@@ -98,6 +99,7 @@ Marker.prototype.closeInfoWindow = function() {
     this.infoWindow = null;
 };
 
+// Returns true if 
 Marker.prototype.containsGoingUser = function(userID) {
     if (this.userID === userID) return true;
     var idx = this.goingUserIDs.indexOf(userID);

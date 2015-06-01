@@ -43,6 +43,7 @@ function Controller() {
     this.storageManager.syncWithServer(); //gets markersList
     this.clickPosition = null;
     this.pendingMarkerInfo = null;
+    this.pendingMarkerToJoin = null;
     this.chatService = new ChatService();
     this.closeAllPopUpsOnBackgroundClick();
     this.setMarkerPromptSubmitHandler(this.handleMarkerPromptSubmit);
@@ -121,7 +122,6 @@ Controller.prototype.askUserForMealType = function() {
 };
 
 Controller.prototype.handleMarkerPromptSubmit = function(lat, lng, mealType, message, mealTime) {
-    console.log("HANDLE MARKER PROMPT SUBMIT LINE 124");
     var self = this;
     if (!(this instanceof Controller)) {
         self = this.controller;
@@ -338,6 +338,13 @@ Controller.prototype.loginHasFinished = function() {
         console.log(this.userAuth.userID);
         var info = this.pendingMarkerInfo;
         this.createAndStoreMarker(info.lat, info.lng, info.mealType, info.message, info.mealTime);
+        this.pendingMarkerInfo = null;
+    }
+    if (this.pendingMarkerToJoin) {
+        var marker = this.pendingMarkerToJoin;
+        this.chatService.joinRoom(marker.getRoomCode());
+        this.chatService.openChat(marker.userName, marker.getRoomCode(), marker.mealType, marker.mealTime);
+        this.pendingMarkerToJoin = null;
     }
 };
 

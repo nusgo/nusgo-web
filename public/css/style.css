@@ -26,23 +26,36 @@ body {
 	padding: 5px;
 }
 
-.navBtn{
-	color: white;
-	text-align: center;
-	padding: 10px;
-	font-size: 20px;
-	border-radius: 5px;
+#about{
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 10px;
+	height: 40px;
 	cursor: pointer;
 }
-
-.navBtn:hover{
-	background-color: #B05817;
+#feedback{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15px;
+	height: 30px;
+	cursor: pointer;
 }
-
-#about{
-	float: right;
-	height: 52px;
-	padding: 2px;
+#social{
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 10px;
+	height: 40px;
+	cursor: pointer;
+}
+#navBtnHover{
+	height: 60px;
+	border-radius: 5px;
+}
+#navBtnHover:hover{
+	background-color: #B05817;
 }
 
 #status{

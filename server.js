@@ -116,7 +116,11 @@ io.on('connection', function(socket) {
         if (!(socket.user)) return;
         console.log("%s is going! (Room %d)", socket.user.name, roomCode);
         joinEvent(socket.user, roomCode, function onJoinEvent(error, rows) { });
-        socket.broadcast.emit('going-' + roomCode, socket.user);
+        socket.broadcast.emit('going', {
+            markerID: roomCode,
+            user: socket.user
+        }); //for marker purpose
+        socket.broadcast.emit('going-' + roomCode, socket.user); //for chat purpose
     })
 });
 

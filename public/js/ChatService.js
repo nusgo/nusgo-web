@@ -15,7 +15,6 @@ ChatService.prototype.receiveMessage = function(chatMessage) {
 };
 
 ChatService.prototype.appendMessageToChatBox = function(chatMessage) {
-    console.log("APPENDING MESSAGE");
     var roomCode = chatMessage.roomCode;
     var isEmoji = true;
     if (chatMessage.content.indexOf("img/") === -1){
@@ -127,6 +126,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
                 $('#'+ roomCode + ' .goStatus').click(false);
                 self.addUserToGoingList(controller.userAuth.user, roomCode);
                 self.sendMessage("I'll like to join you!", markerName, roomCode, mealType);
+                controller.storageManager.onUserGoingToMarkerID(roomCode);
             }
             $('#'+ roomCode + ' .goStatus').html("Jio-ed!");
         });

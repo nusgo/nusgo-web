@@ -105,6 +105,12 @@ Marker.prototype.containsGoingUser = function(userID) {
     return false;
 };
 
+Marker.prototype.appendGoingUser = function(user) {
+    if (user.id) {
+        this.goingUserIDs.push(user.id);
+    }
+};
+
 Marker.prototype.toDictionary = function() {
     return {
         id: this.id,

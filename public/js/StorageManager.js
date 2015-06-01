@@ -1,19 +1,29 @@
 var SocketEvents = Object.freeze({
     AddMarker: "addmarker",
     RemoveMarker: "removemarker",
-    MarkerId: "markerid"
+    MarkerId: "markerid",
+    Going: "going"
 });
 
 function StorageManager() {
     this.markers = [];
     this.socket = io();
     var self = this;
-    this.socket.on(SocketEvents.AddMarker, function(markerInfo) {
+    this.socket.on(SocketEvents.AddMarker, function (markerInfo) {
         self.handleSocketAddMarker(markerInfo)
     });
-    this.socket.on(SocketEvents.RemoveMarker, function(markerInfo) {
+    this.socket.on(SocketEvents.RemoveMarker, function (markerInfo) {
         self.handleSocketRemoveMarker(markerInfo);
     });
+    this.socket.on(SocketEvents.Going, function (info) {
+        var markerID = info.markerID;
+        var user = info.user;
+        for(var i = 0; i < self.markers.length; i++) {
+            if (self.markers[i].id === markerID) {
+                self.markers[i].appendGoingUser(user);
+            }
+        }
+    })
     this.observers = [];
 }
 
@@ -107,5 +117,16 @@ StorageManager.prototype.handleSocketRemoveMarker = function(markerInfo) {
                 observer.onRemoveMarker(marker);
             }
         })
+    }
+};
+
+
+StorageManager.prototype.onUserGoingToMarkerID = function(markerID) {
+    var markers = this.markers.filter(function (m) {
+        return m.id === markerID;
+    });
+    if (markers.length > 0) {
+        var marker = markers[0];
+        marker.appendGoingUser(controller.userAuth.user);
     }
 };

@@ -121,7 +121,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
                 }
             }
             if (alreadyGoing === false){
-                self.socket.emit('going', self.roomCode);
+                self.socket.emit('going', roomCode);
                 $('#'+ roomCode + ' .goStatus').click(false);
                 self.addUserToGoingList(controller.userAuth.user, roomCode);
                 self.sendMessage("I'll like to join you!", markerName, roomCode, mealType);

@@ -116,7 +116,7 @@ io.on('connection', function(socket) {
         if (!(socket.user)) return;
         console.log("%s is going! (Room %d)", socket.user.name, roomCode);
         joinEvent(socket.user, roomCode, function onJoinEvent(error, rows) { });
-        io.emit('going-' + roomCode, socket.user);
+        socket.broadcast.emit('going-' + roomCode, socket.user);
     })
 });
 

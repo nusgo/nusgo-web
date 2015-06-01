@@ -49,6 +49,7 @@ function Controller() {
     this.toggleHomeDescription();
     this.displayAbout();
     this.maxZIndex = 30;
+    this.displayContactPrompt();
 }
 
 Controller.prototype.displayAbout = function() {
@@ -193,6 +194,7 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
         self.hideMarkerPrompt();
         self.hideLoginPrompt();
         self.hideAbout();
+        self.hideContactPrompt();
     });
     $(document).keydown(function(e) {
         // ESCAPE key pressed
@@ -282,12 +284,35 @@ Controller.prototype.displayLoginPrompt = function() {
     $('#promptBackground').css('z-index', self.maxZIndex);
 };
 
+Controller.prototype.displayContactPrompt = function() {
+    var self = this;
+    $('#feedback').click(function(){
+        $('#contact').fadeIn({queue: false, duration: 'slow'});
+        $('#contact').animate({
+                height: "300px"
+            }, 600, function(){
+        });
+        $('#contact').css('z-index', ++self.maxZIndex);
+        $('#promptBackground').fadeIn(600);
+        $('#promptBackground').css('z-index', self.maxZIndex);
+    });
+};
+
 Controller.prototype.hideLoginPrompt = function() {
     $('#loginPrompt').animate({
             height: "0px"
         }, 600, function(){
     });
     $('#loginPrompt').fadeOut({queue: false, duration: 'slow'});
+    $('#promptBackground').fadeOut(600);
+};
+
+Controller.prototype.hideContactPrompt = function() {
+        $('#contact').animate({
+            height: "0px"
+        }, 600, function(){
+    });
+    $('#contact').fadeOut({queue: false, duration: 'slow'});
     $('#promptBackground').fadeOut(600);
 };
 

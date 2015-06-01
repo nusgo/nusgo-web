@@ -220,6 +220,23 @@ body {
 	z-index: 10;
 }
 
+#contact{
+	font-size: 15px;
+	background-color: white;
+	height: 0px;
+	width: 600px;
+	border-radius: 10px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+	z-index: 10;
+}
+#contactForm{
+	padding-left: 60px;
+}
+
 #form{
 	padding-left: 25px;
 	padding-right: 25px;

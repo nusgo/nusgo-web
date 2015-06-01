@@ -44,7 +44,9 @@ ChatService.prototype.sendMessage = function(chat, markerName, roomCode, mealTyp
 
 ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
     var minimise = false;
-    this.goingUsers[roomCode] = [];
+    if (this.goingUsers[roomCode] === undefined){
+        this.goingUsers[roomCode] = [];
+    }
     //checks if user has entered room before (via roomCode)
     //if not in room before, append chatbox html with id = roomCode
     var found = false;
@@ -117,7 +119,7 @@ ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
             var alreadyGoing = false;
             for(var i = 0; i < self.goingUsers[roomCode].length; i++){
                 if(controller.userAuth.userName === self.goingUsers[roomCode][i]){
-                    var alreadyGoing = true;
+                    alreadyGoing = true;
                 }
             }
             if (alreadyGoing === false){

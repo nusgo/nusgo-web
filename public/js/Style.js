@@ -127,7 +127,7 @@ $(document).ready(function(){
     	}
     	else if (expansionStatus === 2) {
     		$("#homeInfoBox-more").slideUp();
-    		$('#expand').hide();
+    		$('#expand').show();
     		expansionStatus--;
     		console.log(expansionStatus);
     	}

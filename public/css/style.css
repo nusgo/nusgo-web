@@ -78,7 +78,7 @@ body {
 
 #pac-input {
 	font-size: 18px;
-	border-radius: 8px;
+	border-radius: 2px;
 	height: 40px;
     /*width: 150px;*/
     width: 100%;
@@ -208,7 +208,7 @@ body {
 	padding: 5px;
 	color: white;
 	width: 300px;
-	border-radius: 5px;
+	border-radius: 2px;
 	background-color: #FD8a33;
 	cursor: pointer;
 }
@@ -220,7 +220,7 @@ body {
 	background-color: white;
 	height: 0px;
 	width: 850px;
-	border-radius: 10px;
+	border-radius: 2px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -245,7 +245,7 @@ body {
 }
 
 #teamPhoto{
-	border-radius: 5px;
+	border-radius: 2px;
 	width: 250px;
 	float: right;
 	padding-bottom: 20px;
@@ -262,7 +262,7 @@ body {
 	background-color: white;
 	height: 0px;
 	width: 600px;
-	border-radius: 10px;
+	border-radius: 2px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -276,7 +276,7 @@ body {
 	background-color: white;
 	height: 0px;
 	width: 600px;
-	border-radius: 10px;
+	border-radius: 2px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -299,7 +299,7 @@ body {
 
 #loginPrompt{
 	background-color: white;
-	border-radius: 10px;
+	border-radius: 2px;
 	height: 0px;
 	width: 600px;
 	position: absolute;
@@ -322,7 +322,7 @@ body {
 
 .chatBox{
 	background-color: white;
-	border-radius: 10px;
+	border-radius: 2px;
 	height: 0px;
 	width: 600px;
 	position: absolute;
@@ -379,8 +379,8 @@ body {
 
 #chatTitle{
 	cursor: move;
-	border-top-right-radius: 10px;
-	border-top-left-radius: 10px;
+	border-top-right-radius: 2px;
+	border-top-left-radius: 2px;
 	color: white;
 	text-align: center;
 	background-color: #FD8a33;
@@ -407,7 +407,7 @@ body {
 
 .chatField{
 	width: 350px;
-	border-radius: 5px;
+	border-radius: 2px;
 }
 
 .chatArea{

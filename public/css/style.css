@@ -26,7 +26,7 @@ body {
 	padding: 5px;
 }
 
-#about{
+#fb{
 	display: block;
 	margin-right: auto;
 	margin-left: auto;
@@ -68,6 +68,7 @@ body {
 #searchBox{
 	padding: 10px;
 	float: left;
+	width: 60%;
 }
 
 #searchBox input{
@@ -79,7 +80,8 @@ body {
 	font-size: 18px;
 	border-radius: 8px;
 	height: 40px;
-    width: 350px;
+    /*width: 150px;*/
+    width: 100%;
 }
 
 #pac-input:focus {
@@ -150,6 +152,55 @@ body {
 #hide:hover{
 	background-color:  #B05817;
 }
+
+
+
+#collapse{
+	float: right;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 5px;
+	color: white;
+	background-color:  #FD8a33;
+	cursor: pointer;
+}
+#collapse:hover{
+	background-color:  #B05817;
+}
+
+
+
+#closeForever{
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 5px;
+	color: white;
+	background-color:  #FD8a33;
+	cursor: pointer;
+}
+#closeForever:hover{
+	background-color:  #B05817;
+}
+
+
+
+
+#expand{
+	float: right;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 5px;
+	color: white;
+	background-color:  #FD8a33;
+	cursor: pointer;
+
+}
+#expand:hover{
+	background-color:  #B05817;
+}
+
+
 
 .about{
 	margin-left: auto;
@@ -493,3 +544,69 @@ body {
 	width: 200px;
 	border-radius: 5px;
 }
+
+
+#homeInfoBox {
+	z-index: -0;
+	border-radius: 2px;
+	position: absolute;
+	
+	background: rgb(255, 255, 255); /* Fall-back for browsers that don't
+                                    support rgba */
+    background: rgba(255, 255, 255, .75);
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	top: 10;
+	width: 60%;
+	
+	box-shadow: 0px 0px 50px #575757;
+	
+	padding: 10px;
+	text-align: center;
+	font-size: 14px;
+}
+
+
+
+#circle-HungryPeopleCount {
+	
+
+
+	z-index: -0;
+	border-radius: 50%;
+	position: absolute;
+	background: rgb(253, 138, 51); /* Fall-back for browsers that don't                                support rgba */
+    background: rgba(253, 138, 51, .90);
+	margin-left: auto;
+	margin-right: auto;
+
+	width: 100px;
+	height: 100px;
+	bottom: 40px;
+	right: 10px;
+
+
+	box-shadow: 0px 0px 20px #575757;
+	
+	padding: 10px;
+	text-align: center;
+	font-size: 14px;
+	color: white;
+
+}
+
+
+
+/*p {
+	font-size: 14px;
+}*/
+
+
+/*.top-navigation-fixed {
+	 display:inline;
+float:left;
+}*/
+
+

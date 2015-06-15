@@ -20,11 +20,12 @@
 					<div id = "searchBox">
 						<input id="pac-input" class="controls" type="text" placeholder="  Search places">
 					</div>
+
 				</div>
 
 				<div class = "col-md-2 col-sm-3" id = "navBtnMenu">
 					<div class = "container-fluid">
-						<div class = "row">
+						<div class = "row" id ="three-buttons">
 							<div class = "col-md-4 col-sm-4" id = "navBtnHover">
 								<img class "navBtn" id = "social" src = "img/social.png"></img>
 							</div>
@@ -32,7 +33,7 @@
 								<img class "navBtn" id = "feedback" src = "img/mail.png"></img>
 							</div>
 							<div class = "col-md-4 col-sm-4" id = "navBtnHover">
-								<a href="https://facebook.com/nusgoapp/" target="_blank"><img class = "navBtn" id = "about" src = "img/facebook.png"></img></a>
+								<a href="https://facebook.com/nusgoapp/" target="_blank"><img class = "navBtn" id = "fb" src = "img/facebook.png"></img></a>
 							</div>
 						</div>
 					</div>
@@ -201,34 +202,72 @@
 	<div><p>Created by <b>Team RollingGO!</b> (Kang Soon, Andhieka, Choon Hian), May 2015</p></div>
 </div>
 
-		<div class = "container-fluid">
+
+
+<div id="homeInfoBox">
+
+
+	<div id = "status"></div>
+	
+	<div id = "homeInfoBox-basic">			      			
+	<p>Looking for meal buddies? <b><u>Place a marker on the map</u></b> to show that you are up for a meal! You will be notified when you receive meal requests.<br>
+		or<br>
+	<b><u>Click on a marker</u></b> to join someone for a meal! </p>
+	</div>
+	
+	<div id = "homeInfoBox-more">
+	<p>NUSGo! is a web application for lonely hearts to look for meal buddies. Are your friends too busy to dine today? <br>No problem! Make a new friend today!</p>
+			      			
+			      			
+	<p class = "about">Find out more about NUSGo!</p><br>
+	
+	<div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+	<br><br>
+
+	</div>
+
+	<div id = "collapse" >-</div>  
+	<div id = "expand">+</div>
+
+	<div id = "closeForever">x</div>
+</div>
+
+
+
+<div id = "circle-HungryPeopleCount">
+	<br><div id = "hungryPeopleStatus"></div><br>
+</div>
+
+		<!-- <div class = "container-fluid">
 		    <div id = "main" class = "row">
 		    	<div id ="tohide" class = "col-md-8 col-sm-6">
 		    		<br>
 
 		    		<p>s<p>s<p>s<p>s<p>s<p>s<p>s<p>s<p>s<p>s<p>
-					<!--<div id="googleMap"></div>-->
+
 					<br>
 				</div>
 				<div class = "col-md-4 col-sm-6">
 					<br>
-					<div id = "homeDescription">
-						<div id = "hide" >-</div>
-						<div class = "homeContent">
-							<br>
-				      		<div id = "status"></div>
-				      		<h2>Looking for meal buddies?</h2><br>
-				      		<p><b><u>Place a marker on the map</u></b> to show that you are up for a meal!<p>
-				      		<p>Or you can <b><u>click on a marker</u></b> to join him/her for a meal!</p><br>
-				      		<p>You will be notified when you receive meal requests.</p>
-				      		<div id = "hungryPeopleStatus"></div><br>
-				      		<p>NUSGo! is a web application for lonely hearts to look for meal buddies. Are your friends too busy to dine today? <br>No problem! Make a new friend today!</p>
-			      		</div>
-			      		<div class = "homeOthers">
-				      		<p class = "about">Find out more about NUSGo!</p><br>
-				      		<div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div><br><br>
-				      	</div>
+					
+						<div id = "homeDescription">
+							<div id = "hide" >-</div>
+							<div class = "homeContent">
+								<br>
+				      			<div id = "status"></div>
+				      			<h2>Looking for meal buddies?</h2><br>
+				      			<p><b><u>Place a marker on the map</u></b> to show that you are up for a meal!<p>
+				      			<p>Or you can <b><u>click on a marker</u></b> to join him/her for a meal!</p><br>
+				      			<p>You will be notified when you receive meal requests.</p>
+				      			<div id = "hungryPeopleStatus"></div><br>
+				      			<p>NUSGo! is a web application for lonely hearts to look for meal buddies. Are your friends too busy to dine today? <br>No problem! Make a new friend today!</p>
+			      			</div>
+			      			<div class = "homeOthers">
+				      			<p class = "about">Find out more about NUSGo!</p><br>
+				      			<div class="fb-like" data-href="https://facebook.com/nusgoapp" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div><br><br>
+				      		</div>
 			      	</div>
+			      	
 			      	<div class = "container-fluid">
 			      		<div class = "row">
 			      			<div class = "col-md-12 col-sm-12">
@@ -239,7 +278,7 @@
 				    </div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</body>
 
 	<script src="/socket.io/socket.io.js"></script>

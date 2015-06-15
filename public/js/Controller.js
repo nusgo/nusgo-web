@@ -113,8 +113,8 @@ Controller.prototype.toggleHomeDescription = function() {
 
 Controller.prototype.updatePeopleCount = function(markers) {
     this.markers = markers;
-    document.getElementById('hungryPeopleStatus').innerHTML = '<h2>Hungry people count: '
-    + markers.length + '</h2>';
+    document.getElementById('hungryPeopleStatus').innerHTML = '<p>Hungry People: '
+    + markers.length + '</p>';
 };
 
 Controller.prototype.askUserForMealType = function() {

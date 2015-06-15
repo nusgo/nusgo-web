@@ -36,7 +36,7 @@ ChatService.prototype.appendMessageToChatBox = function(chatMessage) {
 ChatService.prototype.sendMessage = function(chat, markerName, roomCode, mealType) {
     if (chat === '') return;
     var chatMessage = new ChatMessage(markerName, roomCode, chat, mealType);
-    this.socket.emit('chatMessage', chatMessage.toDictionary());
+    this.socket.emit('chatMessage', chatMessage.toDictionary());   
     this.appendMessageToChatBox(chatMessage);
     $('#' + roomCode + ' .chatField').val('');
 };
@@ -289,7 +289,6 @@ ChatService.prototype.displayChat = function(roomCode) {
     console.log("openChat: " + roomCode);
     $('#'+roomCode).fadeIn({queue: false, duration: 'slow'});
     $('#'+roomCode).animate({
-            "top": "50%",
             height: "350px"
         }, 800, function(){
     });

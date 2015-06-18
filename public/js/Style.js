@@ -111,7 +111,8 @@ function removeExtraElementsFromNavigationBar() {
 
 // HOME INFO BOX ADVANCED HIDE AND SHOW BEGIN
 $("#homeInfoBox-more").hide(); // run this line on load
-$("#closeForever").hide(); // run this line on load
+$("#collapse").hide();
+
 
 var expansionStatus = 1; // Global Variable: Keep track of expansion status 
 
@@ -121,13 +122,13 @@ $(document).ready(function(){
         	$("#homeInfoBox-basic").slideUp();
         	$('#collapse').hide();
         	$('#expand').show();
-        	$("#closeForever").show();
         	expansionStatus--;
         	console.log(expansionStatus);
     	}
     	else if (expansionStatus === 2) {
     		$("#homeInfoBox-more").slideUp();
     		$('#expand').show();
+        $("#collapse").hide();
     		expansionStatus--;
     		console.log(expansionStatus);
     	}
@@ -139,14 +140,13 @@ $(document).ready(function(){
         	$('#collapse').show();
         	$('#expand').show();
         	expansionStatus++;
-        	$("#closeForever").hide();
         	console.log(expansionStatus);
-
     	}
 
     	else if (expansionStatus === 1) {
     		$("#homeInfoBox-more").slideDown();
-			$('#expand').hide();
+			  $('#expand').hide();
+        $('#collapse').show();
     		expansionStatus++;
     		console.log(expansionStatus);
     	}

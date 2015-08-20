@@ -272,6 +272,28 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
     });    
 }
 
+//Dislay 'spam' prompt if a user creates more than 2 markers of the same meal type
+Controller.prototype.displaySpamPrompt = function() {
+    var self = this;
+    $('#spamPrompt').fadeIn({queue: false, duration: 'slow'});
+    $('#spamPrompt').animate({
+            height: "200px"
+        }, 600, function(){
+    });
+    $('#spamPrompt').css('z-index', ++self.maxZIndex);
+    $('#promptBackground').fadeIn(600);
+    $('#promptBackground').css('z-index', self.maxZIndex);
+}
+//hide 'spam' prompt
+Controller.prototype.hideSpamPrompt = function() {
+    $('#spamPrompt').animate({
+            height: "0px"
+        }, 600, function(){
+    });
+    $('#spamPrompt').fadeOut({queue: false, duration: 'slow'});
+    $('#promptBackground').fadeOut(600);
+}
+
 Controller.prototype.displayLoginPrompt = function() {
     var self = this;
     $('#loginPrompt').fadeIn({queue: false, duration: 'slow'});

@@ -272,7 +272,7 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
     });    
 }
 
-//Dislay 'spam' prompt if a user creates more than 2 markers of the same meal type
+//Dislay 'spam' prompt if a user creates more than 1 marker of the same meal type
 Controller.prototype.displaySpamPrompt = function() {
     var self = this;
     $('#spamPrompt').fadeIn({queue: false, duration: 'slow'});

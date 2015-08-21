@@ -5,6 +5,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var pg = require('pg');
 var favicon = require('serve-favicon');
+var pmx = require('pmx');
 // var pagedown = require('pagedown');
 // var safeConverter = pagedown.getSanitizingConverter();
 
@@ -51,6 +52,10 @@ app.get('/rooms/:roomCode/going', function(req, res, next) {
 
 app.get('/testdb', function(req, res, next) {
 });
+
+
+// Error handler for PM2/Keymetrics
+app.use(pmx.expressErrorHandler());
 
 http.listen(process.env.PORT || 5000, function() {
     console.log('NusGo Server is ready to serve on port ' + app.get('port') + "!");

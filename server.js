@@ -15,7 +15,7 @@ app.set('port', (process.env.PORT) || 5000);
 
 // MARK: Server Routes
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/views/index.html')
+    res.sendFile(__dirname + '/views/placeholder.html')
 });
 
 app.get('/markers', function(req, res, next) {

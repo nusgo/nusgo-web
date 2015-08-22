@@ -22,6 +22,32 @@ body {
 ::-webkit-scrollbar-thumb:vertical{height:50px;background-color:#999;-webkit-border-radius:8px;}
 ::-webkit-scrollbar-thumb:horizontal{width:50px;background-color:#999;-webkit-border-radius:8px;}
 
+.comingSoonPlaceholder {
+	text-align: center;
+	color: white;
+	font-size: 35px;
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	-webkit-transform: translateY(-50%);
+ 	-ms-transform: translateY(-50%);
+ 	transform: translateY(-50%);
+}
+
+.comingSoonPlaceholder {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.circles {
+	width: 500px;
+}
+
+.placeholderIntro {
+	font-size: 20px;
+}
+
+
 #navBtn{
 	padding: 5px;
 }

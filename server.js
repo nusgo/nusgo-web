@@ -18,12 +18,12 @@ app.set('port', (process.env.PORT) || 5000);
 
 // MARK: Server Routes
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/views/placeholder.html')
-});
-
-app.get('/9E3779B9', function(req, res) {
     res.sendFile(__dirname + '/views/index.html')
 });
+
+// app.get('/9E3779B9', function(req, res) {
+//     res.sendFile(__dirname + '/views/index.html')
+// });
 
 app.get('/markers', function(req, res, next) {
     db.getActiveMarkers(function onRetrieveMarkers(error, markers) {

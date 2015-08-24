@@ -285,7 +285,7 @@ Controller.prototype.displaySpamPrompt = function() {
     var self = this;
     $('#spamPrompt').fadeIn({queue: false, duration: 'slow'});
     $('#spamPrompt').animate({
-            height: "250px"
+            height: "200px"
         }, 600, function(){
     });
     $('#spamPrompt').css('z-index', ++self.maxZIndex);

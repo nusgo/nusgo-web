@@ -1,10 +1,13 @@
 // Application Setup
+var pmx = require('pmx');
+pmx.init(); // must be before http
+
 var express = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var favicon = require('serve-favicon');
-var pmx = require('pmx');
+
 var db = require('./database/database.js')
 // var pagedown = require('pagedown');
 // var safeConverter = pagedown.getSanitizingConverter();
@@ -58,7 +61,7 @@ app.get('/testdb', function(req, res, next) {
 
 
 // Error handler for PM2/Keymetrics
-app.use(pmx.expressErrorHandler());
+app.use(pmx.expressErrorHandler()); // must be after all routes
 
 http.listen(process.env.PORT || 5000, function() {
     console.log('NusGo Server is ready to serve on port ' + app.get('port') + "!");

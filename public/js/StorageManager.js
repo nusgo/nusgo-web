@@ -120,7 +120,6 @@ StorageManager.prototype.handleSocketRemoveMarker = function(markerInfo) {
     }
 };
 
-
 StorageManager.prototype.onUserGoingToMarkerID = function(markerID) {
     var markers = this.markers.filter(function (m) {
         return m.id === markerID;
@@ -128,5 +127,22 @@ StorageManager.prototype.onUserGoingToMarkerID = function(markerID) {
     if (markers.length > 0) {
         var marker = markers[0];
         marker.appendGoingUser(controller.userAuth.user);
+    }
+};
+
+StorageManager.prototype.isSpamMarker = function(marker) {
+    var duplicates = this.markers.filter(function(m) {
+        if (marker.userID != m.userID) return false;
+        if (marker.mealType != m.mealType) return false;
+        return true;
+    });
+    if (duplicates.length > 1) {
+        console.log("WARNING: More than 1 spam marker with IDs:");
+        console.log(duplicates.map(function(m) { return m.id; }));
+    } 
+    if (duplicates.length >= 1) {
+        return true;
+    } else {
+        return false;
     }
 };

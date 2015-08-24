@@ -152,11 +152,16 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     marker.message = message;
     marker.mealTime = mealTime;
     console.log(marker);
-    // store marker
-    this.storageManager.addMarker(marker);
-    // retrieve and render marker
-    var markers = this.storageManager.markers;
-    this.map.renderMarkers(markers);
+    
+    // validate that marker is not spam
+    if (this.storageManager.isSpamMarker(marker)) {
+        this.displaySpamPrompt();
+    } else {
+        this.storageManager.addMarker(marker);
+        // retrieve and render marker
+        var markers = this.storageManager.markers;
+        this.map.renderMarkers(markers);
+    }
 };
 
 Controller.prototype.mapIsClicked = function(lat, lng) {
@@ -195,6 +200,7 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
         self.hideLoginPrompt();
         self.hideAbout();
         self.hideContactPrompt();
+        self.hideSpamPrompt();
     });
     $(document).keydown(function(e) {
         // ESCAPE key pressed
@@ -202,6 +208,8 @@ Controller.prototype.closeAllPopUpsOnBackgroundClick = function() {
             self.hideMarkerPrompt();
             self.hideLoginPrompt();
             self.hideAbout();
+            self.hideContactPrompt();
+            self.hideSpamPrompt();
         }
     });
 };

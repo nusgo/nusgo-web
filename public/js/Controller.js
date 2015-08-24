@@ -155,7 +155,7 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
     
     // validate that marker is not spam
     if (this.storageManager.isSpamMarker(marker)) {
-        this.displaySpamPrompt();
+        this.displaySpamPrompt(marker);
     } else {
         this.storageManager.addMarker(marker);
         // retrieve and render marker
@@ -281,7 +281,7 @@ Controller.prototype.setMarkerPromptSubmitHandler = function(handler) {
 }
 
 //Dislay 'spam' prompt if a user creates more than 1 marker of the same meal type
-Controller.prototype.displaySpamPrompt = function() {
+Controller.prototype.displaySpamPrompt = function(oldMarker) {
     var self = this;
     $('#spamPrompt').fadeIn({queue: false, duration: 'slow'});
     $('#spamPrompt').animate({
@@ -291,6 +291,12 @@ Controller.prototype.displaySpamPrompt = function() {
     $('#spamPrompt').css('z-index', ++self.maxZIndex);
     $('#promptBackground').fadeIn(600);
     $('#promptBackground').css('z-index', self.maxZIndex);
+    $('#spamPrompt').html(
+        "<h1 style='text-align: center'>Oops! Sorry but...</h1>" +
+        "<h3 style='text-align: center;'>" +
+        "You are already having " + oldMarker.mealType + " later.<br>" +
+        "Please delete your old " + oldMarker.mealType + " marker to place a new one." +
+        "</h3>");
 }
 //hide 'spam' prompt
 Controller.prototype.hideSpamPrompt = function() {

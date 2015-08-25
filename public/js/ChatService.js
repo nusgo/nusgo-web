@@ -42,6 +42,11 @@ ChatService.prototype.sendMessage = function(chat, markerName, roomCode, mealTyp
 };
 
 ChatService.prototype.openChat = function(markerName, roomCode, mealType) {
+    // Keymetrics Exception on 9:38AM Aug 25: roomCode is null
+    if (roomCode === null) {
+        return;
+    }
+        
     var minimise = false;
     if (this.goingUsers[roomCode] === undefined){
         this.goingUsers[roomCode] = [];

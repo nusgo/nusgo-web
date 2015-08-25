@@ -34,26 +34,41 @@ app.get('/markers', function(req, res, next) {
 
 app.get('/rooms/:roomCode/messages', function(req, res, next) {
     var roomCode = req.params.roomCode;
-    db.getMessagesInChatRoom(roomCode, function onRetrieveMessages(error, messages) {
-        if (error) return next(error);
-        res.json(messages);
-    });
+    if (roomCode === "null") {
+        console.log("Got null roomCode!");
+        res.json([]);
+    } else {
+        db.getMessagesInChatRoom(roomCode, function onRetrieveMessages(error, messages) {
+            if (error) return next(error);
+            res.json(messages);
+        });
+    }
 });
 
 app.get('/rooms/:roomCode/users', function(req, res, next) {
     var roomCode = req.params.roomCode;
-    db.getUsersInChatRoom(roomCode, function onRetrieveUsers(error, users) {
-        if (error) return next(error);
-        res.json(users);
-    });
+    if (roomCode === "null") {
+        console.log("Got null roomCode!");
+        res.json([]);
+    } else {
+        db.getUsersInChatRoom(roomCode, function onRetrieveUsers(error, users) {
+            if (error) return next(error);
+            res.json(users);
+        });
+    }
 });
 
 app.get('/rooms/:roomCode/going', function(req, res, next) {
     var roomCode = req.params.roomCode;
-    db.getGoingList(roomCode, function onRetrieveUsers(error, users) {
-        if (error) return next(error);
-        res.json(users);
-    })
+    if (roomCode === "null") {
+        console.log("Got null roomCode!");
+        res.json([]);
+    } else {
+        db.getGoingList(roomCode, function onRetrieveUsers(error, users) {
+            if (error) return next(error);
+            res.json(users);
+        })
+    }
 });
 
 app.get('/testdb', function(req, res, next) {

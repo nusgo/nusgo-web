@@ -66,6 +66,7 @@ Marker.prototype.showInfoWindow = function() {
     
     google.maps.event.addListener(infoWindow, 'domready', function() {
         $('#checkRequests').click(function() {
+            controller.enableDesktopNotification();
             controller.chatService.openChat(self.userName, self.getRoomCode(), self.mealType, self.mealTime);
         });
         $('#deleteMarker').click(function() {

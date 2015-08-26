@@ -161,7 +161,31 @@ Controller.prototype.createAndStoreMarker = function(lat, lng, mealType, message
         // retrieve and render marker
         var markers = this.storageManager.markers;
         this.map.renderMarkers(markers);
+        this.enableDesktopNotification();
     }
+};
+
+Controller.prototype.enableDesktopNotification = function() {
+    if (!("Notification" in window)) return;
+    var self = this;
+    if (Notification.permission === "default") {
+        Notification.requestPermission(function(permission) {
+            if (permission === "granted") {
+                self.sendNotification("Welcome", "You will be notified when someone Jio you or Chat with you.");
+            }
+        });
+    }
+};
+
+Controller.prototype.sendNotification = function(title, message) {
+    if (!("Notification" in window)) return;
+    if (Notification.permission !== "granted") return;
+    var options = {
+        body: message,
+        icon: "img/logo.png"
+    };
+    var n = new Notification(title, options);
+    setTimeout(n.close.bind(n), 5000);
 };
 
 Controller.prototype.mapIsClicked = function(lat, lng) {

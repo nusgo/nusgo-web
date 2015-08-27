@@ -13,8 +13,8 @@ ChatService.prototype.receiveMessage = function(chatMessage) {
     var found = this.openChat(chatMessage.markerName, chatMessage.roomCode, chatMessage.mealType);
     if (found) {
         this.appendMessageToChatBox(chatMessage);
-        controller.sendNotification(chatMessage.fromName, chatMessage.content);
     }
+    controller.sendNotification(chatMessage.fromName, chatMessage.content);
 };
 
 ChatService.prototype.appendMessageToChatBox = function(chatMessage) {

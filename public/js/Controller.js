@@ -51,6 +51,8 @@ function Controller() {
     this.displayAbout();
     this.maxZIndex = 30;
     this.displayContactPrompt();
+    this.ringTone = new Audio('sounds/NUSGo Ring Tone - Standard.mp3');
+    this.ringTone.volume = 0.7;
 }
 
 Controller.prototype.displayAbout = function() {
@@ -186,6 +188,8 @@ Controller.prototype.sendNotification = function(title, message) {
     };
     var n = new Notification(title, options);
     setTimeout(n.close.bind(n), 5000);
+    // sound the ring tone
+    this.ringTone.play();
 };
 
 Controller.prototype.mapIsClicked = function(lat, lng) {
